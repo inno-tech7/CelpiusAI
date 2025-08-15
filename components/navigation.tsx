@@ -171,14 +171,14 @@ export function Navigation() {
                     </div>
                     <div className="nav-item">
                       <Link
-                        href="/test/complete"
+                        href="/practice"
                         className={`font-mono text-sm font-medium transition-colors ${
-                          pathname.startsWith("/test")
+                          pathname.startsWith("/practice")
                             ? "text-blue-600 dark:text-blue-400"
                             : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"
                         }`}
                       >
-                        <span className={pathname.startsWith("/test") ? "active" : ""}>Practice</span>
+                        <span className={pathname.startsWith("/practice") ? "active" : ""}>Practice</span>
                       </Link>
                     </div>
                     <div className="nav-item">
@@ -194,7 +194,7 @@ export function Navigation() {
                       </Link>
                     </div>
                     <div className="nav-item">
-                      <Link
+                      {/* <Link
                         href="/subscription"
                         className={`font-mono text-sm font-medium transition-colors ${
                           pathname === "/subscription"
@@ -203,7 +203,7 @@ export function Navigation() {
                         }`}
                       >
                         <span className={pathname === "/subscription" ? "active" : ""}>Subscription</span>
-                      </Link>
+                      </Link> */}
                     </div>
                     {user.email === "admin@celpius.ai" && (
                       <div className="nav-item">
@@ -297,7 +297,7 @@ export function Navigation() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: "100%" }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="fixed top-0 right-0 h-full w-80 max-w-[80vw] glass-card border-l border-white/10 z-40 lg:hidden"
+              className="fixed top-0 right-0 h-full w-80 max-w-[80vw] max-435:max-w-[56vw] glass-card border-l border-white/10 z-40 lg:hidden"
             >
               <div className="flex flex-col h-full pt-20 px-6 py-6">
                 <div className="flex-1 space-y-6">
@@ -339,7 +339,7 @@ export function Navigation() {
                         transition={{ duration: 0.3, delay: 0.3 }}
                       >
                         <Link
-                          href="/test/complete"
+                          href="/practice"
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="block font-mono text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2"
                         >
@@ -364,13 +364,13 @@ export function Navigation() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.3, delay: 0.5 }}
                       >
-                        <Link
+                        {/* <Link
                           href="/subscription"
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="block font-mono text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2"
                         >
                           Subscription
-                        </Link>
+                        </Link> */}
                       </motion.div>
                       {user.email === "admin@celpius.ai" && (
                         <motion.div

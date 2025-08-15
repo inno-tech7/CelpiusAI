@@ -21,6 +21,7 @@ const config: Config = {
         'max-435':  { max: '435px' },
         'max-415':  { max: '415px' },
         'max-408':  { max: '408px' },
+        'max-h-670': { raw: '(max-height: 670px)' },
       },
       fontFamily: {
         sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],

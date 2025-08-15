@@ -47,7 +47,7 @@ export function FeaturesSection() {
                     width={500} 
                     height={3500} 
                     quality={100} 
-                    className="absolute top-[-7.5%] xl:left-[24.55%] lg:left-[17.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[2.15] lg:scale-[1.4] max-820:scale-[1.5] max-435:top-[-5.1%] max-435:left-[-15.45%] max-435:scale-[0.7]"
+                    className="absolute top-[-7.5%] xl:left-[24.55%] lg:left-[17.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[1.5] lg:scale-[1.4] max-820:scale-[1.5] max-435:top-[-5.1%] max-435:left-[-15.45%] max-435:scale-[0.7]"
                   />
                   
                   

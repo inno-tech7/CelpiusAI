@@ -108,7 +108,7 @@ export default function CompleteTestPage() {
                 width={500} 
                 height={3500} 
                 quality={100} 
-                className="absolute top-[-7%] left-[21.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none md:scale-[1.8] max-435:top-[-5%] max-435:left-[-14.45%] max-435:scale-[0.7] max-415:top-[-4.65%] max-415:left-[-16%]"
+                className="absolute top-[-7%] left-[21.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none md:scale-x-[1.8] md:scale-y-[0.9] max-1024:scale-x-[1.2] max-1024:scale-y-[0.7] max-1024:left-[7%] max-820:scale-x-[1.3] max-820:scale-y-[0.7] max-820:left-[18%] max-768:scale-x-[1.3] max-768:scale-y-[0.7] max-768:left-[13.55%] max-435:top-[-5%] max-435:left-[-14.45%] max-435:scale-[0.7] max-415:top-[-4.65%] max-415:left-[-16%]"
               />
 
             <CardHeader>

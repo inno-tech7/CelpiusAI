@@ -200,6 +200,22 @@ body {
   background-image: linear-gradient(to right, #ecf6ff, #d0e3ff);
 }
 
+.hero-container {
+  position: relative;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #eff3ff, #92c1fc);
+  border: 1.7px solid rgb(255, 255, 255);
+  overflow: hidden;
+}
+
+.dark .hero-container {
+  position: relative;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #0c1b6f, #02000a);
+  border: 1.7px solid rgb(59 70 135);
+  overflow: hidden;
+}
+
 .dark .body-gradient-bg {
   background-image: linear-gradient(to right, #001b49, #000610);
 }
@@ -333,6 +349,13 @@ body {
   font-size: 1.4rem;
   line-height: 3.2rem;
   background: linear-gradient(135deg, #618bff 35%, #031843c2 100%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-title {
+  font-family: var(--font-geist-mono), monospace;
+   background: linear-gradient(135deg, #618bff 35%, #031843c2 100%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }

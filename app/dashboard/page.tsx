@@ -7,7 +7,9 @@ import { useAuth } from "@/hooks/use-auth"
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { CircularProgress } from "@/components/circular-progress"
 import { Progress } from "@/components/ui/progress"
+
 import { Badge } from "@/components/ui/badge"
 import {
   BarChart3,
@@ -101,7 +103,7 @@ export default function DashboardPage() {
               <div className="flex items-center space-x-2">
                 <Clock className="h-5 w-5 text-green-500" />
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">Study Time</p>
+                  <p className="text-sm font-medium text-muted-foreground max-768:w-[20%] max-435:w-[100%]">Study Time</p>
                   <p className="text-2xl font-bold">24h</p>
                 </div>
               </div>
@@ -143,7 +145,7 @@ export default function DashboardPage() {
                 width={500} 
                 height={3500} 
                 quality={100} 
-                className="absolute top-[-21%] xl:left-[33.55%] lg:left-[25.55%] max-820:top-[-11%] max-820:left-[18.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none scale-[1.8] max-820:scale-[1.4] max-768:top-[-10.7%] max-435:top-[-7.2%] max-435:left-[-14.45%] max-435:scale-[0.7]"
+                className="absolute top-[-21%] xl:left-[27.55%] lg:left-[25.55%] max-820:top-[-11%] max-1024:left-[9.55%] max-820:left-[18.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none scale-[1.4] max-1024:scale-[0.7] max-820:scale-[1.2] max-768:top-[-10.7%] max-768:scale-[1] max-435:top-[-7.2%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:left-[-17.45%] max-415:scale-[0.55]"
             />
 
             <CardHeader>
@@ -155,10 +157,10 @@ export default function DashboardPage() {
                 <Link href="/test/complete" className="group">
                   <Button
                     variant="outline"
-                    className="w-full h-20 flex flex-col items-center justify-center space-y-2 glass-card bg-transparent glow-before glow-after"
+                    className="w-full h-20 flex flex-col items-center justify-center space-y-2 max-1024:space-y-0 glass-card bg-transparent glow-before glow-after"
                   >
                     <Play className="h-6 w-6" />
-                    <span className="font-mono text-sm">Complete Test</span>
+                    <span className="font-mono max-1024:text-wrap text-sm">Complete Test</span>
                   </Button>
                 </Link>
 
@@ -206,7 +208,7 @@ export default function DashboardPage() {
           </Card>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 max-1024:grid-cols-1 gap-8">
           
 
           <motion.div variants={fadeInUp}>
@@ -218,7 +220,7 @@ export default function DashboardPage() {
                 width={500} 
                 height={3500} 
                 quality={100} 
-                className="absolute top-[-10.2%] xl:left-[9.55%] lg:left-[-5.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[1.15] lg:scale-[0.9] max-820:top-[-10.5%] max-820:left-[18.55%] max-820:scale-[1.4] max-435:top-[-10.4%] max-435:left-[-14.45%] max-435:scale-[0.7] max-415:top-[-10%] max-415:left-[-18%]"
+                className="absolute top-[-10.2%] xl:left-[3.2%] lg:left-[-5.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[0.8] lg:scale-[0.9] max-1024:top-[-10.5%] max-820:top-[-10.5%] max-820:left-[18.55%] max-820:scale-[1.2] max-435:top-[-10.4%] max-1024:left-[10.45%] max-435:left-[-14.45%] max-1024:scale-[0.95] max-768:scale-[1] max-435:scale-[0.65] max-415:top-[-10.5%] max-415:left-[-18%]"
               />
 
               <CardHeader>
@@ -261,7 +263,7 @@ export default function DashboardPage() {
                 width={500} 
                 height={3500} 
                 quality={100} 
-                className="absolute top-[-13.2%] xl:left-[9.55%] lg:left-[-5.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[1.15] lg:scale-[0.9] max-820:top-[-13.5%] max-820:left-[18.55%]  max-820:scale-[1.4] max-435:top-[-13.4%] max-435:left-[-14.45%] max-435:scale-[0.7] max-415:left-[-19%]"
+                className="absolute top-[-10.2%] xl:left-[2.55%] lg:left-[-5.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[0.9] max-1024:left-[7%] max-1024:scale-[0.9] max-1024:top-[-10.7%] max-820:top-[-10.5%] max-820:left-[18.55%] max-820:scale-[1.2] max-768:scale-[1] max-435:top-[-10.45%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:left-[-19%]"
               />
 
               <CardHeader>
@@ -269,45 +271,54 @@ export default function DashboardPage() {
                 <CardDescription>Your improvement across all sections</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="space-y-4">
-                  <div>
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="font-mono">Listening</span>
-                      <span>CLB 9.0</span>
-                    </div>
-                    <Progress value={90} className="h-2" />
+              <div className="grid grid-cols-2 gap-6">
+                  <div className="flex flex-col items-center space-y-2">
+                    <CircularProgress value={90} size={100}>
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-slate-600 dark:text-slate-100">9.0</div>
+                        <div className="text-xs text-gray-400">CLB</div>
+                      </div>
+                    </CircularProgress>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-100">Listening</span>
                   </div>
 
-                  <div>
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="font-mono">Reading</span>
-                      <span>CLB 8.5</span>
-                    </div>
-                    <Progress value={85} className="h-2" />
+                  <div className="flex flex-col items-center space-y-2">
+                    <CircularProgress value={85} size={100}>
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-slate-600 dark:text-slate-100">8.5</div>
+                        <div className="text-xs text-gray-400">CLB</div>
+                      </div>
+                    </CircularProgress>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-100">Reading</span>
                   </div>
 
-                  <div>
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="font-mono">Writing</span>
-                      <span>CLB 8.0</span>
-                    </div>
-                    <Progress value={80} className="h-2" />
+                  <div className="flex flex-col items-center space-y-2">
+                    <CircularProgress value={75} size={100}>
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-slate-600 dark:text-slate-100">7.5</div>
+                        <div className="text-xs text-gray-400">CLB</div>
+                      </div>
+                    </CircularProgress>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-100">Writing</span>
                   </div>
 
-                  <div>
-                    <div className="flex justify-between text-sm mb-2">
-                      <span className="font-mono">Speaking</span>
-                      <span>CLB 8.5</span>
-                    </div>
-                    <Progress value={85} className="h-2" />
+                  <div className="flex flex-col items-center space-y-2">
+                    <CircularProgress value={85} size={100}>
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-slate-600 dark:text-slate-100">8.5</div>
+                        <div className="text-xs text-gray-400">CLB</div>
+                      </div>
+                    </CircularProgress>
+                    <span className="text-sm font-medium text-slate-600 dark:text-slate-100">Speaking</span>
                   </div>
                 </div>
+                
               </CardContent>
             </Card>
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 max-1024:grid-cols-1 gap-8">
 
           <motion.div variants={fadeInUp}>
             <Card className="glass-dashboard">
@@ -318,7 +329,7 @@ export default function DashboardPage() {
                 width={500} 
                 height={3500} 
                 quality={100} 
-                className="absolute top-[-11.5%] xl:left-[7.55%] lg:left-[-7.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[1.15] lg:scale-[0.9] max-820:top-[-11.5%] max-820:left-[18.55%]  max-820:scale-[1.4] max-435:top-[-11.4%] max-435:left-[-14.45%] max-435:scale-[0.7] max-415:top-[-11.5%] max-415:left-[-19%]"
+                className="absolute top-[-11.5%] xl:left-[4.55%] lg:left-[-7.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[0.9] lg:scale-[0.9] max-1024:left-[9.45%] max-820:top-[-11.5%] max-820:left-[18.55%]  max-820:scale-[1.4] max-768:scale-[1] max-435:top-[-11.5%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:top-[-11.5%] max-415:left-[-19%]"
               />
 
               <CardHeader>
@@ -351,7 +362,7 @@ export default function DashboardPage() {
                 width={500} 
                 height={3500} 
                 quality={100} 
-                className="absolute xl:top-[-12.5%] lg:top-[-12.5%] xl:left-[7.55%] lg:left-[-1%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[1.15] lg:scale-[0.9] max-820:top-[-12.5%] max-820:left-[18.55%]  max-820:scale-[1.4] max-435:top-[-10.5%] max-435:left-[-14.45%] max-435:scale-[0.7] max-415:left-[-19%]"
+                className="absolute xl:top-[-12.5%] lg:top-[-12.5%] xl:left-[4%] lg:left-[-1%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[0.8] lg:scale-[0.9] max-1024:left-[9.45%] max-820:top-[-12.5%] max-820:left-[18.55%] max-820:scale-[1.4] max-768:scale-[1] max-435:top-[-11%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:top-[-10.4%] max-415:left-[-19%]"
               />
 
               <CardHeader>
