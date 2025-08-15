@@ -328,9 +328,11 @@ export function Navigation() {
                         <Link
                           href="/dashboard"
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className="block font-mono text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2"
+                          className="nav-item block font-mono text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2"
                         >
-                          Dashboard
+                          <span className={pathname === "/dashboard" ? "active" : ""}>
+                            Dashboard
+                          </span>
                         </Link>
                       </motion.div>
                       <motion.div
@@ -341,9 +343,11 @@ export function Navigation() {
                         <Link
                           href="/practice"
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className="block font-mono text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2"
+                          className="nav-item block font-mono text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2"
                         >
-                          Practice
+                          <span className={pathname === "/practice" ? "active" : ""}>
+                            Practice
+                          </span>
                         </Link>
                       </motion.div>
                       <motion.div
@@ -354,9 +358,11 @@ export function Navigation() {
                         <Link
                           href="/results"
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className="block font-mono text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2"
+                          className="nav-item block font-mono text-lg font-medium text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors py-2"
                         >
-                          Results
+                          <span className={pathname === "/results" ? "active" : ""}>
+                            Results
+                          </span>
                         </Link>
                       </motion.div>
                       <motion.div

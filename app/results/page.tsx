@@ -148,17 +148,17 @@ export default function ResultsPage() {
         {/* Overall Score Card */}
         <Card className="bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden">
           <CardHeader className="bg-gradient-to-r from-blue-600/20 to-purple-600/20">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center max-435:items-center gap-4">
               <div>
                 <CardTitle className="text-white font-mono flex items-center gap-3">
                   <Award className="w-6 h-6 dark:text-yellow-400 text-yellow-500 " />
                   Overall Performance
                 </CardTitle>
-                <CardDescription className="text-slate-800/70 dark:text-gray-100 pl-[37px] pt-[9px]">
+                <CardDescription className="text-slate-800/70 dark:text-gray-100 pl-[37px] pt-[9px] max-435:text-center max-435:pl-[0px]">
                   Test completed on {testResults.overall.testDate}
                 </CardDescription>
               </div>
-              <div className="flex gap-3">
+              <div className="flex max-435:flex-col max-435:items-center max-435:justify-center gap-3">
                 <Button
                   variant="outline"
                   className="dark:border-blue-500/30 border-blue-500 dark:text-blue-300 text-blue-600 hover:bg-blue-500/10 font-mono bg-transparent"
@@ -303,7 +303,7 @@ export default function ResultsPage() {
                       <CardHeader>
                         <CardTitle className="text-blue-300 font-mono flex items-center justify-between">
                           {task.title}
-                          <Badge className="bg-blue-500/20 dark:text-blue-300 text-blue-700 border-blue-500/30">
+                          <Badge className="max-435:w-[35%] max-435:text-center max-435:ml-10  bg-blue-500/20 dark:text-blue-300 text-blue-700 border-blue-500/30">
                             Score: {task.score}/10
                           </Badge>
                         </CardTitle>

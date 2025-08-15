@@ -80,17 +80,31 @@ export function SidebarNav() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "flex items-center px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 group relative overflow-hidden glass",
-                    "font-mono",
-                    isActive ? "text-blue-300 border border-blue-500/30" : "text-gray-400 hover:text-white",
+                    "flex items-center px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 group relative overflow-hidden glass font-mono",
+                    {
+                      "nav-item-active": isActive,
+                      "smooth-gradient-hover": !isActive,
+                    },
                   )}
                 >
-                  {isActive && (
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-400 to-blue-600 rounded-r" />
-                  )}
-
-                  <Icon className="h-5 w-5 flex-shrink-0 mr-3 text-slate-600 dark:text-slate-400" />
-                  <span className="truncate  text-slate-600 dark:text-slate-100 hover:text-blue-400 dark:hover:text-blue-400 transition-colors">{item.title}</span>
+                  <Icon
+                    className={cn(
+                      "h-5 w-5 flex-shrink-0 mr-3 transition-colors duration-200",
+                      isActive
+                        ? "text-black"
+                        : "text-slate-600 dark:text-slate-400 group-hover:text-black",
+                    )}
+                  />
+                  <span
+                    className={cn(
+                      "truncate transition-colors duration-200",
+                      isActive
+                        ? "text-black"
+                        : "text-slate-600 dark:text-slate-100 group-hover:text-black",
+                    )}
+                  >
+                    {item.title}
+                  </span>
                 </Link>
               )
             })}

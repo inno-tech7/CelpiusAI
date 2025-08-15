@@ -815,5 +815,27 @@ body {
   opacity: 0.8;
 }
 
+.nav-item-active.glass {
+  background: linear-gradient(to bottom, #3b82f6, #60a5fa);
+}
+
+.dark .nav-item-active.glass {
+  background: linear-gradient(to bottom, #3b82f6, #60a5fa);
+}
+
+.smooth-gradient-hover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, #3b82f6, #60a5fa);
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+  z-index: -1;
+}
+
+.smooth-gradient-hover:hover::before {
+  opacity: 1;
+}
+
 
 

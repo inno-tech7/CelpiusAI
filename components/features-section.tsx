@@ -56,7 +56,7 @@ export function FeaturesSection() {
                     alt="Grid background"
                     width={500} 
                     height={250}
-                    className="absolute dark:opacity-100 opacity-0 xl:translate-x-[-275px] lg:translate-x-[-162px] max-820:translate-x-[-170px] translate-y-[5px] max-435:top-[5.5%] max-435:left-[41.55%] max-435:scale-[1]"
+                    className="absolute dark:opacity-100 opacity-0 xl:translate-x-[-275px] lg:translate-x-[-162px] max-820:translate-x-[-170px] translate-y-[5px] max-435:top-[5.5%] max-435:left-[42.55%] max-435:scale-[1] max-415:left-[44.55%]"
                     unoptimized={true}
                   />
 
@@ -66,7 +66,7 @@ export function FeaturesSection() {
                     alt="Grid background"
                     width={500} 
                     height={250}
-                    className="absolute dark:opacity-0 opacity-50 xl:translate-x-[-275px] lg:translate-x-[-162px] max-820:translate-x-[-170px] translate-y-[5px] max-435:top-[5.5%] max-435:left-[41.55%] max-435:scale-[1]"
+                    className="absolute dark:opacity-0 opacity-50 xl:translate-x-[-275px] lg:translate-x-[-162px] max-820:translate-x-[-170px] translate-y-[5px] max-435:top-[5.5%] max-435:left-[42.55%] max-435:scale-[1] max-415:left-[44.55%]"
                     unoptimized={true}
                   />
                   
@@ -123,7 +123,7 @@ export function FeaturesSection() {
                 alt="Grid background"
                 width={600}
                 height={300}
-                className="absolute top-0 left-0 dark:opacity-70 opacity-0  translate-x-[-10px] translate-y-[0px] max-820:translate-x-[82px] max-820:translate-y-[-35px] max-820:scale-[0.9] max-435:top-[10.5%] max-435:left-[-19.45%] max-435:scale-[1]"
+                className="absolute top-0 left-0 dark:opacity-70 opacity-0  translate-x-[-10px] translate-y-[0px] max-820:translate-x-[82px] max-820:translate-y-[-35px] max-820:scale-[0.9] max-435:top-[10.5%] max-435:left-[-21.45%] max-435:scale-[1] max-415:left-[-22.45%]"
                 unoptimized={true}
               />
 
@@ -132,7 +132,7 @@ export function FeaturesSection() {
                 alt="Grid background"
                 width={600}
                 height={300}
-                className="absolute top-0 left-0 dark:opacity-0 opacity-40 translate-x-[-10px] translate-y-[0px] max-820:translate-x-[82px] max-820:translate-y-[-35px] max-820:scale-[0.9] max-435:top-[10.5%] max-435:left-[-19.45%] max-435:scale-[1]"
+                className="absolute top-0 left-0 dark:opacity-0 opacity-40 translate-x-[-10px] translate-y-[0px] max-820:translate-x-[82px] max-820:translate-y-[-35px] max-820:scale-[0.9] max-435:top-[10.5%] max-435:left-[-21.45%] max-435:scale-[1] max-415:left-[-22.45%]"
                 unoptimized={true}
               />
 
@@ -166,7 +166,7 @@ export function FeaturesSection() {
                 alt="Grid background"
                 width={600}
                 height={300}
-                className="absolute top-0 left-0 opacity-70 translate-x-[10px] translate-y-[0px] max-820:translate-x-[90px] max-820:translate-y-[-40px] max-820:scale-[0.9] max-435:top-[4.5%] max-435:left-[-19.45%] max-435:scale-[1]"
+                className="absolute top-0 left-0 opacity-70 translate-x-[10px] translate-y-[0px] max-820:translate-x-[90px] max-820:translate-y-[-40px] max-820:scale-[0.9] max-435:top-[4.5%] max-435:left-[-23.45%] max-435:scale-[1] max-415:left-[-24.45%]"
                 unoptimized={true}
               />
 
@@ -175,7 +175,7 @@ export function FeaturesSection() {
                 alt="Grid background"
                 width={600}
                 height={300}
-                className="absolute top-0 left-0 dark:opacity-0 opacity-40 translate-x-[10px] translate-y-[0px] max-820:translate-x-[90px] max-820:translate-y-[-40px] max-820:scale-[0.9] max-435:top-[4.5%] max-435:left-[-19.45%] max-435:scale-[1]"
+                className="absolute top-0 left-0 dark:opacity-0 opacity-40 translate-x-[10px] translate-y-[0px] max-820:translate-x-[90px] max-820:translate-y-[-40px] max-820:scale-[0.9] max-435:top-[4.5%] max-435:left-[-23.45%] max-435:scale-[1] max-415:left-[-24.45%]"
                 unoptimized={true}
               />
 
