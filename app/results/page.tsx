@@ -206,7 +206,7 @@ export default function ResultsPage() {
         </Card>
 
         {/* Section Breakdown */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-1024:grid-cols-2 max-640:grid-cols-1">
           {testResults.sections.map((section) => {
             const IconComponent = section.icon
             return (
