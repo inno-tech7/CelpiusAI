@@ -145,7 +145,7 @@ export default function DashboardPage() {
                 width={500} 
                 height={3500} 
                 quality={100} 
-                className="absolute top-[-21%] xl:left-[27.55%] lg:left-[25.55%] max-820:top-[-11%] max-1024:left-[9.55%] max-820:left-[18.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none scale-[1.4] max-1024:scale-[0.7] max-820:scale-[1.2] max-768:top-[-10.7%] max-768:scale-[1] max-435:top-[-7.2%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:left-[-17.45%] max-415:scale-[0.55]"
+                className="absolute top-[-20.3%] xl:left-[27.55%] lg:left-[25.55%] max-820:top-[-11%] max-1024:left-[9.55%] max-820:left-[18.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none scale-[1.4] max-1024:scale-[0.7] max-820:scale-[1.2] max-768:top-[-10.7%] max-768:scale-[1] max-435:top-[-7.2%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:left-[-17.45%] max-415:scale-[0.55]"
             />
 
             <CardHeader>
@@ -276,7 +276,7 @@ export default function DashboardPage() {
                     <CircularProgress value={90} size={100}>
                       <div className="text-center">
                         <div className="text-lg font-bold text-slate-600 dark:text-slate-100">9.0</div>
-                        <div className="text-xs text-gray-400">CLB</div>
+                        <div className="text-xs dark:text-gray-400 text-gray-900">CLB</div>
                       </div>
                     </CircularProgress>
                     <span className="text-sm font-medium text-slate-600 dark:text-slate-100">Listening</span>
@@ -286,7 +286,7 @@ export default function DashboardPage() {
                     <CircularProgress value={85} size={100}>
                       <div className="text-center">
                         <div className="text-lg font-bold text-slate-600 dark:text-slate-100">8.5</div>
-                        <div className="text-xs text-gray-400">CLB</div>
+                        <div className="text-xs dark:text-gray-400 text-gray-900">CLB</div>
                       </div>
                     </CircularProgress>
                     <span className="text-sm font-medium text-slate-600 dark:text-slate-100">Reading</span>
@@ -296,17 +296,17 @@ export default function DashboardPage() {
                     <CircularProgress value={75} size={100}>
                       <div className="text-center">
                         <div className="text-lg font-bold text-slate-600 dark:text-slate-100">7.5</div>
-                        <div className="text-xs text-gray-400">CLB</div>
+                        <div className="text-xs dark:text-gray-400 text-gray-900">CLB</div>
                       </div>
                     </CircularProgress>
                     <span className="text-sm font-medium text-slate-600 dark:text-slate-100">Writing</span>
                   </div>
 
                   <div className="flex flex-col items-center space-y-2">
-                    <CircularProgress value={85} size={100}>
+                    <CircularProgress value={50} size={100}>
                       <div className="text-center">
-                        <div className="text-lg font-bold text-slate-600 dark:text-slate-100">8.5</div>
-                        <div className="text-xs text-gray-400">CLB</div>
+                        <div className="text-lg font-bold text-slate-600 dark:text-slate-100">5.0</div>
+                        <div className="text-xs dark:text-gray-400 text-gray-900">CLB</div>
                       </div>
                     </CircularProgress>
                     <span className="text-sm font-medium text-slate-600 dark:text-slate-100">Speaking</span>

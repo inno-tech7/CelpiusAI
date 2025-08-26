@@ -26,7 +26,7 @@ const testSections = [
     duration: "55-60 minutes",
     parts: 4,
     description: "Read correspondence, diagrams, information, and viewpoints",
-    color: "from-green-500 to-emerald-500",
+    color: "from-blue-500 to-cyan-500",
     href: "/test/reading",
   },
   {
@@ -36,7 +36,7 @@ const testSections = [
     duration: "53-60 minutes",
     parts: 2,
     description: "Write an email and respond to survey questions",
-    color: "from-orange-500 to-red-500",
+    color: "from-blue-500 to-cyan-500",
     href: "/test/writing",
   },
   {
@@ -46,7 +46,7 @@ const testSections = [
     duration: "15-20 minutes",
     parts: 8,
     description: "Speak about various topics and situations",
-    color: "from-purple-500 to-pink-500",
+    color: "from-blue-500 to-cyan-500",
     href: "/test/speaking",
   },
 ]

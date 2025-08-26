@@ -197,7 +197,7 @@ body {
 }
 
 .body-gradient-bg {
-  background-image: linear-gradient(to right, #ecf6ff, #d0e3ff);
+  background-image: linear-gradient(to right, #ecf6ff, #d0ebff);
 }
 
 .card-outline {
@@ -215,6 +215,41 @@ body {
   border: 1.7px solid rgb(59 70 135);
   /* overflow: hidden; */
 }
+
+.card-outline-about {
+  position: relative;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #eff3ff, #92c1fc);
+  border: 1.7px solid rgb(255, 255, 255);
+  /* overflow: hidden; */
+}
+
+.dark .card-outline-about {
+  position: relative;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #0c1b6f, #02000a);
+  border: 1.7px solid rgb(59 70 135);
+  /* overflow: hidden; */
+}
+
+.gradient-font-about {
+  font-family: var(--font-geist-mono), monospace;
+  font-weight: 500;
+  line-height: 1.2rem;
+  background: linear-gradient(135deg, #5475fa 0%, #0043ffc2 100%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .gradient-font-about {
+  font-family: var(--font-geist-mono), monospace;
+  font-weight: 500;
+  line-height: 1.2rem;
+  background: linear-gradient(150deg, #85aaff 35%, #004cbac2 100%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 
 .dark .body-gradient-bg {
   background-image: linear-gradient(to right, #001b49, #000610);
@@ -496,11 +531,19 @@ body {
 }
 
 .glow {
-  box-shadow: 0 0 20px rgba(155, 96, 250, 0.3);
+  box-shadow: 0 0 20px #609efa4d;
 }
 
 .dark .glow {
-  box-shadow: 0 0 20px rgba(98, 0, 255, 0.5);
+  box-shadow: 0 0 20px #4674ffc2;
+}
+
+.nav-glow {
+  box-shadow: 0 0 10px #3180ff;
+}
+
+.dark .nav-glow {
+  box-shadow: 0 0 20px #4674ffc2;
 }
 
 .btn-gradient-border {
@@ -723,7 +766,7 @@ body {
   position: absolute;
   height: 100%;
   width: 100%;
-  background-image: conic-gradient(from 3deg, #2b3d5b, #2b3d5b, #19273c, #2b374d4d, #2b3d5b, #0073ff, #073b9bdb, #00a2ff, #2b3d5b, #2b3d5b, #344b70, #2b3e5c, #1f2b3fbd, #38527e70, #2b3d5b, #0172fb, #273858, #0087ff, #2b3d5b, #2b3d5b);
+  background-image: conic-gradient(from 240deg, #2b3d5b, #2b3d5b, #19273c, #2b374d4d, #2b3d5b, #0073ff, #073b9bdb, #00a2ff, #2b3d5b, #2b3d5b, #344b70, #2b3e5c, #1f2b3fbd, #38527e70, #2b3d5b, #0172fb, #273858, #0087ff, #2b3d5b, #2b3d5b);
   top: 50%;
   left: 50%;
   translate: -50% -50%;
@@ -838,4 +881,444 @@ body {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+@property --gradient-angle {
+            syntax: "<angle>";
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        @property --gradient-angle-offset {
+            syntax: "<angle>";
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        @property --gradient-percent {
+            syntax: "<percentage>";
+            initial-value: 5%;
+            inherits: false;
+        }
+
+        @property --gradient-shine {
+            syntax: "<color>";
+            initial-value: white;
+            inherits: false;
+        }
+
+/* DARK THEME START */
+
+.dark .nav-btn {
+    z-index: 2;
+    grid-column-gap: 8px;
+    grid-row-gap: 8px;
+    background-color: #040404;
+    background-image: url("/svg/left-corner-blue.svg"), url("/svg/right-corner-blue.svg");
+    background-position: -10% -10%, 110% 110%;
+    background-repeat: no-repeat, no-repeat;
+    background-size: auto, contain;
+    border-radius: 99px;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 18px;
+    text-decoration: none;
+    display: flex;
+    position: relative
+}
+
+.dark .nav-btn.spotty-cta {
+    z-index: 0;
+    overflow: hidden
+}
+
+.dark .nav-btn.spotty-cta.mobile-nav-btn {
+  -webkit-text-fill-color: inherit;
+  background-image: url("/svg/black-bg.svg");
+  background-position: 50%;
+  background-repeat: repeat;
+  background-size: cover;
+  background-clip: border-box;
+  transition: all .2s;
+}
+
+.dark .nav-btn.spotty-cta {
+    z-index: 0;
+    overflow: hidden
+}
+
+.dark .spotty-cta {
+  --animation: gradient-angle linear infinite;
+  --duration: 3s;
+  --shadow-size: 2px;
+    isolation: isolate;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    outline-offset: 4px;
+    border: 1px solid transparent;
+    overflow: hidden;
+    color: #ffffff;
+    background-image: url("/svg/black-bg.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    &::before,
+    &::after,
+    span::before {
+        content: "";
+        pointer-events: none;
+        position: absolute;
+        inset-inline-start: 50%;
+        inset-block-start: 50%;
+        translate: -50% -50%;
+        z-index: -1;
+    }
+    &:active {
+        translate: 0 1px;
+    }
+  }
+
+  .dark .spotty-cta {
+    --animation: gradient-angle linear infinite;
+    --duration: 3s;
+    --shadow-size: 2px;
+    isolation: isolate;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    outline-offset: 4px;
+    border: 1px solid transparent;
+    overflow: hidden;
+    color: #ffffff;
+    background-image: url("/svg/black-bg.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    &::before,
+    &::after,
+    span::before {
+        content: "";
+        pointer-events: none;
+        position: absolute;
+        inset-inline-start: 50%;
+        inset-block-start: 50%;
+        translate: -50% -50%;
+        z-index: -1;
+    }
+    &:active {
+        translate: 0 1px;
+    }
+  }
+
+/* Dots pattern */
+
+.dark .spotty-cta::before {
+    --size: calc(100% - var(--shadow-size) * 3);
+    --position: 2px;
+    --space: calc(var(--position) * 2);
+    width: var(--size);
+    height: var(--size);
+    background: radial-gradient( circle at var(--position) var(--position), white calc(var(--position) / 4), transparent 0) padding-box;
+    background-size: var(--space) var(--space);
+    background-repeat: space;
+    mask-image: conic-gradient( from calc(var(--gradient-angle) + 45deg), black, transparent 10% 90%, black);
+    border-radius: inherit;
+    opacity: 0.4;
+    z-index: -1;
+}
+
+/* Inner shimmer */
+
+.dark .spotty-cta::after {
+    --animation: shimmer linear infinite;
+    width: 140%;
+    aspect-ratio: 1;
+    background: linear-gradient( -50deg, transparent, #0099ff, transparent);
+    mask-image: radial-gradient(circle at bottom, transparent 40%, black);
+    opacity: 0.6;
+}
+
+.dark .spotty-cta span {
+    z-index: 1;
+    &::before {
+        --size: calc(100% + 1rem);
+        width: var(--size);
+        height: var(--size);
+        box-shadow: inset 0 -1ex 2rem 4px #0099ff;
+        opacity: 0;
+    }
+}
+
+/* Animate */
+
+.dark .spotty-cta {
+    --transition: 800ms cubic-bezier(0.25, 1, 0.5, 1);
+    transition: var(--transition);
+    transition-property: --gradient-angle-offset, --gradient-percent, --gradient-shine;
+    &,
+    &::before,
+    &::after {
+        animation: var(--animation) var(--duration), var(--animation) calc(var(--duration) / 0.4) reverse paused;
+        animation-composition: add;
+    }
+    span::before {
+        transition: opacity var(--transition);
+        animation: calc(var(--duration) * 1.5) breathe linear infinite;
+    }
+}
+
+.dark .spotty-cta:is(:hover,
+:focus-visible) {
+    --gradient-percent: 20%;
+    --gradient-angle-offset: 95deg;
+    --gradient-shine: var(--spotty-cta-highlight-subtle);
+    &,
+    &::before,
+    &::after {
+        animation-play-state: running;
+    }
+    span::before {
+        opacity: 1;
+    }
+}
+
+    @keyframes gradient-angle {
+        to {
+            --gradient-angle: 360deg;
+        }
+    }
+
+    @keyframes shimmer {
+        to {
+            rotate: 360deg;
+        }
+    }
+
+    @keyframes breathe {
+        from,
+        to {
+            scale: 1;
+        }
+        50% {
+            scale: 1.2;
+        }
+
+}
+
+/* DARK THEME END */
+
+
+
+/* LIGHT THEME START */
+
+.nav-btn {
+    z-index: 2;
+    grid-column-gap: 8px;
+    grid-row-gap: 8px;
+    background-color: #040404;
+    background-image: url("/svg/left-corner-blue.svg"), url("/svg/right-corner-blue.svg");
+    background-position: -10% -10%, 110% 110%;
+    background-repeat: no-repeat, no-repeat;
+    background-size: auto, contain;
+    border-radius: 99px;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 18px;
+    text-decoration: none;
+    display: flex;
+    position: relative
+}
+
+.nav-btn.spotty-cta {
+    z-index: 0;
+    overflow: hidden
+}
+
+.nav-btn.spotty-cta.mobile-nav-btn {
+  -webkit-text-fill-color: inherit;
+  background-image: url("/svg/white-bg.svg");
+  background-position: 50%;
+  background-repeat: repeat;
+  background-size: cover;
+  background-clip: border-box;
+  transition: all .2s;
+}
+
+.nav-btn.spotty-cta {
+    z-index: 0;
+    overflow: hidden
+}
+
+.spotty-cta {
+  --animation: gradient-angle linear infinite;
+  --duration: 3s;
+  --shadow-size: 2px;
+    isolation: isolate;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    outline-offset: 4px;
+    border: 1px solid transparent;
+    overflow: hidden;
+    color: #ffffff;
+    background-image: url("/svg/white-bg.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    &::before,
+    &::after,
+    span::before {
+        content: "";
+        pointer-events: none;
+        position: absolute;
+        inset-inline-start: 50%;
+        inset-block-start: 50%;
+        translate: -50% -50%;
+        z-index: -1;
+    }
+    &:active {
+        translate: 0 1px;
+    }
+  }
+
+  .spotty-cta {
+    --animation: gradient-angle linear infinite;
+    --duration: 3s;
+    --shadow-size: 2px;
+    isolation: isolate;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    outline-offset: 4px;
+    border: 0px solid transparent;
+    overflow: hidden;
+    color: #00479b;
+    background-image: url("/svg/white-bg.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    &::before,
+    &::after,
+    span::before {
+        content: "";
+        pointer-events: none;
+        position: absolute;
+        inset-inline-start: 50%;
+        inset-block-start: 50%;
+        translate: -50% -50%;
+        z-index: -1;
+    }
+    &:active {
+        translate: 0 1px;
+    }
+  }
+
+/* Dots pattern */
+
+.spotty-cta::before {
+    --size: calc(100% - var(--shadow-size) * 3);
+    --position: 2px;
+    --space: calc(var(--position) * 2);
+    width: var(--size);
+    height: var(--size);
+    background: radial-gradient( circle at var(--position) var(--position), #00214c calc(var(--position) / 4), transparent 0) padding-box;
+    background-size: var(--space) var(--space);
+    background-repeat: space;
+    mask-image: conic-gradient( from calc(var(--gradient-angle) + 45deg), black, transparent 10% 90%, black);
+    border-radius: inherit;
+    opacity: 0.4;
+    z-index: -1;
+}
+
+/* Inner shimmer */
+
+.spotty-cta::after {
+    --animation: shimmer linear infinite;
+    width: 140%;
+    aspect-ratio: 1;
+    background: linear-gradient( -50deg, transparent, #0099ff, transparent);
+    mask-image: radial-gradient(circle at bottom, transparent 40%, black);
+    opacity: 0.6;
+}
+
+.spotty-cta span {
+    z-index: 1;
+    &::before {
+        --size: calc(100% + 1rem);
+        width: var(--size);
+        height: var(--size);
+        box-shadow: inset 0 -1ex 2rem 4px #0099ff;
+        opacity: 0;
+    }
+}
+
+/* Animate */
+
+.spotty-cta {
+    --transition: 800ms cubic-bezier(0.25, 1, 0.5, 1);
+    transition: var(--transition);
+    transition-property: --gradient-angle-offset, --gradient-percent, --gradient-shine;
+    &,
+    &::before,
+    &::after {
+        animation: var(--animation) var(--duration), var(--animation) calc(var(--duration) / 0.4) reverse paused;
+        animation-composition: add;
+    }
+    span::before {
+        transition: opacity var(--transition);
+        animation: calc(var(--duration) * 1.5) breathe linear infinite;
+    }
+}
+
+.spotty-cta:is(:hover,
+:focus-visible) {
+    --gradient-percent: 20%;
+    --gradient-angle-offset: 95deg;
+    --gradient-shine: var(--spotty-cta-highlight-subtle);
+    &,
+    &::before,
+    &::after {
+        animation-play-state: running;
+    }
+    span::before {
+        opacity: 1;
+    }
+}
+
+    @keyframes gradient-angle {
+        to {
+            --gradient-angle: 360deg;
+        }
+    }
+
+    @keyframes shimmer {
+        to {
+            rotate: 360deg;
+        }
+    }
+
+    @keyframes breathe {
+        from,
+        to {
+            scale: 1;
+        }
+        50% {
+            scale: 1.2;
+        }
+
+}
+
+/* LIGHT THEME END */
 

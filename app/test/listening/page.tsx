@@ -9,6 +9,17 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
+import { Slider } from "@/components/ui/slider"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 import { Play, Pause, Volume2, Clock, Headphones, CheckCircle, AlertCircle, ArrowRight, ArrowLeft } from "lucide-react"
 
 interface Question {
@@ -30,8 +41,8 @@ interface ListeningPart {
 const listeningParts: ListeningPart[] = [
   {
     id: 1,
-    title: "Part 1: Problem Solving",
-    description: "Listen to a conversation about a workplace problem and answer the questions.",
+    title: "Listen to the question. You will hear it only once.",
+    description: "",
     audioUrl: "/audio/listening-part1.mp3",
     duration: 180,
     questions: [
@@ -252,6 +263,12 @@ export default function ListeningTestPage() {
   const [hasPlayedAudio, setHasPlayedAudio] = useState(false)
   const [testCompleted, setTestCompleted] = useState(false)
   const [showResults, setShowResults] = useState(false)
+  const [furthestQuestionReached, setFurthestQuestionReached] = useState({ part: 0, question: 0 })
+  const [showWarning, setShowWarning] = useState(false)
+  const [volume, setVolume] = useState(0.5)
+  const [audioDuration, setAudioDuration] = useState(0)
+  const [audioCurrentTime, setAudioCurrentTime] = useState(0)
+  const [isAudioFinished, setIsAudioFinished] = useState(false)
 
   const audioRef = useRef<HTMLAudioElement>(null)
   const timerRef = useRef<NodeJS.Timeout>()
@@ -280,7 +297,7 @@ export default function ListeningTestPage() {
   }
 
   const handlePlayAudio = () => {
-    if (audioRef.current) {
+    if (audioRef.current && !isAudioFinished) {
       if (isPlaying) {
         audioRef.current.pause()
       } else {
@@ -291,6 +308,14 @@ export default function ListeningTestPage() {
     }
   }
 
+  const handleVolumeChange = (newVolume: number[]) => {
+    if (audioRef.current) {
+      const volumeValue = newVolume[0]
+      audioRef.current.volume = volumeValue
+      setVolume(volumeValue)
+    }
+  }
+
   const handleAnswerChange = (questionId: number, answerIndex: number) => {
     setAnswers((prev) => ({
       ...prev,
@@ -298,8 +323,19 @@ export default function ListeningTestPage() {
     }))
   }
 
-  const handleNextQuestion = () => {
+  const proceedToNextQuestion = () => {
     const currentPartData = listeningParts[currentPart]
+
+    // Update the furthest question reached
+    if (currentPart > furthestQuestionReached.part || (currentPart === furthestQuestionReached.part && currentQuestion >= furthestQuestionReached.question)) {
+      const nextQuestionIndex = currentQuestion + 1
+      if (nextQuestionIndex < currentPartData.questions.length) {
+        setFurthestQuestionReached({ part: currentPart, question: nextQuestionIndex })
+      } else if (currentPart + 1 < listeningParts.length) {
+        setFurthestQuestionReached({ part: currentPart + 1, question: 0 })
+      }
+    }
+
     if (currentQuestion < currentPartData.questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
     } else if (currentPart < listeningParts.length - 1) {
@@ -308,8 +344,22 @@ export default function ListeningTestPage() {
       setHasPlayedAudio(false)
       setAudioProgress(0)
       setIsPlaying(false)
+      setIsAudioFinished(false)
+      setAudioCurrentTime(0)
+      setAudioDuration(0)
     } else {
       handleTestComplete()
+    }
+  }
+
+  const handleNextQuestion = () => {
+    const currentQuestionData = listeningParts[currentPart]?.questions[currentQuestion]
+    const isAnswered = Object.prototype.hasOwnProperty.call(answers, currentQuestionData.id)
+
+    if (!isAnswered && !(currentPart === listeningParts.length - 1 && currentQuestion === listeningParts[currentPart]?.questions.length - 1)) {
+      setShowWarning(true)
+    } else {
+      proceedToNextQuestion()
     }
   }
 
@@ -408,184 +458,153 @@ export default function ListeningTestPage() {
 
   return (
     <DashboardLayout>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-6xl mx-auto space-y-6"
-      >
-        {/* Header */}
-        <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <Headphones className="h-8 w-8 text-blue-400" />
-                <div>
-                  <CardTitle className="dark:text-white text-gray-500 text-2xl">CELPIP Listening Test</CardTitle>
-                  <CardDescription className="text-gray-400">
-                    Part {currentPart + 1} of {listeningParts.length} • Question {currentQuestion + 1} of{" "}
-                    {currentPartData?.questions.length}
-                  </CardDescription>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <Badge variant="secondary" className="bg-blue-500/20 dark:text-blue-300 text-blue-800 border-blue-500/30">
-                  <Clock className="h-4 w-4 mr-2" />
-                  {formatTime(timeRemaining)}
-                </Badge>
-              </div>
-            </div>
-          </CardHeader>
-        </Card>
-
-        {/* Progress */}
-        <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-gray-400">Overall Progress</span>
-              <span className="text-sm dark:text-gray-400 text-gray-700">
-                {currentPart * listeningParts[0].questions.length + currentQuestion + 1} / {totalQuestions}
-              </span>
-            </div>
-            <Progress
-              value={((currentPart * listeningParts[0].questions.length + currentQuestion + 1) / totalQuestions) * 100}
-              className="h-2"
-            />
-          </CardContent>
-        </Card>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-1024:grid-cols-1">
-          {/* Audio Player */}
-          <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-blue-300 text-lg">{currentPartData?.title}</CardTitle>
-              <CardDescription className="text-gray-400">{currentPartData?.description}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="bg-blue-400/25 p-4 rounded-lg">
-                <div className="flex items-center justify-center space-x-4 mb-4">
-                  <Button onClick={handlePlayAudio} size="lg" className="bg-blue-600 hover:bg-blue-700 font-mono">
-                    {isPlaying ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6" />}
-                  </Button>
-                  <Volume2 className="h-6 w-6 dark:text-gray-400 text-gray-500" />
-                </div>
-
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm dark:text-gray-400 text-gray-500">
-                    <span>Audio Progress</span>
-                    <span>{Math.round(audioProgress)}%</span>
-                  </div>
-                  <Progress value={audioProgress} className="h-2" />
-                </div>
-
-                {!hasPlayedAudio && (
-                  <div className="mt-4 p-3 bg-yellow-500/20 border border-yellow-500/30 rounded-lg">
-                    <div className="flex items-center space-x-2">
-                      <AlertCircle className="h-4 w-4 dark:text-yellow-300 text-yellow-600" />
-                      <span className="text-sm dark:text-yellow-300 text-yellow-600">
-                        You must play the audio before answering questions
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <audio
-                ref={audioRef}
-                onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
-                onTimeUpdate={(e) => {
-                  const audio = e.target as HTMLAudioElement
-                  const progress = (audio.currentTime / audio.duration) * 100
-                  setAudioProgress(progress)
+      <div className="card-outline text-white p-4 sm:p-6 md:p-8 font-sans max-1024:h-full">
+        <AlertDialog open={showWarning} onOpenChange={setShowWarning}>
+          <AlertDialogContent className="bg-slate-800 text-white border-slate-700">
+            <AlertDialogHeader>
+              <AlertDialogTitle className="font-mono">No Answer Selected</AlertDialogTitle>
+              <AlertDialogDescription className="text-slate-400">
+                You have not selected an answer for this question. On the official test, you will not be able to return to this question after moving to the next page.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="bg-slate-700 hover:bg-slate-600 border-slate-600 font-mono">Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => {
+                  setShowWarning(false)
+                  proceedToNextQuestion()
                 }}
-                onEnded={() => {
-                  setIsPlaying(false)
-                  setAudioProgress(100)
-                }}
+                className="bg-blue-600 hover:bg-blue-700 font-mono"
               >
-                <source src={currentPartData?.audioUrl} type="audio/mpeg" />
-                Your browser does not support the audio element.
-              </audio>
-            </CardContent>
-          </Card>
-
-          {/* Question */}
-          <div className="lg:col-span-2">
-            <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-              <CardHeader>
-                <CardTitle className="text-blue-300 text-lg">Question {currentQuestion + 1}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="dark:text-gray-300 text-gray-400 text-lg leading-relaxed">{currentQuestionData?.question}</div>
-
-                <RadioGroup
-                  value={answers[currentQuestionData?.id]?.toString()}
-                  onValueChange={(value) => handleAnswerChange(currentQuestionData?.id, Number.parseInt(value))}
-                  disabled={!hasPlayedAudio}
-                  className="space-y-4"
-                >
-                  {currentQuestionData?.options.map((option, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center space-x-3 p-3 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-colors"
-                    >
-                      <RadioGroupItem value={index.toString()} id={`option-${index}`} />
-                      <Label htmlFor={`option-${index}`} className="dark:text-gray-300 text-gray-100 cursor-pointer flex-1">
-                        {String.fromCharCode(65 + index)}. {option}
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-
-                <div className="flex justify-between pt-4">
-                  <Button
-                    variant="outline"
-                    onClick={handlePreviousQuestion}
-                    disabled={currentPart === 0 && currentQuestion === 0}
-                    className="border-slate-600 dark:text-white text-gray-500 hover:bg-blue-300 bg-transparent font-mono"
-                  >
-                    <ArrowLeft className="h-4 w-4 mr-2" />
-                    Previous
-                  </Button>
-
-                  <Button
-                    onClick={handleNextQuestion}
-                    disabled={!hasPlayedAudio || answers[currentQuestionData?.id] === undefined}
-                    className="bg-blue-600 hover:bg-blue-700 font-mono"
-                  >
-                    {currentPart === listeningParts.length - 1 &&
-                    currentQuestion === currentPartData?.questions.length - 1 ? (
-                      <>
-                        Complete Test
-                        <CheckCircle className="h-4 w-4 ml-2" />
-                      </>
-                    ) : (
-                      <>
-                        Next
-                        <ArrowRight className="h-4 w-4 ml-2" />
-                      </>
-                    )}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+        <header className="flex justify-between items-center pb-4 border-b border-slate-700 max-435:flex-col max-435:items-start">
+          <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[70%] max-435:pb-[2rem]">Practice Test A - Listening Part {currentPart + 1}: Listening to Problem Solving</h1>
+          <div className="flex items-center space-x-4 max-435:space-x-32">
+            <span className="text-sm text-slate-400">Time remaining: <span className="font-bold text-red-500">{formatTime(timeRemaining)}</span></span>
+            <Button onClick={handleNextQuestion} className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
+              {currentPart === listeningParts.length - 1 && currentQuestion === currentPartData?.questions.length - 1 ? 'Complete' : 'Next'}
+            </Button>
           </div>
-        </div>
+        </header>
 
-        {/* Instructions */}
-        <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-          <CardContent className="p-4">
-            <div className="flex items-start space-x-3">
-              <AlertCircle className="h-5 w-5 text-blue-400 mt-0.5" />
-              <div className="text-sm dark:text-gray-400 text-gray-600">
-                <strong className="text-blue-500">Instructions:</strong> Listen to each audio clip carefully. You can play
-                the audio multiple times, but in the real test, you may only hear it once. Answer all questions before
-                moving to the next part.
+        <main className="grid md:grid-cols-2 gap-6 pt-6 max-1024:grid-cols-1">
+          {/* Left Column */}
+          <div className="border-r border-slate-700 pr-6 flex flex-col max-1024:pr-[0] max-1024:border-r-0">
+            <div className="flex-grow">
+              <div className="flex items-center bg-blue-900/60 p-3 rounded-md mb-4">
+                <AlertCircle className="text-blue-400 mr-3" />
+                <p className="text-blue-400 font-semibold font-mono">{currentPartData.title}</p>
+              </div>
+
+              <div className="border border-slate-700 rounded-md p-4 space-y-4 bg-slate-800/50">
+                <div className="bg-slate-700/50 p-4 rounded-lg flex items-center justify-center h-24">
+                  {!hasPlayedAudio ? (
+                    <div className="text-center text-slate-400">
+                      <AlertCircle className="mx-auto h-8 w-8 mb-2" />
+                      <p>Click the play button to start the audio.</p>
+                    </div>
+                  ) : (
+                    <div className="flex items-center space-x-4 w-full">
+                      <Volume2 className="h-8 w-8 text-slate-400" />
+                      <div className="w-full">
+                        <p className="text-slate-300 mb-1">Playing...</p>
+                        <Progress value={audioProgress} className="h-2 bg-slate-600" />
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <div className="bg-slate-700/50 p-2 rounded-lg flex flex-col items-center  max-768:flex-col">
+                  <Button onClick={handlePlayAudio} disabled={isAudioFinished} className="bg-blue-600 hover:bg-blue-700 p-3 disabled:bg-slate-600">
+                    {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+                  </Button>
+                  <div className="w-full flex items-center flex-col py-[1rem] max-768:flex-col ">
+                    <Progress value={audioProgress} className="h-1 bg-slate-600 w-full max-768:my-[1rem]" />
+                    <span className="text-sm text-slate-400 font-mono w-[14rem] text-center bg-slate-900/50 py-1 rounded-md mt-[1rem]">
+                      {formatTime(audioCurrentTime)} / {formatTime(audioDuration)}
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-2 w-32">
+                    <Volume2 className="text-slate-400 h-5 w-5" />
+                    <Slider
+                      value={[volume]}
+                      onValueChange={handleVolumeChange}
+                      max={1}
+                      step={0.01}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+                <audio
+                  ref={audioRef}
+                  src={currentPartData.audioUrl}
+                  onPlay={() => setIsPlaying(true)}
+                  onPause={() => setIsPlaying(false)}
+                  onTimeUpdate={(e) => {
+                    const audio = e.target as HTMLAudioElement
+                    if (audio.duration) {
+                      setAudioProgress((audio.currentTime / audio.duration) * 100)
+                      setAudioCurrentTime(audio.currentTime)
+                    }
+                  }}
+                  onEnded={() => {
+                    setIsPlaying(false)
+                    setIsAudioFinished(true)
+                  }}
+                  onLoadedMetadata={(e) => {
+                    const audio = e.target as HTMLAudioElement
+                    if (audioRef.current) {
+                      audioRef.current.volume = volume
+                    }
+                    setAudioDuration(audio.duration)
+                  }}
+                />
+                <p className="text-center text-sm text-slate-400 border border-slate-600 p-2 rounded-md">
+                  This playbar will not appear in the official test.
+                </p>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      </motion.div>
+            <div className="mt-auto pt-6">
+              <Button className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
+                Answer Key
+              </Button>
+            </div>
+          </div>
+
+          {/* Right Column */}
+          <div className="bg-slate-800/50 p-4 rounded-md flex flex-col">
+            <div className="flex-grow">
+              <p className="font-semibold mb-2 text-blue-400 font-mono">Question {currentQuestion + 1} of {currentPartData.questions.length}</p>
+              <div className="flex items-center mb-4 text-blue-300">
+                <AlertCircle className="text-blue-400 mr-3" />
+                <p className="font-semibold font-mono text-blue-400">Choose the best answer to each question.</p>
+              </div>
+
+              <RadioGroup
+                value={answers[currentQuestionData.id]?.toString()}
+                onValueChange={(value) => handleAnswerChange(currentQuestionData.id, parseInt(value))}
+                className="space-y-4"
+                disabled={currentPart < furthestQuestionReached.part || (currentPart === furthestQuestionReached.part && currentQuestion < furthestQuestionReached.question)}
+              >
+                {currentQuestionData.options.map((option, index) => (
+                  <div key={index} className="flex items-center p-2 rounded-md hover:bg-slate-700/50">
+                    <RadioGroupItem value={index.toString()} id={`option-${index}`} className="mr-3 border-slate-600" />
+                    <Label htmlFor={`option-${index}`} className="font-normal text-slate-300">{option}</Label>
+                  </div>
+                ))}
+              </RadioGroup>
+            </div>
+            <div className="mt-auto flex justify-end pt-6">
+              <Button onClick={handlePreviousQuestion} disabled={currentPart === 0 && currentQuestion === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
+                Back
+              </Button>
+            </div>
+          </div>
+        </main>
+      </div>
     </DashboardLayout>
   )
 }

@@ -29,11 +29,7 @@ const speakingTasks: SpeakingTask[] = [
     description: "Give advice to someone about a situation.",
     preparationTime: 30,
     speakingTime: 90,
-    prompt: `Your friend Alex has just started a new job at a large company. Alex is feeling overwhelmed because there are many new procedures to learn, and the workload seems very heavy. Alex is also having trouble getting to know the other employees and feels quite isolated.
-
-Alex has asked you for advice on how to handle this situation.
-
-What advice would you give to Alex?`,
+    prompt: `A friend is looking for a summer job. Advise him about different ways he can find work for the summer.`,
     instructions: [
       "You have 30 seconds to prepare your response",
       "You have 90 seconds to speak",
@@ -202,7 +198,6 @@ export default function SpeakingTestPage() {
   const [recordings, setRecordings] = useState<{ [key: number]: Blob }>({})
   const [testCompleted, setTestCompleted] = useState(false)
   const [showResults, setShowResults] = useState(false)
-  const [activeTab, setActiveTab] = useState("prompt")
   const [isPlaying, setIsPlaying] = useState(false)
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
@@ -296,7 +291,6 @@ export default function SpeakingTestPage() {
     if (currentTask < speakingTasks.length - 1) {
       setCurrentTask(currentTask + 1)
       setPhase("preparation")
-      setActiveTab("prompt")
       setIsPlaying(false)
     } else {
       handleTestComplete()
@@ -307,7 +301,6 @@ export default function SpeakingTestPage() {
     if (currentTask > 0) {
       setCurrentTask(currentTask - 1)
       setPhase("completed")
-      setActiveTab("prompt")
       setIsPlaying(false)
     }
   }
@@ -391,250 +384,53 @@ export default function SpeakingTestPage() {
 
   return (
     <DashboardLayout>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-7xl mx-auto space-y-6"
-      >
-        {/* Header */}
-        <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <Mic className="h-8 w-8 text-blue-400" />
-                <div>
-                  <CardTitle className="dark:text-white text-gray-500 text-2xl">CELPIP Speaking Test</CardTitle>
-                  <CardDescription className="text-gray-400">
-                    Task {currentTask + 1} of {speakingTasks.length} • {currentTaskData?.title}
-                  </CardDescription>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <Badge
-                  variant="secondary"
-                  className={`${
-                    phase === "preparation"
-                      ? "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
-                      : phase === "speaking"
-                        ? "bg-red-500/20 dark:text-red-300 text-red-600 border-red-500/30"
-                        : "bg-green-500/20 dark:text-green-300 text-green-700 border-green-500/30"
-                  }`}
-                >
-                  <Clock className="h-4 w-4 mr-2" />
-                  {phase === "preparation"
-                    ? `Prep: ${formatTime(timeRemaining)}`
-                    : phase === "speaking"
-                      ? `Speaking: ${formatTime(timeRemaining)}`
-                      : "Completed"}
-                </Badge>
+      <div className="card-outline dark:bg-slate-900 text-slate-900 dark:text-white p-4 sm:p-6 md:p-8 font-sans h-full flex flex-col">
+        <header className="flex justify-between items-center pb-4 border-b border-slate-200 dark:border-slate-700 max-435:flex-col max-435:items-start">
+          <h1 className="text-lg font-semibold text-slate-700 dark:text-slate-300 font-mono max-w-[50%] max-435:pb-[2rem] max-435:max-w-[90%]">Practice Test A - {currentTaskData.title}</h1>
+          <div className="flex items-center space-x-4 max-435:space-x-14">
+
+          
+            <span className="text-sm text-slate-500 dark:text-slate-400 max-820:flex max-820:flex-col">
+              Preparation: <span className="font-bold text-slate-700 dark:text-slate-200">{currentTaskData.preparationTime} seconds</span>
+            </span>
+          
+
+            <span className="text-sm text-slate-500 dark:text-slate-400 max-820:flex max-820:flex-col">
+              Recording: <span className="font-bold text-slate-700 dark:text-slate-200">{currentTaskData.speakingTime} seconds</span>
+            </span>
+            <Button onClick={handleNextTask} disabled={phase !== 'completed'} className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
+              {currentTask === speakingTasks.length - 1 ? 'Complete' : 'Next'}
+            </Button>
+          </div>
+        </header>
+
+        <main className="flex-grow flex flex-col justify-center items-center pt-6">
+          <div className="w-full max-w-4xl">
+            <div className="flex items-start bg-blue-100 dark:bg-blue-900/60 p-3 rounded-md mb-8">
+              <AlertCircle className="text-blue-500 dark:text-blue-400 mr-3 mt-1 flex-shrink-0" />
+              <p className="text-blue-800 dark:text-blue-300 font-semibold">{currentTaskData.prompt}</p>
+            </div>
+
+            <div className="card-outline p-8 rounded-lg flex items-center justify-center space-x-8 w-full max-w-md mx-auto my-8">
+              <Clock className="h-12 w-12 text-slate-500 dark:text-slate-400" />
+              <div className="text-center">
+                <p className="text-xl font-semibold text-slate-700 dark:text-slate-300 capitalize">{phase} Time</p>
+                <p className="text-4xl font-bold text-blue-600 dark:text-blue-400 font-mono">{formatTime(timeRemaining)}</p>
               </div>
             </div>
-          </CardHeader>
-        </Card>
 
-        {/* Progress */}
-        <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-gray-400">Test Progress</span>
-              <span className="text-sm dark:text-gray-400 text-gray-700">
-                Task {currentTask + 1} of {speakingTasks.length}
-              </span>
-            </div>
-            <Progress value={((currentTask + 1) / speakingTasks.length) * 100} className="h-2" />
-          </CardContent>
-        </Card>
+            <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-8 mb-[20px]">
+              *NOTE: This sample test is not recording your response.
+            </p>
+          </div>
+        </main>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-1024:grid-cols-1">
-          {/* Task Information */}
-          <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-blue-300 text-lg">{currentTaskData?.title}</CardTitle>
-              <CardDescription className="text-gray-400">{currentTaskData?.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <TabsList className="grid w-full grid-cols-2 dark:bg-slate-700/60 bg-blue-300">
-                  <TabsTrigger value="prompt" className="data-[state=active]:bg-blue-700/50">
-                    Prompt
-                  </TabsTrigger>
-                  <TabsTrigger value="instructions" className="data-[state=active]:bg-blue-700/50">
-                    Instructions
-                  </TabsTrigger>
-                </TabsList>
-                <TabsContent value="prompt" className="mt-4">
-                  <ScrollArea className="h-[400px] w-full">
-                    <div className="space-y-4">
-                      {currentTaskData?.imageUrl && (
-                        <div className="bg-blue-400/25 p-4 rounded-lg">
-                          <img
-                            src={currentTaskData.imageUrl || "/placeholder.svg"}
-                            alt="Task image"
-                            className="w-full h-48 object-cover rounded-lg"
-                          />
-                        </div>
-                      )}
-                      <div className="bg-blue-400/25 p-4 rounded-lg">
-                        <div className="dark:text-gray-300 text-gray-700 leading-relaxed whitespace-pre-line text-sm">
-                          {currentTaskData?.prompt}
-                        </div>
-                      </div>
-                    </div>
-                  </ScrollArea>
-                </TabsContent>
-                <TabsContent value="instructions" className="mt-4">
-                  <ScrollArea className="h-[400px] w-full">
-                    <div className="bg-blue-400/25 p-4 rounded-lg">
-                      <div className="space-y-3">
-                        {currentTaskData?.instructions.map((instruction, index) => (
-                          <div key={index} className="flex items-start space-x-3">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
-                            <p className="text-sm dark:text-gray-300 text-gray-700">{instruction}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </ScrollArea>
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
-
-          {/* Recording Area */}
-          <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-blue-300 text-lg">Recording</CardTitle>
-              <CardDescription className="text-gray-400">
-                {phase === "preparation"
-                  ? "Prepare your response"
-                  : phase === "speaking"
-                    ? "Record your response"
-                    : "Review your recording"}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Recording Status */}
-              <div className="text-center space-y-4">
-                <div
-                  className={`w-32 h-32 mx-auto rounded-full flex items-center justify-center ${
-                    phase === "preparation"
-                      ? "bg-yellow-500/20 border-4 border-yellow-500/30"
-                      : phase === "speaking"
-                        ? isRecording
-                          ? "bg-red-500/20 border-4 border-red-500/30 animate-pulse"
-                          : "bg-blue-500/20 border-4 border-blue-500/30"
-                        : "bg-green-500/20 border-4 border-green-500/30"
-                  }`}
-                >
-                  {phase === "preparation" ? (
-                    <Clock className="h-12 w-12 text-yellow-400" />
-                  ) : phase === "speaking" ? (
-                    isRecording ? (
-                      <Mic className="h-12 w-12 text-red-400" />
-                    ) : (
-                      <MicOff className="h-12 w-12 text-blue-400" />
-                    )
-                  ) : (
-                    <CheckCircle className="h-12 w-12 text-green-400" />
-                  )}
-                </div>
-
-                <div className="text-2xl font-bold text-white">
-                  {phase === "preparation"
-                    ? "Preparation Time"
-                    : phase === "speaking"
-                      ? "Speaking Time"
-                      : "Task Completed"}
-                </div>
-
-                {timeRemaining > 0 && (
-                  <div className="text-4xl font-mono text-blue-400">{formatTime(timeRemaining)}</div>
-                )}
-              </div>
-
-              {/* Recording Controls */}
-              <div className="flex justify-center space-x-4">
-                {phase === "preparation" && (
-                  <Button onClick={startRecording} className="bg-red-600 hover:bg-red-700 font-mono">
-                    <Mic className="h-4 w-4 mr-2" />
-                    Start Recording
-                  </Button>
-                )}
-
-                {phase === "speaking" && !isRecording && (
-                  <Button onClick={startRecording} className="bg-red-600 hover:bg-red-700 font-mono">
-                    <Mic className="h-4 w-4 mr-2" />
-                    Start Recording
-                  </Button>
-                )}
-
-                {phase === "speaking" && isRecording && (
-                  <Button onClick={handleStopRecording} className="bg-gray-600 hover:bg-gray-700 font-mono">
-                    <Square className="h-4 w-4 mr-2" />
-                    Stop Recording
-                  </Button>
-                )}
-
-                {phase === "completed" && recordings[currentTaskData?.id] && (
-                  <Button
-                    onClick={() => playRecording(currentTaskData?.id)}
-                    className="bg-blue-600 hover:bg-blue-700 font-mono"
-                  >
-                    <Play className="h-4 w-4 mr-2" />
-                    Play Recording
-                  </Button>
-                )}
-              </div>
-
-              {/* Navigation */}
-              <div className="flex justify-between pt-4">
-                <Button
-                  variant="outline"
-                  onClick={handlePreviousTask}
-                  disabled={currentTask === 0}
-                  className="border-slate-600 dark:text-white text-gray-500 hover:bg-blue-300 bg-transparent font-mono"
-                >
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Previous Task
-                </Button>
-
-                <Button
-                  onClick={handleNextTask}
-                  disabled={phase !== "completed"}
-                  className="bg-blue-600 hover:bg-blue-700 font-mono"
-                >
-                  {currentTask === speakingTasks.length - 1 ? (
-                    <>
-                      Complete Test
-                      <CheckCircle className="h-4 w-4 ml-2" />
-                    </>
-                  ) : (
-                    <>
-                      Next Task
-                      <ArrowRight className="h-4 w-4 ml-2" />
-                    </>
-                  )}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Instructions */}
-        <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-          <CardContent className="p-4">
-            <div className="flex items-start space-x-3">
-              <AlertCircle className="h-5 w-5 text-blue-400 mt-0.5" />
-              <div className="text-sm text-gray-400">
-                <strong className="text-blue-500">Speaking Tips:</strong> Use your preparation time to organize your
-                thoughts. Speak clearly and at a natural pace. Don't worry about perfect grammar - focus on
-                communicating your ideas effectively. You can record multiple times during the speaking phase if needed.
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Hidden audio element for playback */}
+        <footer className="flex justify-end pt-6 border-t border-slate-200 dark:border-slate-700">
+            <Button onClick={handlePreviousTask} disabled={currentTask === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
+              Back
+            </Button>
+        </footer>
+        
         <audio
           ref={audioRef}
           onPlay={() => setIsPlaying(true)}
@@ -642,7 +438,7 @@ export default function SpeakingTestPage() {
           onEnded={() => setIsPlaying(false)}
           style={{ display: "none" }}
         />
-      </motion.div>
+      </div>
     </DashboardLayout>
   )
 }

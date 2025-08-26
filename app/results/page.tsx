@@ -51,7 +51,7 @@ const testResults = {
       clb: 8.5,
       score: 85,
       maxScore: 100,
-      color: "from-green-500 to-emerald-500",
+      color: "from-blue-500 to-cyan-500",
       questions: 38,
       correct: 32,
       improvement: "+0.3",
@@ -62,7 +62,7 @@ const testResults = {
       clb: 8.0,
       score: 80,
       maxScore: 100,
-      color: "from-orange-500 to-red-500",
+      color: "from-blue-500 to-cyan-500",
       tasks: 2,
       completed: 2,
       improvement: "+1.5",
@@ -73,7 +73,7 @@ const testResults = {
       clb: 8.5,
       score: 85,
       maxScore: 100,
-      color: "from-purple-500 to-pink-500",
+      color: "from-blue-500 to-cyan-500",
       tasks: 8,
       completed: 8,
       improvement: "+2.1",
@@ -272,10 +272,10 @@ export default function ResultsPage() {
               <TabsContent value="overview" className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-4">
-                    <h3 className="text-xl font-semibold dark:text-green-400 text-green-500 font-mono">Strengths</h3>
+                    <h3 className="text-xl font-semibold dark:text-slate-50 text-green-500 font-mono">Strengths</h3>
                     <div className="space-y-2">
                       {testResults.strengths.map((strength, index) => (
-                        <div key={index} className="flex items-center gap-2 dark:text-green-400 text-green-500">
+                        <div key={index} className="flex items-center gap-2 dark:text-blue-500 text-green-500">
                           <CheckCircle className="w-4 h-4" />
                           <span className="text-sm">{strength}</span>
                         </div>
@@ -283,10 +283,10 @@ export default function ResultsPage() {
                     </div>
                   </div>
                   <div className="space-y-4">
-                    <h3 className="text-xl font-semibold dark:text-orange-400 text-orange-400 font-mono">Areas for Improvement</h3>
+                    <h3 className="text-xl font-semibold dark:text-slate-50 text-orange-400 font-mono">Areas for Improvement</h3>
                     <div className="space-y-2">
                       {testResults.recommendations.map((rec, index) => (
-                        <div key={index} className="flex items-center gap-2 dark:text-orange-400 text-orange-400">
+                        <div key={index} className="flex items-center gap-2 dark:text-blue-500 text-orange-400">
                           <AlertTriangle className="w-4 h-4" />
                           <span className="text-sm">{rec}</span>
                         </div>

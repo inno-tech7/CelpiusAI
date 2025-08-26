@@ -16,7 +16,8 @@ interface WritingTask {
   id: number
   title: string
   description: string
-  prompt: string
+  information: string
+  taskPrompt: string
   instructions: string[]
   timeLimit: number
   wordCountMin: number
@@ -33,21 +34,13 @@ const writingTasks: WritingTask[] = [
     wordCountMin: 150,
     wordCountMax: 200,
     type: "email",
-    prompt: `You recently moved to a new apartment and discovered that the internet connection is not working properly. The connection is very slow and frequently disconnects, making it difficult for you to work from home.
-
-Write an email to your internet service provider to report this problem.
-
-In your email, you should:
-• Explain the problem you are experiencing
-• Describe how this affects your daily activities
-• Request specific action to resolve the issue
-• Suggest a reasonable timeline for the solution`,
+    backgroundInformation: `You recently moved to a new apartment and discovered that the internet connection is not working properly. The connection is very slow and frequently disconnects, making it difficult for you to work from home.`,
+    taskPrompt: `Write an email to your internet service provider to report this problem. In your email, you should do the following things:`,
     instructions: [
-      "Write an email of 150-200 words",
-      "Use appropriate email format and tone",
-      "Address all points mentioned in the prompt",
-      "Use proper grammar and vocabulary",
-      "Organize your ideas clearly and logically",
+      "Explain the problem you are experiencing",
+      "Describe how this affects your daily activities",
+      "Request specific action to resolve the issue",
+      "Suggest a reasonable timeline for the solution",
     ],
   },
   {
@@ -58,20 +51,12 @@ In your email, you should:
     wordCountMin: 150,
     wordCountMax: 200,
     type: "survey",
-    prompt: `A local community center is considering implementing a new policy that would require all visitors to show identification before entering the facility. This policy is being proposed to improve security and safety for all users.
-
-Some people believe this policy is necessary for everyone's safety and security. Others think it is unnecessary and may discourage people from using the community center.
-
-What is your opinion? Do you think the community center should require identification from all visitors?
-
-Choose the option that you prefer. Explain the reasons for your choice. Write about 150-200 words.`,
+    backgroundInformation: `A local community center is considering implementing a new policy that would require all visitors to show identification before entering the facility. This policy is being proposed to improve security and safety for all users.\n\nSome people believe this policy is necessary for everyone's safety and security. Others think it is unnecessary and may discourage people from using the community center.`,
+    taskPrompt: `What is your opinion? Do you think the community center should require identification from all visitors? Choose the option that you prefer. Explain the reasons for your choice. Write about 150-200 words.`,
     instructions: [
-      "Write 150-200 words expressing your opinion",
-      "Choose one side of the argument clearly",
-      "Provide specific reasons and examples to support your position",
-      "Consider the opposing viewpoint briefly",
-      "Use appropriate connecting words and phrases",
-      "Organize your response with clear introduction, body, and conclusion",
+      "State your opinion clearly.",
+      "Explain the reasons for your choice.",
+      "Support your opinion with details and examples.",
     ],
   },
 ]
@@ -83,7 +68,6 @@ export default function WritingTestPage() {
   const [taskTimeRemaining, setTaskTimeRemaining] = useState(writingTasks[0].timeLimit * 60)
   const [testCompleted, setTestCompleted] = useState(false)
   const [showResults, setShowResults] = useState(false)
-  const [activeTab, setActiveTab] = useState("prompt")
 
   const timerRef = useRef<NodeJS.Timeout>()
   const taskTimerRef = useRef<NodeJS.Timeout>()
@@ -145,7 +129,6 @@ export default function WritingTestPage() {
     if (currentTask < writingTasks.length - 1) {
       setCurrentTask(currentTask + 1)
       setTaskTimeRemaining(writingTasks[currentTask + 1].timeLimit * 60)
-      setActiveTab("prompt")
     } else {
       handleTestComplete()
     }
@@ -155,7 +138,6 @@ export default function WritingTestPage() {
     if (currentTask > 0) {
       setCurrentTask(currentTask - 1)
       setTaskTimeRemaining(writingTasks[currentTask - 1].timeLimit * 60)
-      setActiveTab("prompt")
     }
   }
 
@@ -295,121 +277,47 @@ export default function WritingTestPage() {
 
   return (
     <DashboardLayout>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-7xl mx-auto space-y-6"
-      >
-        {/* Header */}
-        <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <PenTool className="h-8 w-8 text-blue-400" />
-                <div>
-                  <CardTitle className="dark:text-white text-gray-500 text-2xl max-435:w-[70%]">CELPIP Writing Test</CardTitle>
-                  <CardDescription className="text-gray-400">
-                    Task {currentTask + 1} of {writingTasks.length} • {currentTaskData?.title}
-                  </CardDescription>
+      <div className="card-outline text-white p-4 sm:p-6 md:p-8 font-sans">
+        <header className="flex justify-between items-center pb-4 border-b border-slate-700 max-435:flex-col max-435:items-start">
+          <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[70%] max-435:pb-[2rem]">Practice Test A - Writing {currentTaskData.title}</h1>
+          <div className="flex items-center space-x-4 max-435:space-x-32">
+            <span className="text-sm text-slate-400">Time remaining: <span className="font-bold text-red-500">{formatTime(taskTimeRemaining)}</span></span>
+            <Button onClick={handleNextTask} disabled={wordCount < currentTaskData?.wordCountMin} className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
+              {currentTask === writingTasks.length - 1 ? 'Complete' : 'Next'}
+            </Button>
+          </div>
+        </header>
+
+        <main className="grid grid-cols-2 gap-6 pt-6 max-1024:grid-cols-1">
+          {/* Left Column */}
+          <div className="border-r border-slate-700 pr-6 flex flex-col max-1024:border-r-0 max-1024:pr-0">
+            <div className="flex-grow">
+              <div className="flex items-center bg-blue-900/60 p-3 rounded-md mb-4">
+                <AlertCircle className="text-blue-400 mr-3" />
+                <p className="text-blue-400 font-semibold font-mono">Read the following information.</p>
+              </div>
+              <ScrollArea className="h-[calc(100vh-250px)] max-1024:h-[calc(35vh-250px)]">
+                <div className="text-slate-300 leading-relaxed whitespace-pre-line p-4 bg-slate-800/50 rounded-md">
+                  {currentTaskData.backgroundInformation}
                 </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <Badge variant="secondary" className="bg-red-500/20 dark:text-red-300 text-red-600 border-red-500/30">
-                  <Clock className="h-4 w-4 mr-2" />
-                  Task: {formatTime(taskTimeRemaining)}
-                </Badge>
-                <Badge variant="secondary" className="bg-blue-500/20 dark:text-blue-300 text-blue-700 border-blue-500/30">
-                  <Clock className="h-4 w-4 mr-2" />
-                  Total: {formatTime(timeRemaining)}
-                </Badge>
-              </div>
+              </ScrollArea>
             </div>
-          </CardHeader>
-        </Card>
+          </div>
 
-        {/* Progress */}
-        <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-gray-400">Test Progress</span>
-              <span className="text-sm dark:text-gray-400 text-gray-700">
-                Task {currentTask + 1} of {writingTasks.length}
-              </span>
-            </div>
-            <Progress value={((currentTask + 1) / writingTasks.length) * 100} className="h-2" />
-          </CardContent>
-        </Card>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-1024:grid-cols-1">
-          {/* Task Information */}
-          <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-blue-300 text-lg flex items-center">
-                <FileText className="h-5 w-5 mr-2" />
-                {currentTaskData?.title}
-              </CardTitle>
-              <CardDescription className="text-gray-400">{currentTaskData?.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <TabsList className="grid w-full grid-cols-2 dark:bg-slate-700/60 bg-blue-300">
-                  <TabsTrigger value="prompt" className="data-[state=active]:bg-blue-700/50">
-                    Prompt
-                  </TabsTrigger>
-                  <TabsTrigger value="instructions" className="data-[state=active]:bg-blue-700/50">
-                    Instructions
-                  </TabsTrigger>
-                </TabsList>
-                <TabsContent value="prompt" className="mt-4">
-                  <ScrollArea className="h-[400px] w-full">
-                    <div className="bg-blue-400/25 p-4 rounded-lg">
-                      <div className="dark:text-gray-300 text-gray-700 leading-relaxed whitespace-pre-line text-sm">
-                        {currentTaskData?.prompt}
-                      </div>
-                    </div>
-                  </ScrollArea>
-                </TabsContent>
-                <TabsContent value="instructions" className="mt-4">
-                  <ScrollArea className="h-[400px] w-full">
-                    <div className="bg-blue-400/25 p-4 rounded-lg">
-                      <div className="space-y-3">
-                        {currentTaskData?.instructions.map((instruction, index) => (
-                          <div key={index} className="flex items-start space-x-3">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
-                            <p className="text-sm dark:text-gray-300 text-gray-700">{instruction}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </ScrollArea>
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
-
-          {/* Writing Area */}
-          <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-blue-300 text-lg">Your Response</CardTitle>
-                <div className="flex items-center space-x-4">
-                  <Badge
-                    variant="outline"
-                    className={`${
-                      wordCount >= currentTaskData?.wordCountMin && wordCount <= currentTaskData?.wordCountMax
-                        ? "border-green-500/50 text-green-300"
-                        : wordCount < currentTaskData?.wordCountMin
-                          ? "border-yellow-500/50 dark:text-yellow-300 text-yellow-600"
-                          : "border-red-500/50 text-red-300"
-                    }`}
-                  >
-                    <Target className="h-4 w-4 mr-2" />
-                    {wordCount} / {currentTaskData?.wordCountMin}-{currentTaskData?.wordCountMax} words
-                  </Badge>
-                </div>
+          {/* Right Column */}
+          <div className="flex flex-col">
+            <div className="flex-grow">
+              <div className="flex items-center bg-blue-900/60 p-3 rounded-md mb-4">
+                <AlertCircle className="text-blue-400 mr-3" />
+                <p className="text-blue-400 font-semibold font-mono whitespace-pre-line">{currentTaskData.taskPrompt}</p>
               </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
+              <ul className="list-disc list-outside text-slate-300 space-y-2 mb-4 pl-6">
+                {currentTaskData.instructions.map((item, index) => (
+                  <li key={index} className="pl-2">
+                    {item}
+                  </li>
+                ))}
+              </ul>
               <Textarea
                 placeholder={
                   currentTaskData?.type === "email"
@@ -418,67 +326,18 @@ export default function WritingTestPage() {
                 }
                 value={currentResponse}
                 onChange={(e) => handleResponseChange(currentTaskData?.id, e.target.value)}
-                className="min-h-[400px] bg-blue-400/25 text-gray-300 resize-none"
+                className="min-h-[300px] bg-slate-800/50 text-gray-300 resize-none border-slate-700"
               />
-
-              <div className="flex items-center justify-between text-sm dark:text-gray-400 text-gray-600">
-                <div className="flex items-center space-x-4">
-                  <span>Characters: {currentResponse.length}</span>
-                  <span>Words: {wordCount}</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Clock className="h-4 w-4" />
-                  <span>Time remaining: {formatTime(taskTimeRemaining)}</span>
-                </div>
-              </div>
-
-              <div className="flex justify-between pt-4">
-                <Button
-                  variant="outline"
-                  onClick={handlePreviousTask}
-                  disabled={currentTask === 0}
-                  className="border-slate-600 dark:text-white text-gray-500 hover:bg-blue-300 bg-transparent font-mono"
-                >
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Previous Task
-                </Button>
-
-                <Button
-                  onClick={handleNextTask}
-                  disabled={wordCount < currentTaskData?.wordCountMin}
-                  className="bg-blue-600 hover:bg-blue-700 font-mono"
-                >
-                  {currentTask === writingTasks.length - 1 ? (
-                    <>
-                      Complete Test
-                      <CheckCircle className="h-4 w-4 ml-2" />
-                    </>
-                  ) : (
-                    <>
-                      Next Task
-                      <ArrowRight className="h-4 w-4 ml-2" />
-                    </>
-                  )}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Instructions */}
-        <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-          <CardContent className="p-4">
-            <div className="flex items-start space-x-3">
-              <AlertCircle className="h-5 w-5 text-blue-400 mt-0.5" />
-              <div className="text-sm text-gray-400">
-                <strong className="text-blue-500">Writing Tips:</strong> Plan your response before writing. Use appropriate
-                tone and format for each task type. Check your word count regularly and ensure you meet the minimum
-                requirement before proceeding to the next task.
-              </div>
+              <div className="text-sm text-slate-400 mt-2">Word Count: {wordCount}</div>
             </div>
-          </CardContent>
-        </Card>
-      </motion.div>
+            <div className="mt-auto flex justify-end pt-6">
+              <Button onClick={handlePreviousTask} disabled={currentTask === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
+                Back
+              </Button>
+            </div>
+          </div>
+        </main>
+      </div>
     </DashboardLayout>
   )
 }

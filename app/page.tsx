@@ -1,18 +1,48 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
+import { useAuth } from "@/hooks/use-auth"
 import { fadeIn } from "@/app/variants/variants"
 import { Navigation } from "@/components/navigation"
 import { HeroSection } from "@/components/hero-section"
+import { AboutSection } from "@/components/about-section"
 import { FeaturesSection } from "@/components/features-section"
 import { PricingSection } from "@/components/pricing-section"
 import { Footer } from "@/components/footer"
+
 import Link from "next/link"
 
 export default function HomePage() {
+  const [isSigningOut, setIsSigningOut] = useState(false)
+  const { user, signOut } = useAuth()
+
+  useEffect(() => {
+    if (isSigningOut) {
+      const timer = setTimeout(() => {
+        signOut()
+      }, 750)
+      return () => clearTimeout(timer)
+    }
+  }, [isSigningOut, signOut])
+
+  useEffect(() => {
+    if (!user && isSigningOut) {
+      setIsSigningOut(false)
+    }
+  }, [user, isSigningOut])
+
+  const handleSignOut = () => {
+    setIsSigningOut(true)
+  }
   return (
-    <div className="min-h-screen body-gradient-bg">
-      <Navigation />
+    <motion.div
+      className="min-h-screen body-gradient-bg"
+      initial={{ opacity: 1 }}
+      animate={{ opacity: isSigningOut ? 0 : 1 }}
+      transition={{ duration: 0.75 }}
+    >
+      <Navigation onSignOut={handleSignOut} />
       
 
       <motion.div
@@ -23,6 +53,17 @@ export default function HomePage() {
       >
         <HeroSection />
       </motion.div>
+
+      <motion.section
+        // id="about"
+        // variants={fadeIn('up', 0.5)}
+        // initial="hidden"
+        // whileInView="show"
+        viewport={{ once: true, amount: 0.1 }}
+        // className="py-20 lg:py-32"
+      >
+      </motion.section>
+        <AboutSection />
 
       <motion.div
         variants={fadeIn('up', 0.2)}
@@ -42,28 +83,7 @@ export default function HomePage() {
         <PricingSection />
       </motion.div>
 
-      <motion.section
-        id="about"
-        variants={fadeIn('up', 0.5)}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.1 }}
-        className="py-20 lg:py-32"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
-              About <span className="gradient-text">Celpius AI</span>
-            </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed">
-              We're revolutionizing CELPIP preparation with cutting-edge AI technology, helping thousands of students
-              achieve their Canadian immigration dreams through intelligent, personalized learning experiences. Our
-              platform combines advanced artificial intelligence with proven educational methodologies to deliver the
-              most effective CELPIP preparation available.
-            </p>
-          </div>
-        </div>
-      </motion.section>
+      
 
       <motion.section
         id="contact"
@@ -94,6 +114,6 @@ export default function HomePage() {
       </motion.section>
 
       <Footer />
-    </div>
+    </motion.div>
   )
 }

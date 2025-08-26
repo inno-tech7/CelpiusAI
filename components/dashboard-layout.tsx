@@ -69,7 +69,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className={`pb-12 lg:pl-[20rem] lg:pr-[6rem] relative z-10 w-full max-820:px-10 max-435:px-4 ${
+        className={`pb-12 lg:pl-[20rem] lg:pr-[6rem] max-1024:pl-[21rem] max-1024:pr-[2rem] relative z-10 w-full max-820:px-10 max-435:px-4 ${
           isDashboardRoute
             ? "pt-24 lg:pt-12 lg:pl-72" // Adjust padding for persistent sidebar
             : "pt-24"

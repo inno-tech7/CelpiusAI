@@ -50,7 +50,7 @@ export function SidebarNav() {
       animate="visible"
       transition={{ duration: 0.5 }}
     >
-      <div className="h-full glass-dashboard flex flex-col ">
+      <div className="h-[41rem] w-[17rem] glass-dashboard flex flex-col max-1024:h-[80rem]">
 
         <Image
                 src="/section-images/flare (vertical).png"
@@ -58,7 +58,7 @@ export function SidebarNav() {
                 width={500} 
                 height={3500} 
                 quality={100} 
-                className="absolute top-[-210.5%] max-1024:top-[-93.5%] max-1024:left-[-14.45%] xl:left-[-14.45%] lg:left-[25.55%] max-820:top-[-11%]  max-820:left-[18.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none scale-[0.10] max-820:scale-[1.4] max-768:top-[-10.7%] max-435:top-[-7.2%] max-435:left-[-14.45%] max-435:scale-[0.7] max-h-670:top-[-270.5%]"
+                className="absolute top-[-203.5%] max-1024:top-[-55.5%] max-1024:left-[6.55%] xl:left-[7%] lg:left-[25.55%] max-820:top-[-11%]  max-820:left-[18.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none scale-[0.10] max-820:scale-[1.4] max-768:top-[-10.7%] max-435:top-[-7.2%] max-435:left-[-14.45%] max-435:scale-[0.7]"
             />
 
         {/* Logo Section */}
@@ -115,21 +115,23 @@ export function SidebarNav() {
         <div className="px-3 pb-4 border-t border-white/10 pt-4 space-y-3">
           {/* Welcome User */}
           {user && (
-            <div className="flex items-center px-3 py-2 rounded-lg glass">
-              <User className="h-4 w-4 mr-3 text-slate-600 dark:text-slate-100" />
-              <div className="flex-1 min-w-0">
+            <div className="flex items-center px-3 py-2 h-[12rem] rounded-lg glass spotty-cta pointer-events-none">
+            <div className=" pb-[3rem]">
+              {/* <User className="h-4 w-5 mr-3 text-slate-600 dark:text-slate-100"/> */}
+              <div className="flex-1 min-w-0 pt-[1rem]">
                 <p className="text-sm font-medium font-mono truncate text-slate-600 dark:text-slate-100">
                   Welcome, {user.firstName || "User"}
                 </p>
-                <p className="text-xs text-gray-400 truncate">{user.email}</p>
+                <p className="text-xs dark:text-gray-400 text-blue-700 truncate">{user.email}</p>
               </div>
+            </div>
             </div>
           )}
 
           {/* Theme Toggle */}
-          <div className="flex justify-center px-3 py-1 rounded-lg glass">
+          {/* <div className="flex justify-center px-3 py-1 rounded-lg glass">
             <ThemeToggle />
-          </div>
+          </div> */}
 
           {/* Sign Out Button */}
           {user && (

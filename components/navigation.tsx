@@ -8,8 +8,13 @@ import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { useAuth } from "@/hooks/use-auth"
+import SpottyBtn from "./spotty-btn"
 
-export function Navigation() {
+interface NavigationProps {
+  onSignOut?: () => void
+}
+
+export function Navigation({ onSignOut }: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { user, signOut } = useAuth()
@@ -17,9 +22,9 @@ export function Navigation() {
   const router = useRouter()
 
   const navItems = [
+    { name: "About", href: "#about" },
     { name: "Features", href: "#features" },
     { name: "Pricing", href: "#pricing" },
-    { name: "About", href: "#about" },
     { name: "Contact", href: "#contact" },
   ]
 
@@ -225,7 +230,7 @@ export function Navigation() {
             </div>
 
             <div className="hidden lg:flex items-center space-x-4">
-              <ThemeToggle />
+              {/* <ThemeToggle /> */}
               {!user ? (
                 <>
                   <Link href="/auth/login">
@@ -233,16 +238,23 @@ export function Navigation() {
                       Sign In
                     </Button>
                   </Link>
+
                   <Link href="/auth/signup">
-                    <Button size="sm" className="glow font-mono gradient-btn text-white btn-gradient-border">
+                    <SpottyBtn className="nav-glow font-mono text-white transform scale-[0.85] hover:scale-[0.9] transition-transform">
                       Get Started
-                    </Button>
+                    </SpottyBtn>
+
                   </Link>
                 </>
               ) : (
                 <>
                   <span className="text-sm text-muted-foreground">Welcome, {user.firstName}</span>
-                  <Button variant="ghost" size="sm" onClick={signOut} className="font-mono">
+                                    <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={onSignOut || signOut}
+                    className="font-mono"
+                  >
                     Sign Out
                   </Button>
                 </>
@@ -250,7 +262,7 @@ export function Navigation() {
             </div>
 
             <div className="lg:hidden flex items-center space-x-2">
-              <ThemeToggle />
+              {/* <ThemeToggle /> */}
               <Button
                 variant="ghost"
                 size="sm"
@@ -429,8 +441,9 @@ export function Navigation() {
                     >
                       <Button
                         variant="ghost"
-                        onClick={() => {
-                          signOut()
+                                                onClick={() => {
+                          const handleSignOut = onSignOut || signOut
+                          handleSignOut()
                           setIsMobileMenuOpen(false)
                         }}
                         className="w-full justify-start font-mono"

@@ -11,6 +11,13 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { BookOpen, Clock, CheckCircle, AlertCircle, ArrowRight, ArrowLeft, FileText } from "lucide-react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 interface Question {
   id: number
@@ -334,7 +341,6 @@ From a practical standpoint, certain tasks and projects require immediate collab
 
 export default function ReadingTestPage() {
   const [currentPart, setCurrentPart] = useState(0)
-  const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<{ [key: number]: number }>({})
   const [timeRemaining, setTimeRemaining] = useState(55 * 60) // 55 minutes in seconds
   const [partTimeRemaining, setPartTimeRemaining] = useState(readingParts[0].timeLimit * 60)
@@ -346,12 +352,21 @@ export default function ReadingTestPage() {
 
   // Timer effects
   useEffect(() => {
-    if (timeRemaining > 0 && !testCompleted) {
+    if (!testCompleted) {
       timerRef.current = setTimeout(() => {
-        setTimeRemaining(timeRemaining - 1)
+        if (timeRemaining > 0) {
+          setTimeRemaining(timeRemaining - 1)
+        }
+        if (partTimeRemaining > 0) {
+          setPartTimeRemaining(partTimeRemaining - 1)
+        }
       }, 1000)
-    } else if (timeRemaining === 0) {
+    }
+
+    if (timeRemaining === 0) {
       handleTestComplete()
+    } else if (partTimeRemaining === 0) {
+      handleNextPart()
     }
 
     return () => {
@@ -359,23 +374,7 @@ export default function ReadingTestPage() {
         clearTimeout(timerRef.current)
       }
     }
-  }, [timeRemaining, testCompleted])
-
-  useEffect(() => {
-    if (partTimeRemaining > 0 && !testCompleted) {
-      partTimerRef.current = setTimeout(() => {
-        setPartTimeRemaining(partTimeRemaining - 1)
-      }, 1000)
-    } else if (partTimeRemaining === 0) {
-      handleNextPart()
-    }
-
-    return () => {
-      if (partTimerRef.current) {
-        clearTimeout(partTimerRef.current)
-      }
-    }
-  }, [partTimeRemaining, testCompleted])
+  }, [timeRemaining, partTimeRemaining, testCompleted])
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
@@ -390,22 +389,11 @@ export default function ReadingTestPage() {
     }))
   }
 
-  const handleNextQuestion = () => {
-    const currentPartData = readingParts[currentPart]
-    if (currentQuestion < currentPartData.questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1)
-    } else {
-      handleNextPart()
-    }
-  }
 
-  const handlePreviousQuestion = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1)
-    } else if (currentPart > 0) {
+  const handlePreviousPart = () => {
+    if (currentPart > 0) {
       setCurrentPart(currentPart - 1)
       const prevPartData = readingParts[currentPart - 1]
-      setCurrentQuestion(prevPartData.questions.length - 1)
       setPartTimeRemaining(prevPartData.timeLimit * 60)
     }
   }
@@ -413,7 +401,6 @@ export default function ReadingTestPage() {
   const handleNextPart = () => {
     if (currentPart < readingParts.length - 1) {
       setCurrentPart(currentPart + 1)
-      setCurrentQuestion(0)
       setPartTimeRemaining(readingParts[currentPart + 1].timeLimit * 60)
     } else {
       handleTestComplete()
@@ -439,7 +426,8 @@ export default function ReadingTestPage() {
 
   const totalQuestions = readingParts.reduce((total, part) => total + part.questions.length, 0)
   const currentPartData = readingParts[currentPart]
-  const currentQuestionData = currentPartData?.questions[currentQuestion]
+
+  const allQuestionsAnswered = currentPartData.questions.every(q => answers[q.id] !== undefined);
 
   if (showResults) {
     const score = calculateScore()
@@ -505,164 +493,82 @@ export default function ReadingTestPage() {
 
   return (
     <DashboardLayout>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-7xl mx-auto space-y-6"
-      >
-        {/* Header */}
-        <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <BookOpen className="h-8 w-8 text-blue-400" />
-                <div>
-                  <CardTitle className="dark:text-white text-gray-500 text-2xl">CELPIP Reading Test</CardTitle>
-                  <CardDescription className="text-gray-400">
-                    Part {currentPart + 1} of {readingParts.length} • Question {currentQuestion + 1} of{" "}
-                    {currentPartData?.questions.length}
-                  </CardDescription>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <Badge variant="secondary" className="bg-red-500/20 dark:text-red-300 text-red-600 border-red-500/30">
-                  <Clock className="h-4 w-4 mr-2" />
-                  Part: {formatTime(partTimeRemaining)}
-                </Badge>
-                <Badge variant="secondary" className="bg-blue-500/20 dark:text-blue-300 text-blue-700 border-blue-500/30">
-                  <Clock className="h-4 w-4 mr-2" />
-                  Total: {formatTime(timeRemaining)}
-                </Badge>
-              </div>
-            </div>
-          </CardHeader>
-        </Card>
+      <div className="card-outline text-white p-4 sm:p-6 md:p-8 font-sans">
+        <header className="flex justify-between items-center pb-4 border-b border-slate-700 max-435:flex-col max-435:items-start">
+          <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[70%] max-435:pb-[2rem]">Practice Test A - Reading Part {currentPart + 1}: {readingParts[currentPart].title.replace(/Part \d+: /g, "")}</h1>
+          <div className="flex items-center space-x-4 max-435:space-x-32">
+            <span className="text-sm text-slate-400">Time remaining: <span className="font-bold text-red-500">{formatTime(partTimeRemaining)}</span></span>
+            <Button onClick={handleNextPart} disabled={!allQuestionsAnswered} className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
+              {currentPart === readingParts.length - 1 ? 'Complete' : 'Next'}
+            </Button>
+          </div>
+        </header>
 
-        {/* Progress */}
-        <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-gray-400">Overall Progress</span>
-              <span className="text-sm dark:text-gray-400 text-gray-700">
-                {readingParts.slice(0, currentPart).reduce((sum, part) => sum + part.questions.length, 0) +
-                  currentQuestion +
-                  1}{" "}
-                / {totalQuestions}
-              </span>
-            </div>
-            <Progress
-              value={
-                ((readingParts.slice(0, currentPart).reduce((sum, part) => sum + part.questions.length, 0) +
-                  currentQuestion +
-                  1) /
-                  totalQuestions) *
-                100
-              }
-              className="h-2"
-            />
-          </CardContent>
-        </Card>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-1024:grid-cols-1">
-          {/* Reading Passage */}
-          <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-blue-300 text-lg flex items-center">
-                <FileText className="h-5 w-5 mr-2" />
-                {currentPartData?.title}
-              </CardTitle>
-              <CardDescription className="text-gray-400">{currentPartData?.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ScrollArea className="h-[600px] w-full">
-                <div className="bg-blue-400/25 p-6 rounded-lg">
-                  <div className="dark:text-gray-300 text-gray-700 leading-relaxed whitespace-pre-line text-sm">
-                    {currentPartData?.passage}
-                  </div>
+        <main className="grid grid-cols-2 gap-6 pt-6 max-1024:grid-cols-1">
+          {/* Left Column */}
+          <div className="border-r border-slate-700 pr-6 flex flex-col max-1024:border-r-0 max-1024:pr-0">
+            <div className="flex-grow">
+              <div className="flex items-center bg-blue-900/60 p-3 rounded-md mb-4">
+                <AlertCircle className="text-blue-400 mr-3" />
+                <p className="text-blue-400 font-semibold font-mono">Read the following message.</p>
+              </div>
+              <ScrollArea className="h-[600px] w-full p-4 bg-slate-800/50 rounded-md border border-slate-700">
+                <div className="text-gray-300 leading-relaxed whitespace-pre-line text-sm">
+                  {currentPartData?.passage}
                 </div>
               </ScrollArea>
-            </CardContent>
-          </Card>
+            </div>
+            <div className="mt-auto pt-6">
+              <Button className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
+                Answer Key
+              </Button>
+            </div>
+          </div>
 
-          {/* Questions */}
-          <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-blue-300 text-lg">Question {currentQuestion + 1}</CardTitle>
-              <div className="flex items-center justify-between">
-                <Badge variant="outline" className="border-blue-500/30 text-blue-300">
-                  Part {currentPart + 1} Time: {formatTime(partTimeRemaining)}
-                </Badge>
+          {/* Right Column */}
+          <div className="bg-slate-800/50 p-4 rounded-md flex flex-col">
+            <div className="flex-grow">
+              <div className="flex items-center mb-4 text-blue-300">
+                <AlertCircle className="text-blue-400 mr-3" />
+                <p className="font-semibold font-mono text-blue-400">Using the drop-down menu (▾), choose the best option according to the information given in the message.</p>
               </div>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="dark:text-gray-300 text-gray-400 text-lg leading-relaxed">{currentQuestionData?.question}</div>
 
-              <RadioGroup
-                value={answers[currentQuestionData?.id]?.toString()}
-                onValueChange={(value) => handleAnswerChange(currentQuestionData?.id, Number.parseInt(value))}
-                className="space-y-4"
-              >
-                {currentQuestionData?.options.map((option, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start space-x-3 p-4 bg-slate-700/30 rounded-lg hover:bg-slate-700/50 transition-colors"
-                  >
-                    <RadioGroupItem value={index.toString()} id={`option-${index}`} className="mt-1" />
-                    <Label htmlFor={`option-${index}`} className="dark:text-gray-300 text-gray-100 cursor-pointer flex-1 leading-relaxed">
-                      {String.fromCharCode(65 + index)}. {option}
-                    </Label>
+              <div className="space-y-4">
+                {currentPartData.questions.map((question, index) => (
+                  <div key={question.id} className="flex items-center justify-between p-2 rounded-md space-x-4">
+                    <div className="flex items-start flex-grow">
+                      <span className="w-8 font-normal text-slate-300">{index + 1}.</span>
+                      <Label htmlFor={`question-${question.id}`} className="font-normal text-slate-300 flex-1">
+                        {question.question}
+                      </Label>
+                    </div>
+                    <Select
+                      value={answers[question.id]?.toString()}
+                      onValueChange={(value) => handleAnswerChange(question.id, parseInt(value))}
+                    >
+                      <SelectTrigger className="w-[162px] bg-slate-700 border-slate-600 flex-shrink-0">
+                        <SelectValue placeholder="Select an answer" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-slate-800 text-white border-slate-700">
+                        {question.options.map((option, optionIndex) => (
+                          <SelectItem key={optionIndex} value={optionIndex.toString()} className="hover:bg-slate-700">
+                            {option}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 ))}
-              </RadioGroup>
-
-              <div className="flex justify-between pt-4">
-                <Button
-                  variant="outline"
-                  onClick={handlePreviousQuestion}
-                  disabled={currentPart === 0 && currentQuestion === 0}
-                  className="border-slate-600 dark:text-white text-gray-500 hover:bg-blue-300 bg-transparent font-mono"
-                >
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Previous
-                </Button>
-
-                <Button
-                  onClick={handleNextQuestion}
-                  disabled={answers[currentQuestionData?.id] === undefined}
-                  className="bg-blue-600 hover:bg-blue-700 font-mono"
-                >
-                  {currentPart === readingParts.length - 1 &&
-                  currentQuestion === currentPartData?.questions.length - 1 ? (
-                    <>
-                      Complete Test
-                      <CheckCircle className="h-4 w-4 ml-2" />
-                    </>
-                  ) : (
-                    <>
-                      Next
-                      <ArrowRight className="h-4 w-4 ml-2" />
-                    </>
-                  )}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Instructions */}
-        <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
-          <CardContent className="p-4">
-            <div className="flex items-start space-x-3">
-              <AlertCircle className="h-5 w-5 text-blue-400 mt-0.5" />
-              <div className="text-sm text-gray-400">
-                <strong className="text-blue-500">Instructions:</strong> Read each passage carefully and answer all
-                questions. Each part has a time limit. You can navigate between questions within the current part, but
-                cannot return to previous parts once completed.
               </div>
             </div>
-          </CardContent>
-        </Card>
-      </motion.div>
+            <div className="mt-auto flex justify-end pt-6">
+              <Button onClick={handlePreviousPart} disabled={currentPart === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
+                Back
+              </Button>
+            </div>
+          </div>
+        </main>
+      </div>
     </DashboardLayout>
   )
 }

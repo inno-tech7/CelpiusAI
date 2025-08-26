@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { cn } from "@/lib/utils"
+import { ProgressGradientDefs } from "./progress-gradient-defs"
 
 interface CircularProgressProps {
   value: number
@@ -61,24 +62,7 @@ export function CircularProgress({ value, size = 120, strokeWidth = 8, className
         xmlns="http://www.w3.org/2000/svg"
         viewBox={`0 0 ${size} ${size}`}
       >
-        <defs>
-          <linearGradient id="excellent-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="2%" stopColor="#002218"></stop>
-            <stop offset="70%" stopColor="#00e72c"></stop>
-          </linearGradient>
-          <linearGradient id="good-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="1%" stopColor="#0d2045"></stop>
-            <stop offset="100%" stopColor="#1d58ff" />
-          </linearGradient>
-          <linearGradient id="average-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="10%" stopColor="#402800" />
-            <stop offset="100%" stopColor="#ffa000" />
-          </linearGradient>
-          <linearGradient id="poor-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#ef4444" />
-            <stop offset="100%" stopColor="#dc2626" />
-          </linearGradient>
-        </defs>
+        <ProgressGradientDefs />
 
         <circle
           cx={size / 2}
@@ -87,7 +71,7 @@ export function CircularProgress({ value, size = 120, strokeWidth = 8, className
           stroke="currentColor"
           strokeWidth={strokeWidth}
           fill="transparent"
-          className="text-gray-700/30"
+          className="text-gray-700/0"
           style={{ backgroundColor: 'transparent' }}
         />
 

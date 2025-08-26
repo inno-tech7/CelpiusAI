@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="183" height="48" viewBox="0 0 183 48" fill="none">
+<rect width="183" height="48" rx="24" fill="#ffffff"/>
+<g filter="url(#filter0_f_3183_487)">
+<path d="M-3 46.5H-20V1.5H131C131 1.5 46.3564 12 16.5 20C-13.3564 28 -3 46.5 -3 46.5Z" fill="#4496fcde"/>
+</g>
+<g filter="url(#filter1_f_3183_487)">
+<path d="M186 1.5H203V46.5H52C52 46.5 136.644 36 166.5 28C196.356 20 186 1.5 186 1.5Z" fill="#4496fcde"/>
+</g>
+<defs>
+<filter id="filter0_f_3183_487" x="-40" y="-18.5" width="191" height="85" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="10" result="effect1_foregroundBlur_3183_487"/>
+</filter>
+<filter id="filter1_f_3183_487" x="32" y="-18.5" width="191" height="85" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="10" result="effect1_foregroundBlur_3183_487"/>
+</filter>
+</defs>
+</svg>
