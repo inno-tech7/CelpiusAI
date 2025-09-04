@@ -20,13 +20,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { Play, Pause, Volume2, Clock, Headphones, CheckCircle, AlertCircle, ArrowRight, ArrowLeft } from "lucide-react"
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
+import { Play, Pause, Volume2, Clock, Headphones, CheckCircle, XCircle, AlertCircle, ArrowRight, ArrowLeft } from "lucide-react"
 
 interface Question {
   id: number
   question: string
   options: string[]
   correctAnswer: number
+  explanation: string
 }
 
 interface ListeningPart {
@@ -56,6 +58,7 @@ const listeningParts: ListeningPart[] = [
           "The client has changed their requirements",
         ],
         correctAnswer: 0,
+        explanation: "The conversation centers around a malfunctioning computer system, which is the primary issue being discussed."
       },
       {
         id: 2,
@@ -67,6 +70,7 @@ const listeningParts: ListeningPart[] = [
           "Contacting the IT department",
         ],
         correctAnswer: 3,
+        explanation: "The woman suggests that the IT department should be contacted to resolve the computer system issue."
       },
       {
         id: 3,
@@ -78,6 +82,7 @@ const listeningParts: ListeningPart[] = [
           "He needs time to consider it",
         ],
         correctAnswer: 1,
+        explanation: "The man agrees with the woman's suggestion, stating that it is a good idea to involve the IT department."
       },
     ],
   },
@@ -93,18 +98,21 @@ const listeningParts: ListeningPart[] = [
         question: "Where do the speakers plan to meet?",
         options: ["At the movie theater", "At Sarah's house", "At the shopping mall", "At the coffee shop"],
         correctAnswer: 1,
+        explanation: "The conversation explicitly mentions that they plan to meet at Sarah's house before heading out."
       },
       {
         id: 5,
         question: "What time do they agree to meet?",
         options: ["2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM"],
         correctAnswer: 2,
+        explanation: "After some discussion, the speakers decide that 3:00 PM is the most convenient time for both of them to meet."
       },
       {
         id: 6,
         question: "What does Tom need to do before meeting?",
         options: ["Buy tickets online", "Pick up his sister", "Finish his homework", "Go to the bank"],
         correctAnswer: 2,
+        explanation: "Tom mentions that he needs to complete his homework before he can join the planned weekend activity."
       },
     ],
   },
@@ -125,18 +133,21 @@ const listeningParts: ListeningPart[] = [
           "To promote library programs",
         ],
         correctAnswer: 0,
+        explanation: "The announcement's primary goal is to inform listeners about the upcoming changes to the library's operating hours."
       },
       {
         id: 8,
         question: "When will the new hours take effect?",
         options: ["Immediately", "Next Monday", "Next month", "After the holidays"],
         correctAnswer: 1,
+        explanation: "The announcement clearly states that the new library hours will begin on the upcoming Monday."
       },
       {
         id: 9,
         question: "What should students do if they have questions?",
         options: ["Call the main office", "Visit the information desk", "Send an email", "Check the website"],
         correctAnswer: 1,
+        explanation: "Listeners are advised to go to the information desk for any further questions or clarifications."
       },
     ],
   },
@@ -152,12 +163,14 @@ const listeningParts: ListeningPart[] = [
         question: "What type of event is being reported?",
         options: ["A charity fundraiser", "A music festival", "A sports competition", "A cultural celebration"],
         correctAnswer: 0,
+        explanation: "The news report describes a community event that was organized to raise funds for a charitable cause."
       },
       {
         id: 11,
         question: "How much money was raised?",
         options: ["$15,000", "$25,000", "$35,000", "$45,000"],
         correctAnswer: 2,
+        explanation: "The report specifies that the fundraiser successfully collected a total of $35,000 for the cause."
       },
       {
         id: 12,
@@ -169,6 +182,7 @@ const listeningParts: ListeningPart[] = [
           "Buying new equipment",
         ],
         correctAnswer: 2,
+        explanation: "The funds raised are designated to provide financial assistance to families in the local community."
       },
     ],
   },
@@ -189,6 +203,7 @@ const listeningParts: ListeningPart[] = [
           "Reading textbooks quietly",
         ],
         correctAnswer: 0,
+        explanation: "Maria expresses a preference for studying in groups, as she finds it more engaging and collaborative."
       },
       {
         id: 14,
@@ -200,6 +215,7 @@ const listeningParts: ListeningPart[] = [
           "The schedule doesn't work for him",
         ],
         correctAnswer: 1,
+        explanation: "John states that he finds group study sessions distracting, which hinders his ability to concentrate effectively."
       },
       {
         id: 15,
@@ -211,6 +227,7 @@ const listeningParts: ListeningPart[] = [
           "The benefit of study groups",
         ],
         correctAnswer: 2,
+        explanation: "Despite their different study preferences, both Maria and John acknowledge the importance of using practice tests to prepare."
       },
     ],
   },
@@ -231,6 +248,7 @@ const listeningParts: ListeningPart[] = [
           "It reduces office expenses",
         ],
         correctAnswer: 1,
+        explanation: "The woman argues that remote work allows for a better balance between professional and personal life."
       },
       {
         id: 17,
@@ -242,12 +260,14 @@ const listeningParts: ListeningPart[] = [
           "Limited career advancement",
         ],
         correctAnswer: 0,
+        explanation: "The man is concerned that remote work can make it more challenging for team members to collaborate effectively."
       },
       {
         id: 18,
         question: "What solution do they both consider reasonable?",
         options: ["Fully remote work", "Traditional office work", "Hybrid work arrangement", "Flexible working hours"],
         correctAnswer: 2,
+        explanation: "Both speakers agree that a hybrid model, combining remote and in-office work, is a practical compromise."
       },
     ],
   },
@@ -258,7 +278,7 @@ export default function ListeningTestPage() {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<{ [key: number]: number }>({})
   const [isPlaying, setIsPlaying] = useState(false)
-  const [timeRemaining, setTimeRemaining] = useState(47 * 60) // 47 minutes in seconds
+  const [timeRemaining, setTimeRemaining] = useState(2820) // 47 minutes
   const [audioProgress, setAudioProgress] = useState(0)
   const [hasPlayedAudio, setHasPlayedAudio] = useState(false)
   const [testCompleted, setTestCompleted] = useState(false)
@@ -310,11 +330,19 @@ export default function ListeningTestPage() {
 
   const handleVolumeChange = (newVolume: number[]) => {
     if (audioRef.current) {
-      const volumeValue = newVolume[0]
-      audioRef.current.volume = volumeValue
-      setVolume(volumeValue)
+      const volumeValue = newVolume[0];
+      audioRef.current.volume = volumeValue;
+      setVolume(volumeValue);
     }
-  }
+  };
+
+  const handleSeek = (newProgress: number[]) => {
+    if (audioRef.current && audioRef.current.duration) {
+      const newTime = (newProgress[0] / 100) * audioRef.current.duration;
+      audioRef.current.currentTime = newTime;
+      setAudioCurrentTime(newTime);
+    }
+  };
 
   const handleAnswerChange = (questionId: number, answerIndex: number) => {
     setAnswers((prev) => ({
@@ -431,10 +459,60 @@ export default function ListeningTestPage() {
                 <div className="bg-slate-700/30 p-4 rounded-lg text-center">
                   <div className="text-2xl font-bold text-blue-400">{percentage}%</div>
                   <div className="text-sm text-gray-400">Accuracy</div>
+                  <p className="text-slate-400 max-w-md mx-auto">{/* proficiency.description */}</p>
                 </div>
               </div>
 
-              <div className="flex justify-center space-x-4">
+              <div className="pt-4">
+                <h3 className="text-2xl font-bold text-center mb-4 text-blue-400">Detailed Feedback</h3>
+                <Accordion type="single" collapsible className="w-full">
+                  {listeningParts.flatMap(part => part.questions).map((question, index) => {
+                    const userAnswerIndex = answers[question.id];
+                    const isCorrect = userAnswerIndex === question.correctAnswer;
+
+                    return (
+                      <AccordionItem key={question.id} value={`item-${index}`}>
+                        <AccordionTrigger className="hover:no-underline">
+                          <div className="flex items-center justify-between w-full">
+                            <span className="text-left">{index + 1}. {question.question}</span>
+                            {isCorrect ? (
+                              <CheckCircle className="h-5 w-5 text-green-500 ml-4" />
+                            ) : (
+                              <XCircle className="h-5 w-5 text-red-500 ml-4" />
+                            )}
+                          </div>
+                        </AccordionTrigger>
+                                                <AccordionContent className="text-slate-300 space-y-2 card-outline p-4">
+                          <p className="flex">
+                            <strong className="text-blue-400 flex-shrink-0 mr-2">Your Answer:</strong>
+                            <span className={`break-words ${isCorrect ? 'text-green-400' : 'text-red-400'}`}>
+                              {question.options[userAnswerIndex] ?? "Not answered"}
+                            </span>
+                          </p>
+                          <hr className="border-slate-700" />
+                          {!isCorrect && (
+                            <>
+                              <p className="flex">
+                                <strong className="text-blue-400 flex-shrink-0 mr-2">Correct Answer:</strong>
+                                <span className="text-green-400 break-words">
+                                  {question.options[question.correctAnswer]}
+                                </span>
+                              </p>
+                              <hr className="border-slate-700" />
+                            </>
+                          )}
+                          <p className="pt-2 flex">
+                            <strong className="text-blue-400 flex-shrink-0 mr-2">Explanation:</strong>
+                            <span className="break-words">{question.explanation}</span>
+                          </p>
+                        </AccordionContent>
+                      </AccordionItem>
+                    );
+                  })}
+                </Accordion>
+              </div>
+
+              <div className="flex justify-center space-x-4 pt-4">
                 <Button
                   onClick={() => (window.location.href = "/dashboard")}
                   className="bg-blue-600 hover:bg-blue-700 font-mono"
@@ -458,7 +536,7 @@ export default function ListeningTestPage() {
 
   return (
     <DashboardLayout>
-      <div className="card-outline text-white p-4 sm:p-6 md:p-8 font-sans max-1024:h-full">
+      <div className="card-outline text-white font-sans">
         <AlertDialog open={showWarning} onOpenChange={setShowWarning}>
           <AlertDialogContent className="bg-slate-800 text-white border-slate-700">
             <AlertDialogHeader>
@@ -481,19 +559,19 @@ export default function ListeningTestPage() {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-        <header className="flex justify-between items-center pb-4 border-b border-slate-700 max-435:flex-col max-435:items-start">
+        <header className="flex justify-between items-center p-4 bg-blue-900 max-435:flex-col max-435:items-start rounded-t-[20px]">
           <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[70%] max-435:pb-[2rem]">Practice Test A - Listening Part {currentPart + 1}: Listening to Problem Solving</h1>
-          <div className="flex items-center space-x-4 max-435:space-x-32">
-            <span className="text-sm text-slate-400">Time remaining: <span className="font-bold text-red-500">{formatTime(timeRemaining)}</span></span>
+          <div className="flex items-center space-x-4 max-435:space-x-40">
+            <span className="text-sm text-slate-400 max-435:flex max-435:flex-col">Time remaining: <span className="font-bold text-red-500">{formatTime(timeRemaining)}</span></span>
             <Button onClick={handleNextQuestion} className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
               {currentPart === listeningParts.length - 1 && currentQuestion === currentPartData?.questions.length - 1 ? 'Complete' : 'Next'}
             </Button>
           </div>
         </header>
 
-        <main className="grid md:grid-cols-2 gap-6 pt-6 max-1024:grid-cols-1">
+        <main className="grid md:grid-cols-2 gap-6 max-1024:grid-cols-1">
           {/* Left Column */}
-          <div className="border-r border-slate-700 pr-6 flex flex-col max-1024:pr-[0] max-1024:border-r-0">
+          <div className="border-r border-slate-700 flex flex-col max-1024:border-r-0 p-4 sm:p-6 md:p-8">
             <div className="flex-grow">
               <div className="flex items-center bg-blue-900/60 p-3 rounded-md mb-4">
                 <AlertCircle className="text-blue-400 mr-3" />
@@ -511,23 +589,30 @@ export default function ListeningTestPage() {
                     <div className="flex items-center space-x-4 w-full">
                       <Volume2 className="h-8 w-8 text-slate-400" />
                       <div className="w-full">
-                        <p className="text-slate-300 mb-1">Playing...</p>
-                        <Progress value={audioProgress} className="h-2 bg-slate-600" />
+                        <p className="text-slate-300 mb-1 text-center pb-[0.5rem]">Playing...</p>
+                        <Progress value={audioProgress} className="h-2 bg-slate-600 mb-[2rem]" />
                       </div>
                     </div>
                   )}
                 </div>
-                <div className="bg-slate-700/50 p-2 rounded-lg flex flex-col items-center  max-768:flex-col">
-                  <Button onClick={handlePlayAudio} disabled={isAudioFinished} className="bg-blue-600 hover:bg-blue-700 p-3 disabled:bg-slate-600">
-                    {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
-                  </Button>
-                  <div className="w-full flex items-center flex-col py-[1rem] max-768:flex-col ">
-                    <Progress value={audioProgress} className="h-1 bg-slate-600 w-full max-768:my-[1rem]" />
-                    <span className="text-sm text-slate-400 font-mono w-[14rem] text-center bg-slate-900/50 py-1 rounded-md mt-[1rem]">
-                      {formatTime(audioCurrentTime)} / {formatTime(audioDuration)}
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-2 w-32">
+                <div className="bg-slate-900/70 p-3 rounded-lg flex items-center">
+                  <button onClick={handlePlayAudio} disabled={isAudioFinished} className="bg-transparent hover:bg-slate-700 p-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed scale-[0.6]">
+                    {isPlaying ? <Pause className="h-8 w-8 text-slate-400" /> : <Play className="h-8 w-8 text-slate-400" />}
+                  </button>
+
+                  <Slider
+                    value={[audioProgress]}
+                    onValueChange={handleSeek}
+                    max={100}
+                    step={1}
+                    className="w-[25%]"
+                  />
+
+                  <span className="text-sm text-slate-400 font-mono w-[8rem] text-center ">
+                    {formatTime(audioCurrentTime)} / {formatTime(audioDuration)}
+                  </span>
+
+                  <div className="flex items-center space-x-2 w-32 ml-auto">
                     <Volume2 className="text-slate-400 h-5 w-5" />
                     <Slider
                       value={[volume]}
@@ -567,15 +652,10 @@ export default function ListeningTestPage() {
                 </p>
               </div>
             </div>
-            <div className="mt-auto pt-6">
-              <Button className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
-                Answer Key
-              </Button>
-            </div>
           </div>
 
           {/* Right Column */}
-          <div className="bg-slate-800/50 p-4 rounded-md flex flex-col">
+          <div className="bg-slate-800/50 p-4 sm:p-6 md:p-8 rounded-md flex flex-col">
             <div className="flex-grow">
               <p className="font-semibold mb-2 text-blue-400 font-mono">Question {currentQuestion + 1} of {currentPartData.questions.length}</p>
               <div className="flex items-center mb-4 text-blue-300">
@@ -597,13 +677,17 @@ export default function ListeningTestPage() {
                 ))}
               </RadioGroup>
             </div>
-            <div className="mt-auto flex justify-end pt-6">
-              <Button onClick={handlePreviousQuestion} disabled={currentPart === 0 && currentQuestion === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
-                Back
-              </Button>
-            </div>
           </div>
         </main>
+
+        <footer className="flex justify-between items-center p-4 bg-blue-900 rounded-b-[20px]">
+          <Button className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
+            Answer Key
+          </Button>
+          <Button onClick={handlePreviousQuestion} disabled={currentPart === 0 && currentQuestion === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
+            Back
+          </Button>
+        </footer>
       </div>
     </DashboardLayout>
   )

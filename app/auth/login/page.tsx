@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useAuth } from "@/hooks/use-auth"
+import { useModal } from "@/components/modal-provider"
 import { useToast } from "@/hooks/use-toast"
 import { Eye, EyeOff, Mail, Lock } from "lucide-react"
 import Image from "next/image"
@@ -21,29 +22,28 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const { signIn } = useAuth()
-  const { toast } = useToast()
+  const { showModal } = useModal()
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
-    try {
-      await signIn(email, password)
-      toast({
-        title: "Welcome back!",
-        description: "You have successfully signed in.",
-      })
-      router.push("/dashboard")
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Invalid email or password. Please try again.",
-        variant: "destructive",
-      })
-    } finally {
-      setIsLoading(false)
+    const result = await signIn(email, password)
+
+    if (result.success) {
+      // Keep toast for success for now, or replace with a success modal if desired.
+      // For this task, we are only replacing the error toast.
+      if (email === "admin@celpius.ai") {
+        router.push("/admin")
+      } else {
+        router.push("/dashboard")
+      }
+    } else {
+      showModal("Error", result.error || "An unknown error occurred. Please try again.")
     }
+
+    setIsLoading(false)
   }
 
   return (

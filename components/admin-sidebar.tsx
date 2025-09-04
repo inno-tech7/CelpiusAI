@@ -4,33 +4,24 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { LayoutDashboard, BookOpen, BarChart3, CreditCard, User, LogOut, Headphones, Mic, PenTool } from "lucide-react"
+import {
+  LayoutDashboard,
+  Pencil,
+  Users,
+  Server,
+  CreditCard,
+  LogOut,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/theme-toggle"
 import { useAuth } from "@/hooks/use-auth"
 import { motion } from "framer-motion";
 
 const navItems = [
-  {
-    title: "Dashboard",
-    href: "/dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "Practice",
-    href: "/practice",
-    icon: BookOpen,
-  },
-  {
-    title: "Results",
-    href: "/results",
-    icon: BarChart3,
-  },
-  // {
-  //   title: "Subscription",
-  //   href: "/subscription",
-  //   icon: CreditCard,
-  // },
+  { title: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { title: "Content", href: "/admin/content", icon: Pencil },
+  { title: "Users", href: "/admin/users", icon: Users },
+  { title: "System", href: "/admin/system", icon: Server },
+  { title: "Billing", href: "/admin/billing", icon: CreditCard },
 ]
 
 const sidebarVariants = {
@@ -38,7 +29,7 @@ const sidebarVariants = {
   visible: { opacity: 1, x: 0 }
 };
 
-export function SidebarNav() {
+export function AdminSidebar() {
   const pathname = usePathname()
   const router = useRouter()
   const { user, signOut } = useAuth()
@@ -51,6 +42,26 @@ export function SidebarNav() {
       animate="visible"
       transition={{ duration: 0.5 }}
     >
+      <style jsx global>{`
+        .admin-sidebar-nav::-webkit-scrollbar {
+          width: 8px;
+        }
+        .admin-sidebar-nav::-webkit-scrollbar-track {
+          background-color: transparent;
+        }
+        .admin-sidebar-nav::-webkit-scrollbar-thumb {
+          background-color: #60a5fa;
+          border-radius: 10px;
+          border-top: 2px solid transparent;
+          border-bottom: 2px solid transparent;
+          border-left: 3px solid transparent;
+          border-right: 4px solid transparent;
+          background-clip: content-box;
+        }
+        .admin-sidebar-nav::-webkit-scrollbar-thumb:hover {
+          background-color: #a8cfff;
+        }
+      `}</style>
       <div className="h-[41rem] w-[17rem] glass-dashboard flex flex-col max-1024:h-[80rem]">
 
         <Image
@@ -65,12 +76,12 @@ export function SidebarNav() {
         {/* Logo Section */}
         <div className="px-6 py-6 border-b border-white/10">
           <Link href="/" className="flex items-center justify-center">
-            <Image src="/celpius-ai-logo.png" alt="Celpius AI" width={160} height={54} className="h-[2.5rem] w-auto max-435:relative max-435:left-[-20.45%] scale-[0.8]  max-435:scale-[0.5]" />
+            <Image src="/celpius-ai-logo.png" alt="Celpius AI" width={160} height={54} className="h-[2.5rem] w-auto scale-[0.8]" />
           </Link>
         </div>
 
         {/* Navigation Items */}
-        <nav className="flex-1 pt-6 pb-6 overflow-y-auto">
+        <nav className="flex-1 pt-6 pb-6 overflow-y-auto admin-sidebar-nav">
           <div className="px-3 space-y-2">
             {navItems.map((item) => {
               const Icon = item.icon

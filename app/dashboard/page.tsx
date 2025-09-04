@@ -7,7 +7,7 @@ import { useAuth } from "@/hooks/use-auth"
 import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CircularProgress } from "@/components/circular-progress"
+import SemiCircularProgress from "@/components/SemiCircularProgress"
 import { Progress } from "@/components/ui/progress"
 
 import { Badge } from "@/components/ui/badge"
@@ -74,8 +74,8 @@ export default function DashboardPage() {
         <motion.div variants={fadeInUp}>
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold">Welcome back, {user?.firstName || "Student"} !</h1>
-              <p className="text-muted-foreground mt-2">Continue your CELPIP preparation journey</p>
+              <h1 className="text-3xl font-bold">Welcome, {user?.firstName || "Student"} !</h1>
+              <p className="text-muted-foreground mt-2 max-435:w-[62%]">Continue your CELPIP preparation journey</p>
             </div>
             <Badge variant="secondary" className="glass-card">
               <Award className="h-4 md:w-4 max-435:w-[3rem] mr-2" />
@@ -263,57 +263,38 @@ export default function DashboardPage() {
                 width={500} 
                 height={3500} 
                 quality={100} 
-                className="absolute top-[-10.2%] xl:left-[2.55%] lg:left-[-5.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[0.9] max-1024:left-[7%] max-1024:scale-[0.9] max-1024:top-[-10.7%] max-820:top-[-10.5%] max-820:left-[18.55%] max-820:scale-[1.2] max-768:scale-[1] max-435:top-[-10.45%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:left-[-19%]"
+                className="absolute top-[-9.2%] xl:left-[2.55%] lg:left-[-5.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[0.9] max-1024:left-[15%] max-1024:scale-[0.9] max-1024:top-[-9%] max-820:top-[-9%] max-820:left-[18.55%] max-820:scale-[1.2] max-768:scale-[1] max-435:top-[-9%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:left-[-19%]"
               />
 
               <CardHeader>
                 <CardTitle>Progress Overview</CardTitle>
-                <CardDescription>Your improvement across all sections</CardDescription>
+                <CardDescription>Your current skill levels</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-6">
-              <div className="grid grid-cols-2 gap-6">
-                  <div className="flex flex-col items-center space-y-2">
-                    <CircularProgress value={90} size={100}>
-                      <div className="text-center">
-                        <div className="text-lg font-bold text-slate-600 dark:text-slate-100">9.0</div>
-                        <div className="text-xs dark:text-gray-400 text-gray-900">CLB</div>
-                      </div>
-                    </CircularProgress>
-                    <span className="text-sm font-medium text-slate-600 dark:text-slate-100">Listening</span>
-                  </div>
+              {/* <CardContent className="flex flex-col items-center justify-center py-8"> */}
 
-                  <div className="flex flex-col items-center space-y-2">
-                    <CircularProgress value={85} size={100}>
-                      <div className="text-center">
-                        <div className="text-lg font-bold text-slate-600 dark:text-slate-100">8.5</div>
-                        <div className="text-xs dark:text-gray-400 text-gray-900">CLB</div>
-                      </div>
-                    </CircularProgress>
-                    <span className="text-sm font-medium text-slate-600 dark:text-slate-100">Reading</span>
-                  </div>
+                <div className="grid grid-cols-2 gap-[0rem] mt-[-1rem]">
+                    <div className="flex flex-col items-center justify-center scale-[0.7]">
+                      <h2 className="text-[1.3rem] font-bold text-white">Listening</h2>
+                      <SemiCircularProgress value={11.5} size={70} className="mx-auto mt-[-0.5rem]" />
+                    </div>
 
-                  <div className="flex flex-col items-center space-y-2">
-                    <CircularProgress value={75} size={100}>
-                      <div className="text-center">
-                        <div className="text-lg font-bold text-slate-600 dark:text-slate-100">7.5</div>
-                        <div className="text-xs dark:text-gray-400 text-gray-900">CLB</div>
-                      </div>
-                    </CircularProgress>
-                    <span className="text-sm font-medium text-slate-600 dark:text-slate-100">Writing</span>
-                  </div>
+                    <div className="flex flex-col items-center justify-center scale-[0.7]">
+                      <h2 className="text-[1.3rem] font-bold text-white">Reading</h2>
+                      <SemiCircularProgress value={8.5} size={70} className="mx-auto mt-[-0.5rem]" />
+                    </div>
 
-                  <div className="flex flex-col items-center space-y-2">
-                    <CircularProgress value={50} size={100}>
-                      <div className="text-center">
-                        <div className="text-lg font-bold text-slate-600 dark:text-slate-100">5.0</div>
-                        <div className="text-xs dark:text-gray-400 text-gray-900">CLB</div>
-                      </div>
-                    </CircularProgress>
-                    <span className="text-sm font-medium text-slate-600 dark:text-slate-100">Speaking</span>
-                  </div>
+                    <div className="flex flex-col items-center justify-center scale-[0.7]">
+                      <h2 className="text-[1.3rem] font-bold text-white">Writing</h2>
+                      <SemiCircularProgress value={6.5} size={70} className="mx-auto mt-[-0.5rem]" />
+                    </div>
+
+                    <div className="flex flex-col items-center justify-center scale-[0.7]">
+                      <h2 className="text-[1.3rem] font-bold text-white">Speaking</h2>
+                      <SemiCircularProgress value={3.5} size={70} className="mx-auto mt-[-0.5rem]" />
+                    </div>
                 </div>
-                
-              </CardContent>
+
+              {/* </CardContent> */}
             </Card>
           </motion.div>
         </div>

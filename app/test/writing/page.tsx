@@ -277,8 +277,8 @@ export default function WritingTestPage() {
 
   return (
     <DashboardLayout>
-      <div className="card-outline text-white p-4 sm:p-6 md:p-8 font-sans">
-        <header className="flex justify-between items-center pb-4 border-b border-slate-700 max-435:flex-col max-435:items-start">
+      <div className="card-outline text-white font-sans">
+        <header className="flex justify-between items-center p-4 bg-blue-900 max-435:flex-col max-435:items-start rounded-t-[20px]">
           <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[70%] max-435:pb-[2rem]">Practice Test A - Writing {currentTaskData.title}</h1>
           <div className="flex items-center space-x-4 max-435:space-x-32">
             <span className="text-sm text-slate-400">Time remaining: <span className="font-bold text-red-500">{formatTime(taskTimeRemaining)}</span></span>
@@ -288,9 +288,9 @@ export default function WritingTestPage() {
           </div>
         </header>
 
-        <main className="grid grid-cols-2 gap-6 pt-6 max-1024:grid-cols-1">
+        <main className="grid grid-cols-3 gap-6 max-1024:grid-cols-1">
           {/* Left Column */}
-          <div className="border-r border-slate-700 pr-6 flex flex-col max-1024:border-r-0 max-1024:pr-0">
+          <div className="col-span-1 border-r border-slate-700 flex flex-col max-1024:border-r-0 p-4 sm:p-6 md:p-8">
             <div className="flex-grow">
               <div className="flex items-center bg-blue-900/60 p-3 rounded-md mb-4">
                 <AlertCircle className="text-blue-400 mr-3" />
@@ -305,7 +305,7 @@ export default function WritingTestPage() {
           </div>
 
           {/* Right Column */}
-          <div className="flex flex-col">
+          <div className="col-span-2 flex flex-col p-4 sm:p-6 md:p-8">
             <div className="flex-grow">
               <div className="flex items-center bg-blue-900/60 p-3 rounded-md mb-4">
                 <AlertCircle className="text-blue-400 mr-3" />
@@ -330,13 +330,15 @@ export default function WritingTestPage() {
               />
               <div className="text-sm text-slate-400 mt-2">Word Count: {wordCount}</div>
             </div>
-            <div className="mt-auto flex justify-end pt-6">
-              <Button onClick={handlePreviousTask} disabled={currentTask === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
-                Back
-              </Button>
-            </div>
           </div>
         </main>
+
+        <footer className="flex justify-between items-center p-4 bg-blue-900 rounded-b-[20px]">
+          <div></div>
+          <Button onClick={handlePreviousTask} disabled={currentTask === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
+            Back
+          </Button>
+        </footer>
       </div>
     </DashboardLayout>
   )

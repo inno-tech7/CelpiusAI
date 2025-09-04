@@ -384,9 +384,9 @@ export default function SpeakingTestPage() {
 
   return (
     <DashboardLayout>
-      <div className="card-outline dark:bg-slate-900 text-slate-900 dark:text-white p-4 sm:p-6 md:p-8 font-sans h-full flex flex-col">
-        <header className="flex justify-between items-center pb-4 border-b border-slate-200 dark:border-slate-700 max-435:flex-col max-435:items-start">
-          <h1 className="text-lg font-semibold text-slate-700 dark:text-slate-300 font-mono max-w-[50%] max-435:pb-[2rem] max-435:max-w-[90%]">Practice Test A - {currentTaskData.title}</h1>
+      <div className="card-outline dark:bg-slate-900 text-slate-900 dark:text-white  font-sans h-full flex flex-col">
+        <header className="flex justify-between items-center p-4 bg-blue-900 max-435:flex-col max-435:items-start rounded-t-[20px]">
+          <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[50%] max-435:pb-[2rem] max-435:max-w-[90%]">Practice Test A - {currentTaskData.title}</h1>
           <div className="flex items-center space-x-4 max-435:space-x-14">
 
           
@@ -405,7 +405,7 @@ export default function SpeakingTestPage() {
         </header>
 
         <main className="flex-grow flex flex-col justify-center items-center pt-6">
-          <div className="w-full max-w-4xl">
+          <div className="w-full max-w-[96%]">
             <div className="flex items-start bg-blue-100 dark:bg-blue-900/60 p-3 rounded-md mb-8">
               <AlertCircle className="text-blue-500 dark:text-blue-400 mr-3 mt-1 flex-shrink-0" />
               <p className="text-blue-800 dark:text-blue-300 font-semibold">{currentTaskData.prompt}</p>
@@ -419,13 +419,14 @@ export default function SpeakingTestPage() {
               </div>
             </div>
 
-            <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-8 mb-[20px]">
+            <p className="text-left text-sm text-slate-500 dark:text-slate-400 mt-8 mb-[12.5rem]">
               *NOTE: This sample test is not recording your response.
             </p>
           </div>
         </main>
 
-        <footer className="flex justify-end pt-6 border-t border-slate-200 dark:border-slate-700">
+        <footer className="flex justify-between items-center p-4 bg-blue-900 rounded-b-[20px]">
+            <div></div>
             <Button onClick={handlePreviousTask} disabled={currentTask === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
               Back
             </Button>

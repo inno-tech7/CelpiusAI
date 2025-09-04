@@ -10,7 +10,7 @@ import Image from "next/image"
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="relative py-20 lg:py-32">
+    <section id="features" className="relative py-20 lg:py-32 h-[85rem] max-1024:h-[160rem] max-435:h-[182rem]">
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <motion.h2
@@ -39,161 +39,230 @@ export function FeaturesSection() {
               viewport={{ once: true, amount: 0.07 }}
               className="">
 
-                <div className="glass-diag-effect p-5 lg:m-28 max-md:w-full max-lg:my-28 max-820:mt-[7rem] ">
+            {/* ----------------------------GRID FEATURE CARDS---------------------------------------- */}
 
-                  <Image
-                    src="/section-images/flare (horizontal).png"
-                    alt="flare"
-                    width={500} 
-                    height={3500} 
-                    quality={100} 
-                    className="absolute top-[-7.5%] xl:left-[24.55%] lg:left-[17.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[1.5] lg:scale-[1.4] max-820:scale-[1.5] max-435:top-[-5.1%] max-435:left-[-15.45%] max-435:scale-[0.7]"
-                  />
-                  
-                  
-                 <Image
-                    src="/section-images/grid (dark theme).png"
-                    alt="Grid background"
-                    width={500} 
-                    height={250}
-                    className="absolute dark:opacity-100 opacity-0 xl:translate-x-[-275px] lg:translate-x-[-162px] max-820:translate-x-[-170px] translate-y-[5px] max-435:top-[5.5%] max-435:left-[42.55%] max-435:scale-[1] max-415:left-[44.55%]"
-                    unoptimized={true}
-                  />
+              <div className="grid grid-cols-2 gap-[7rem] mt-[7rem] max-1024:grid-cols-1">
 
 
-                  <Image
-                    src="/section-images/grid (light theme).png"
-                    alt="Grid background"
-                    width={500} 
-                    height={250}
-                    className="absolute dark:opacity-0 opacity-50 xl:translate-x-[-275px] lg:translate-x-[-162px] max-820:translate-x-[-170px] translate-y-[5px] max-435:top-[5.5%] max-435:left-[42.55%] max-435:scale-[1] max-415:left-[44.55%]"
-                    unoptimized={true}
-                  />
-                  
-                  <div className="relative flex h-full max-435:flex-col w-full items-center md:justify-between  p-8">
-                    <div className="flex w-1/2 flex-col md:items-start max-435:items-center justify-center">
+                <div className="card-outline-feature p-[2rem] w-[100%] overflow-hidden">
+                    
+                      <h3 className="dark:text-slate-300 text-slate-700 text-[1.5rem] text-start font-[700] ">Listening <span className="font-[200]">comprehension</span> </h3>
 
-                      <div className="max-435:absolute max-435:mx-auto max-435:top-[-0.5%] max-435:scale-[1]">
-                        <MicrophoneIcon />
-                      </div>
-
-                      <div className="mt-4 max-435:mt-[16rem]">
-                        <h3 className="text-[4rem] max-435:text-[3rem] font-bold dark:text-slate-300 text-slate-700">Speaking</h3>
-                        <p className="text-4xl font-light dark:text-slate-300 text-slate-700/80">practice</p>
-                      </div>
-                    </div>
-                    <div className="md:w-1/2 md:pl-8 max-435:pt-[2rem]">
-                      <p className="hero-card-font-sh-features">
-                        Record your responses and get AI-powered feedback on
-                        pronunciation, fluency, and emotional tone.
+                      <p className="pt-[1rem] gradient-features-sh text-[1.1rem] font-[300] text-start">
+                        Interactive listening exercises with detailed explanations and progress tracking to advance your learning experience.
                       </p>
+                    
+                    <div className="relative w-[200px] h-[200px] scale-[1] mt-[1rem] mx-auto z-20">
+                      <Image
+                        src="/features-section/Listening comprehension icon.png"
+                        alt="Listening comprehension"
+                        fill
+                        quality={100} 
+                        className=" object-contain"
+                      />
+                    </div>
+
+                    <div className="relative opacity-[14%] w-[277px] h-[200px] scale-[1] mt-[-12.5rem] mb-[2rem] mx-auto z-10">
+                      <Image
+                        src="/features-section/01.png"
+                        alt="01 (big)"
+                        fill
+                        quality={100} 
+                        className=" object-cover"
+                      />
+                    </div>
+
+                    <div className="flex flex-row">
+
+                    <div className="relative w-[86px] h-[60px] scale-[1]">
+                      <Image
+                        src="/features-section/01.png"
+                        alt="01 (small)"
+                        fill
+                        quality={100} 
+                        className=" object-cover"
+                      />
+                    </div>
+
+                    <div className="relative w-[60px] h-[60px] scale-[4] ml-auto translate-x-[-3.5rem] translate-y-[-3.7rem]">
+                      <Image
+                        src="/features-section/Bottom right radio wave.png"
+                        alt="Bottom right radio wave"
+                        fill
+                        quality={100} 
+                        className=" object-cover"
+                      />
                     </div>
                   </div>
-                  <span className="shine shine-top"></span>
-                  <span className="shine shine-bottom"></span>
-                  <span className="glow glow-top"></span>
-                  <span className="glow glow-bottom"></span>
-                  <span className="glow glow-bright glow-top "></span>
-                  <span className="glow glow-bright glow-bottom "></span>
                 </div>
 
-          </motion.div>
-
-          <motion.div
-            variants={fadeIn('up', 0.3)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.07 }}
-            className="mt-8 flex flex-col lg:flex-row gap-8"
-          >
-            <div className="glass-diag-effect p-5 w-full lg:w-1/2 absolute flex flex-col justify-between max-820:mt-[7rem]">
-
-              <Image
-                src="/section-images/flare (horizontal).png"
-                alt="flare"
-                width={500} 
-                height={3500} 
-                quality={100} 
-                className="absolute xl:top-[-7%] lg:top-[-6.4%] max-820:top-[-7.7%] xl:left-[5.55%] lg:left-[-5.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[1.1] lg:scale-[0.8] max-820:scale-[1.5] max-768:top-[-7%] max-435:top-[-5.95%] max-435:left-[-13.45%] max-435:scale-[0.7] max-415:top-[-5.55%] max-415:left-[-17.5%]"
-                />
 
 
-              <Image
-                src="/section-images/grid (dark theme).png"
-                alt="Grid background"
-                width={600}
-                height={300}
-                className="absolute top-0 left-0 dark:opacity-70 opacity-0  translate-x-[-10px] translate-y-[0px] max-820:translate-x-[82px] max-820:translate-y-[-35px] max-820:scale-[0.9] max-435:top-[10.5%] max-435:left-[-21.45%] max-435:scale-[1] max-415:left-[-22.45%]"
-                unoptimized={true}
-              />
+                 <div className="card-outline-feature p-[2rem] w-[100%] overflow-hidden">
+                    
+                      <h3 className="dark:text-slate-300 text-slate-700 text-[1.5rem] text-start font-[700] ">Tracking <span className="font-[200]">reading speed</span> </h3>
 
-              <Image
-                src="/section-images/grid (light theme).png"
-                alt="Grid background"
-                width={600}
-                height={300}
-                className="absolute top-0 left-0 dark:opacity-0 opacity-40 translate-x-[-10px] translate-y-[0px] max-820:translate-x-[82px] max-820:translate-y-[-35px] max-820:scale-[0.9] max-435:top-[10.5%] max-435:left-[-21.45%] max-435:scale-[1] max-415:left-[-22.45%]"
-                unoptimized={true}
-              />
+                      <p className="pt-[1rem] gradient-features-sh text-[1.1rem] font-[300] text-start">
+                        Have an experience of timed reading exercises and follow up your reading speed and accuracy over time.
+                      </p>
+                    
+                    <div className="relative w-[200px] h-[200px] scale-[1] mt-[1rem] mx-auto z-20">
+                      <Image
+                        src="/features-section/Track reading speed.png"
+                        alt="Track reading speed"
+                        fill
+                        quality={100} 
+                        className=" object-contain"
+                      />
+                    </div>
 
-              <div className="relative flex flex-col h-full p-8">
-                <div className="flex-shrink-0 flex justify-center">
-                  <PenIcon />
+                    <div className="relative opacity-[14%] w-[320px] h-[200px] scale-[1] mt-[-12.5rem] mb-[2rem] mx-auto z-10">
+                      <Image
+                        src="/features-section/02.png"
+                        alt="02 (big)"
+                        fill
+                        quality={100} 
+                        className=" object-cover"
+                      />
+                    </div>
+
+                    <div className="flex flex-row">
+
+                    <div className="relative w-[98px] h-[61px] scale-[1]">
+                      <Image
+                        src="/features-section/02.png"
+                        alt="02 (small)"
+                        fill
+                        quality={100} 
+                        className=" object-cover"
+                      />
+                    </div>
+
+                    <div className="relative w-[60px] h-[60px] scale-[4] ml-auto translate-x-[-3.5rem] translate-y-[-3.7rem]">
+                      <Image
+                        src="/features-section/Bottom right radio wave.png"
+                        alt="Bottom right radio wave"
+                        fill
+                        quality={100} 
+                        className=" object-cover"
+                      />
+                    </div>
+
+                  </div>
                 </div>
-                <div className="flex-grow flex flex-col justify-end mt-4">
-                  <h3 className="text-[3rem] font-bold dark:text-slate-300 text-slate-700">Writing</h3>
-                  <p className="text-3xl font-light dark:text-slate-300 text-slate-700/80">analysis</p>
-                  <p className="hero-card-font-sh-features mt-4 text-lg">
-                    Comprehensive grammar, coherence, and vocabulary analysis with line-by-line suggestions.
-                  </p>
+
+
+
+
+                 <div className="card-outline-feature p-[2rem] w-[100%] overflow-hidden">
+                    
+                      <h3 className="dark:text-slate-300 text-slate-700 text-[1.5rem] text-start font-[700] ">Writing <span className="font-[200]">analysis</span> </h3>
+
+                      <p className="pt-[1rem] gradient-features-sh text-[1.1rem] font-[300] text-start">
+                        Comprehensive grammar, coherence, and vocabulary analysis with line-by-line suggestions.
+                      </p>
+                    
+                    <div className="relative w-[200px] h-[200px] scale-[1] mt-[1rem] mx-auto z-20">
+                      <Image
+                        src="/features-section/Writing analysis.png"
+                        alt="Writing analysis"
+                        fill
+                        quality={100} 
+                        className=" object-contain"
+                      />
+                    </div>
+
+                    <div className="relative opacity-[14%] w-[321px] h-[200px] scale-[1] mt-[-12.5rem] mb-[2rem] mx-auto z-10">
+                      <Image
+                        src="/features-section/03.png"
+                        alt="03 (big)"
+                        fill
+                        quality={100} 
+                        className=" object-cover"
+                      />
+                    </div>
+
+                    <div className="flex flex-row">
+
+                    <div className="relative w-[96px] h-[60px] scale-[1]">
+                      <Image
+                        src="/features-section/03.png"
+                        alt="03 (small)"
+                        fill
+                        quality={100} 
+                        className=" object-cover"
+                      />
+                    </div>
+
+                    <div className="relative w-[60px] h-[60px] scale-[4] ml-auto translate-x-[-3.5rem] translate-y-[-3.7rem]">
+                      <Image
+                        src="/features-section/Bottom right radio wave.png"
+                        alt="Bottom right radio wave"
+                        fill
+                        quality={100} 
+                        className=" object-cover"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+                 <div className="card-outline-feature p-[2rem] w-[100%] overflow-hidden">
+                    
+                      <h3 className="dark:text-slate-300 text-slate-700 text-[1.5rem] text-start font-[700] ">Speaking <span className="font-[200]">practice</span> </h3>
+
+                      <p className="pt-[1rem] gradient-features-sh text-[1.1rem] font-[300] text-start">
+                        Record your responses and get AI-powered feedback on pronunciation, fluency, and emotional tone.
+                      </p>
+                    
+                    <div className="relative w-[200px] h-[200px] scale-[1] mt-[1rem] mx-auto z-20">
+                      <Image
+                        src="/features-section/Speaking practice.png"
+                        alt="Speaking practice"
+                        fill
+                        quality={100} 
+                        className=" object-contain"
+                      />
+                    </div>
+
+                    <div className="relative opacity-[14%] w-[351px] h-[200px] scale-[1] mt-[-12.5rem] mb-[2rem] mx-auto z-10">
+                      <Image
+                        src="/features-section/04.png"
+                        alt="04 (big)"
+                        fill
+                        quality={100} 
+                        className=" object-cover"
+                      />
+                    </div>
+
+                    <div className="flex flex-row">
+
+                    <div className="relative w-[105px] h-[60px] scale-[1]">
+                      <Image
+                        src="/features-section/04.png"
+                        alt="04 (small)"
+                        fill
+                        quality={100} 
+                        className=" object-cover"
+                      />
+                    </div>
+
+                    <div className="relative w-[60px] h-[60px] scale-[4] ml-auto translate-x-[-3.5rem] translate-y-[-3.7rem]">
+                      <Image
+                        src="/features-section/Bottom right radio wave.png"
+                        alt="Bottom right radio wave"
+                        fill
+                        quality={100} 
+                        className=" object-cover"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div className="glass-diag-ft-listening p-5 w-full lg:w-1/2 absolute flex flex-col justify-between max-820:mt-[7rem]">
-
-              <Image
-                src="/section-images/flare (horizontal).png"
-                alt="flare"
-                width={500} 
-                height={3500} 
-                quality={100} 
-                className="absolute xl:top-[-7%] lg:top-[-6.4%] max-820:top-[-7.6%] xl:left-[5.55%] lg:left-[-5.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale[1.1] lg:scale-[0.8] max-820:scale-[1.5] max-768:top-[-7.7%] max-435:top-[-6%] max-435:left-[-13.45%] max-435:scale-[0.7] max-415:left-[-17.5%]"
-                />
-
-               <Image
-                src="/section-images/grid (dark theme).png"
-                alt="Grid background"
-                width={600}
-                height={300}
-                className="absolute top-0 left-0 opacity-70 translate-x-[10px] translate-y-[0px] max-820:translate-x-[90px] max-820:translate-y-[-40px] max-820:scale-[0.9] max-435:top-[4.5%] max-435:left-[-23.45%] max-435:scale-[1] max-415:left-[-24.45%]"
-                unoptimized={true}
-              />
-
-              <Image
-                src="/section-images/grid (light theme).png"
-                alt="Grid background"
-                width={600}
-                height={300}
-                className="absolute top-0 left-0 dark:opacity-0 opacity-40 translate-x-[10px] translate-y-[0px] max-820:translate-x-[90px] max-820:translate-y-[-40px] max-820:scale-[0.9] max-435:top-[4.5%] max-435:left-[-23.45%] max-435:scale-[1] max-415:left-[-24.45%]"
-                unoptimized={true}
-              />
-
-              <div className="relative flex flex-col h-full p-8">
-                <div className="flex-grow flex flex-col justify-start">
-                  <h3 className="text-[3rem] font-bold dark:text-slate-300 text-slate-700">Listening</h3>
-                  <p className="text-3xl font-light dark:text-slate-300 text-slate-700">comprehension</p>
-                  <p className="hero-card-font-sh-features mt-4 text-lg">
-                    Interactive listening exercises with detailed explanations and progress tracking.
-                  </p>
-                </div>
-                <div className="flex-shrink-0 flex mt-4 justify-center">
-                  <HeadphonesIcon />
-                </div>
-              </div>
-            </div>
           </motion.div>
-
+            {/* ----------------------------GRID FEATURE CARDS---------------------------------------- */}
         </div>
       </div>
     </section>

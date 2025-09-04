@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { useAuth } from "@/hooks/use-auth"
 import { fadeIn } from "@/app/variants/variants"
@@ -14,35 +14,13 @@ import { Footer } from "@/components/footer"
 import Link from "next/link"
 
 export default function HomePage() {
-  const [isSigningOut, setIsSigningOut] = useState(false)
   const { user, signOut } = useAuth()
+  const router = useRouter()
 
-  useEffect(() => {
-    if (isSigningOut) {
-      const timer = setTimeout(() => {
-        signOut()
-      }, 750)
-      return () => clearTimeout(timer)
-    }
-  }, [isSigningOut, signOut])
 
-  useEffect(() => {
-    if (!user && isSigningOut) {
-      setIsSigningOut(false)
-    }
-  }, [user, isSigningOut])
-
-  const handleSignOut = () => {
-    setIsSigningOut(true)
-  }
   return (
-    <motion.div
-      className="min-h-screen body-gradient-bg"
-      initial={{ opacity: 1 }}
-      animate={{ opacity: isSigningOut ? 0 : 1 }}
-      transition={{ duration: 0.75 }}
-    >
-      <Navigation onSignOut={handleSignOut} />
+    <div className="min-h-screen body-gradient-bg">
+            <Navigation onSignOut={() => signOut(router)} isLandingPage={true} />
       
 
       <motion.div
@@ -55,33 +33,37 @@ export default function HomePage() {
       </motion.div>
 
       <motion.section
-        // id="about"
-        // variants={fadeIn('up', 0.5)}
-        // initial="hidden"
-        // whileInView="show"
-        viewport={{ once: true, amount: 0.1 }}
-        // className="py-20 lg:py-32"
-      >
-      </motion.section>
-        <AboutSection />
-
-      <motion.div
+        id="about"
         variants={fadeIn('up', 0.2)}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.1 }}
+        className="py-20 lg:py-32"
       >
-        <FeaturesSection />
-      </motion.div>
+        <AboutSection />
+      </motion.section>
 
-      <motion.div
+      <motion.section
+        id="features"
         variants={fadeIn('up', 0.3)}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.1 }}
+        className="py-20 lg:py-32"
+      >
+        <FeaturesSection />
+      </motion.section>
+
+      <motion.section
+        id="pricing"
+        variants={fadeIn('up', 0.4)}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.1 }}
+        className="py-20 lg:py-32"
       >
         <PricingSection />
-      </motion.div>
+      </motion.section>
 
       
 
@@ -114,6 +96,6 @@ export default function HomePage() {
       </motion.section>
 
       <Footer />
-    </motion.div>
+    </div>
   )
 }

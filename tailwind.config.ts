@@ -24,7 +24,7 @@ const config: Config = {
         'max-h-670': { raw: '(max-height: 670px)' },
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
+        sans: ["var(--font-poppins)", "system-ui", "sans-serif"],
         mono: ["var(--font-geist-mono)", "monospace"],
       },
       colors: {

@@ -493,8 +493,8 @@ export default function ReadingTestPage() {
 
   return (
     <DashboardLayout>
-      <div className="card-outline text-white p-4 sm:p-6 md:p-8 font-sans">
-        <header className="flex justify-between items-center pb-4 border-b border-slate-700 max-435:flex-col max-435:items-start">
+      <div className="card-outline text-white font-sans">
+        <header className="flex justify-between items-center p-4 bg-blue-900 max-435:flex-col max-435:items-start rounded-t-[20px]">
           <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[70%] max-435:pb-[2rem]">Practice Test A - Reading Part {currentPart + 1}: {readingParts[currentPart].title.replace(/Part \d+: /g, "")}</h1>
           <div className="flex items-center space-x-4 max-435:space-x-32">
             <span className="text-sm text-slate-400">Time remaining: <span className="font-bold text-red-500">{formatTime(partTimeRemaining)}</span></span>
@@ -504,9 +504,9 @@ export default function ReadingTestPage() {
           </div>
         </header>
 
-        <main className="grid grid-cols-2 gap-6 pt-6 max-1024:grid-cols-1">
+        <main className="grid grid-cols-2 gap-6 max-1024:grid-cols-1">
           {/* Left Column */}
-          <div className="border-r border-slate-700 pr-6 flex flex-col max-1024:border-r-0 max-1024:pr-0">
+          <div className="border-r border-slate-700 flex flex-col max-1024:border-r-0 p-4 sm:p-6 md:p-8">
             <div className="flex-grow">
               <div className="flex items-center bg-blue-900/60 p-3 rounded-md mb-4">
                 <AlertCircle className="text-blue-400 mr-3" />
@@ -518,15 +518,10 @@ export default function ReadingTestPage() {
                 </div>
               </ScrollArea>
             </div>
-            <div className="mt-auto pt-6">
-              <Button className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
-                Answer Key
-              </Button>
-            </div>
           </div>
 
           {/* Right Column */}
-          <div className="bg-slate-800/50 p-4 rounded-md flex flex-col">
+          <div className="bg-slate-800/50 p-4 sm:p-6 md:p-8 rounded-md flex flex-col">
             <div className="flex-grow">
               <div className="flex items-center mb-4 text-blue-300">
                 <AlertCircle className="text-blue-400 mr-3" />
@@ -547,7 +542,7 @@ export default function ReadingTestPage() {
                       onValueChange={(value) => handleAnswerChange(question.id, parseInt(value))}
                     >
                       <SelectTrigger className="w-[162px] bg-slate-700 border-slate-600 flex-shrink-0">
-                        <SelectValue placeholder="Select an answer" />
+                        <SelectValue placeholder="" />
                       </SelectTrigger>
                       <SelectContent className="bg-slate-800 text-white border-slate-700">
                         {question.options.map((option, optionIndex) => (
@@ -561,13 +556,17 @@ export default function ReadingTestPage() {
                 ))}
               </div>
             </div>
-            <div className="mt-auto flex justify-end pt-6">
-              <Button onClick={handlePreviousPart} disabled={currentPart === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
-                Back
-              </Button>
-            </div>
           </div>
         </main>
+
+        <footer className="flex justify-between items-center p-4 bg-blue-900 rounded-b-[20px]">
+          <Button className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
+            Answer Key
+          </Button>
+          <Button onClick={handlePreviousPart} disabled={currentPart === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
+            Back
+          </Button>
+        </footer>
       </div>
     </DashboardLayout>
   )

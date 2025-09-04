@@ -6,12 +6,31 @@ import Image from "next/image"
 
 export function AboutSection() {
     return (
-      <section id="about" className="relative h-[95rem] max-1024:h-[90rem] py-20 lg:py-32 max-820:h-[100rem] max-435:h-[120rem]">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="about" className="relative h-[85rem] max-1024:h-[82rem] py-20 lg:py-32 max-820:h-[100rem] max-768:h-[106rem] max-768:overflow-hidden max-435:h-[130rem] max-415:h-[137rem]">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-435:overflow-hidden">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
               About <span className="gradient-text">Celpius AI</span>
             </h2>
+
+            <Image
+              src="/about-section/About (dots left).png"
+              alt="Overlay dots (left)"
+              objectFit="cover"
+              width={1440} 
+              height={872}
+              className="dark:opacity-80 absolute top-0 left-0 z-0 translate-x-[-271px] translate-y-[-40px] scale-[0.9] max-1024:scale-[1.3] max-1024:translate-x-[70px] max-768:overflow-hidden max-435:overflow-hidden max-435:translate-x-[45px] max-435:scale-[2.3]"
+            />
+
+            <Image
+              src="/about-section/About (dots right).png"
+              alt="Overlay dots (right)"
+              objectFit="cover"
+              width={1440} 
+              height={872}
+              className="dark:opacity-50 absolute top-0 left-0 z-0 translate-x-[200px] translate-y-[100px] scale-[0.9] max-1024:scale-[1.3] max-1024:translate-x-[70px] max-768:overflow-hidden max-435:overflow-hidden max-435:translate-y-[550px] max-435:translate-x-[-45px] max-435:scale-[2.3]"
+            />
+
             <ScrollAnimatedText
               text="We're revolutionizing CELPIP preparation with cutting-edge AI technology, helping thousands of students achieve their Canadian immigration dreams through intelligent, personalized learning experiences. Our platform combines advanced artificial intelligence with proven educational methodologies to deliver the most effective CELPIP preparation available."
               className="max-w-3xl mx-auto tracking-[-0.02rem]"
@@ -57,7 +76,7 @@ export function AboutSection() {
             />
 
                   <div className="flex flex-col items-start justify-start pl-[12rem] pr-[1rem] py-[2rem] max-w-[100%]">
-                      <p className="text-[1.5rem] text-start font-light pb-[0.5rem] dark:text-slate-300 text-slate-700/80">Artificial Intelligence</p>
+                      <p className="text-[1.5rem] text-start pb-[0.5rem] dark:text-slate-300 text-slate-700/80 font-[700]">Artificial Intelligence</p>
 
                       <p className="gradient-font-about text-[0.9rem] text-start">
                         enhance the rapid advancement of your progress with AI.
@@ -105,7 +124,7 @@ export function AboutSection() {
 
                 
                       <div className="flex flex-col items-start justify-start pl-[12rem] pr-[1rem] py-[2rem] max-w-[100%]">
-                          <p className="text-[1.5rem] text-start font-light pb-[0.5rem] dark:text-slate-300 text-slate-700/80">Progress Track</p>
+                          <p className="text-[1.5rem] text-start font-[700] pb-[0.5rem] dark:text-slate-300 text-slate-700/80">Progress Track</p>
 
                           <p className="gradient-font-about text-[0.9rem] text-start">
                             have a convenient follow up of your progress  in all sections.
@@ -148,7 +167,7 @@ export function AboutSection() {
                 />
               
                       <div className="flex flex-col items-start justify-start pl-[12rem] pr-[1rem] py-[2rem] max-w-[100%]">
-                          <p className="text-[1.5rem] text-start font-light pb-[0.5rem] dark:text-slate-300 text-slate-700/80">Response Analysis</p>
+                          <p className="text-[1.5rem] text-start font-[700] pb-[0.5rem] dark:text-slate-300 text-slate-700/80">Response Analysis</p>
 
                           <p className="gradient-font-about text-[0.9rem] text-start">
                             your answers are analyzed and feedback is given to help you improve.
@@ -193,7 +212,7 @@ export function AboutSection() {
                   
 
                       <div className="flex flex-col items-start justify-start pl-[12rem] pr-[1rem] py-[2rem] max-w-[100%]">
-                          <p className="text-[1.5rem] text-start font-light pb-[0.5rem] dark:text-slate-300 text-slate-700/80">Quality material</p>
+                          <p className="text-[1.5rem] text-start font-[700] pb-[0.5rem] dark:text-slate-300 text-slate-700/80">Quality Material</p>
 
                           <p className="gradient-font-about text-[0.9rem] text-start">
                             have a learning experience using practice methods & materials that are top notch.

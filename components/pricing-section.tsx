@@ -3,54 +3,21 @@
 import { motion } from "framer-motion"
 import { fadeIn } from "@/app/variants/variants"
 import { Button } from "@/components/ui/button"
+import { usePlans } from "@/components/providers/plans-provider";
 import { Check, Star, Zap } from "lucide-react"
 import Link from "next/link"
 
-const plans = [
-  {
-    name: "Free",
-    price: "$0",
-    period: "forever",
-    description: "Perfect for getting started",
-    features: ["Limited practice sessions", "3 AI feedbacks per week", "Basic progress tracking", "Community support"],
-    cta: "Get Started",
-    popular: false,
-  },
-  {
-    name: "Standard",
-    price: "$29",
-    period: "per month",
-    description: "Ideal for serious preparation",
-    features: [
-      "Unlimited practice sessions",
-      "Unlimited AI feedback",
-      "Advanced progress analytics",
-      "Priority support",
-      "Mock test simulations",
-      "Study plan recommendations",
-    ],
-    cta: "Start Free Trial",
-    popular: true,
-  },
-  {
-    name: "Premium",
-    price: "$49",
-    period: "per month",
-    description: "Complete CELPIP mastery",
-    features: [
-      "Everything in Standard",
-      "Emotional tone analysis",
-      "Advanced speaking feedback",
-      "Personal coaching sessions",
-      "Custom study materials",
-      "Priority customer support",
-    ],
-    cta: "Start Free Trial",
-    popular: false,
-  },
-]
 
 export function PricingSection() {
+  const { plans } = usePlans();
+
+  const displayPlans = plans.map(plan => {
+    return {
+      ...plan,
+      cta: "Get Started",
+      popular: !!plan.isCurrent,
+    };
+  });
   return (
     <section id="pricing" className="py-20 lg:py-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -76,7 +43,7 @@ export function PricingSection() {
         </div>
 
         <div className="grid lg:grid-cols-3 grid-cols-1 lg:gap-8 max-820:gap-[5rem]">
-          {plans.map((plan, index) => (
+          {displayPlans.map((plan, index) => (
             <motion.div
               key={plan.name}
               variants={fadeIn('up', 0.1 + index * 0.1)}
@@ -98,10 +65,9 @@ export function PricingSection() {
 
               <div className="text-center mb-8">
                 <h3 className="text-2xl font-bold mb-2">{plan.name}</h3>
-                <p className="text-slate-600 dark:text-slate-400 mb-4">{plan.description}</p>
                 <div className="mb-4">
                   <span className="text-4xl font-bold">{plan.price}</span>
-                  <span className="text-slate-600 dark:text-slate-400 ml-2">/{plan.period}</span>
+                  <span className="text-slate-600 dark:text-slate-400 ml-1">{plan.period}</span>
                 </div>
               </div>
 

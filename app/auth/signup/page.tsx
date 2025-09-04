@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useAuth } from "@/hooks/use-auth"
+import { useModal } from "@/components/modal-provider"
 import { useToast } from "@/hooks/use-toast"
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react"
 import Image from "next/image"
@@ -31,17 +32,14 @@ export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false)
   const { signUp } = useAuth()
   const { toast } = useToast()
+  const { showModal } = useModal()
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (formData.password !== formData.confirmPassword) {
-      toast({
-        title: "Error",
-        description: "Passwords do not match.",
-        variant: "destructive",
-      })
+      showModal("Error", "Passwords do not match.")
       return
     }
 

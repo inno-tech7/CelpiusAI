@@ -105,10 +105,6 @@ body::-webkit-scrollbar {
 @tailwind utilities;
 
 
-@font-face {
-  font-family: "GeistSans";
-  font-display: swap;
-}
 
 @font-face {
   font-family: "GeistMono";
@@ -121,7 +117,28 @@ html {
 }
 
 body {
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-poppins), system-ui, sans-serif;
+}
+
+button,
+a {
+  font-family: var(--font-geist-mono), monospace;
+}
+
+h1 {
+  font-weight: 700; /* Bold */
+}
+
+h2 {
+  font-weight: 600; /* Semi-bold */
+}
+
+h3 {
+  font-weight: 500; /* Medium */
+}
+
+p {
+  font-weight: 400; /* Regular */
 }
 
 .hero-bg {
@@ -173,7 +190,7 @@ body {
   --card-foreground: 210 40% 98%;
   --popover: 222.2 84% 4.9%;
   --popover-foreground: 210 40% 98%;
-  --primary: 217.2 91.2% 59.8%;
+  --primary: 217 100% 72%;
   --primary-foreground: 222.2 84% 4.9%;
   --secondary: 217.2 32.6% 17.5%;
   --secondary-foreground: 210 40% 98%;
@@ -192,12 +209,16 @@ body {
   border-color: hsl(var(--border));
 }
 
-body {
+/* body {
   background-image: linear-gradient(to right, #e2e6ff, #e9f2ff);
-}
+} */
 
-.body-gradient-bg {
+/* .body-gradient-bg {
   background-image: linear-gradient(to right, #ecf6ff, #d0ebff);
+} */
+
+.dark .body-gradient-bg {
+  background-image: linear-gradient(to right, #001b49, #000610);
 }
 
 .card-outline {
@@ -250,10 +271,26 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-
-.dark .body-gradient-bg {
-  background-image: linear-gradient(to right, #001b49, #000610);
+.card-outline-feature {
+  position: relative;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #eff3ff, #92c1fc);
+  border: 1.7px solid rgb(255, 255, 255);
+  /* overflow: hidden; */
 }
+
+.dark .card-outline-feature {
+  position: relative;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #09204e, #000000);
+  border: 1.7px solid rgb(59 70 135);
+  /* overflow: hidden; */
+}
+
+
+
+
+
 
 .dark .glow-container {
   position: relative;
@@ -388,6 +425,28 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
+.gradient-features-sh {
+  font-family: var(--font-geist-mono), monospace;
+  line-height: 1.9rem;
+  background: linear-gradient(135deg, #618bff 35%, #031843c2 100%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-features-stroke-numbers {
+  background: linear-gradient(135deg, #4a78c5 9%, #031843c2 32%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .gradient-features-sh {
+  font-family: var(--font-geist-mono), monospace;
+  line-height: 1.9rem;
+  background: linear-gradient(135deg, #618bff 35%, #031843c2 100%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .gradient-title {
   font-family: var(--font-geist-mono), monospace;
    background: linear-gradient(135deg, #618bff 35%, #031843c2 100%);
@@ -513,7 +572,7 @@ body {
 }
 
 .dark .gradient-btn {
-  background-image: linear-gradient(to right, #2d67ee, #000a83);
+  background-image: linear-gradient(to right, #a1c2ff, #0045bd);
 }
 
 .gradient-text {

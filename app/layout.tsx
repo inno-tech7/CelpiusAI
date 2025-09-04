@@ -1,17 +1,21 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { GeistSans } from "geist/font/sans"
+import { Poppins } from "next/font/google"
 import { GeistMono } from "geist/font/mono"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import { AuthProvider } from "@/components/auth-provider"
-import { Toaster } from "@/components/ui/toaster"
-import { ScrollManager } from "@/components/scroll-manager"
+import { ClientLayout } from "@/components/client-layout"
+import { PlansProvider } from '@/components/providers/plans-provider'
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-poppins',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900']
+})
 
 export const metadata: Metadata = {
   title: "Celpius AI - CELPIP Practice Platform",
   description: "AI-powered CELPIP exam preparation with real-time feedback and adaptive learning",
-    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -24,27 +28,16 @@ export default function RootLayout({
       <head>
         <link
           rel="preload"
-          href="/_next/static/media/GeistVF.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
           href="/_next/static/media/GeistMonoVF.woff2"
           as="font"
           type="font/woff2"
           crossOrigin="anonymous"
         />
       </head>
-      <body className={`${GeistSans.variable} ${GeistMono.variable} font-sans antialiased`}>
-                        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange={false}>
-          <ScrollManager />
-          <AuthProvider>
-            {children}
-            <Toaster />
-          </AuthProvider>
-        </ThemeProvider>
+      <body className={`${poppins.variable} ${GeistMono.variable} font-sans antialiased`}>
+        <PlansProvider>
+          <ClientLayout>{children}</ClientLayout>
+        </PlansProvider>
       </body>
     </html>
   )

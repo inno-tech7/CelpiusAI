@@ -10,7 +10,7 @@ import SpottyBtn from "./spotty-btn"
 
 export function HeroSection() {
   return (
-    <section className="relative pt-24 pb-20 lg:pt-[10rem] lg:pb-[60rem] overflow-hidden max-1024:h-[90rem] max-435:h-[73rem]">
+    <section className="relative lg:pt-[10rem] md:pt-[5rem] sm:pt-[10rem] lg:pb-[30rem] overflow-hidden max-1024:h-[72rem] max-435:h-[61rem] max-435:pt-[4rem]">
 
       <Image
         src="/section-images/lines (dark theme).png"
@@ -18,18 +18,18 @@ export function HeroSection() {
         objectFit="cover"
         width={3840} 
         height={2160}
-        className="dark:opacity-100 opacity-0 absolute top-0 left-0 z-[1] translate-x-[85px] translate-y-[20px] scale-x-[1.2] max-1024:translate-y-[133px] max-435:translate-y-[0] max-435:translate-x-[0] max-435:top-[29rem]"
+        className="dark:opacity-100 opacity-0 absolute top-0 left-0 z-[1] translate-x-[85px] translate-y-[20px] scale-x-[1.2] max-1024:translate-y-[178px] max-435:translate-y-[0] max-435:translate-x-[0] max-435:top-[29rem]"
       />
 
      
-      <Image
+      {/* <Image
         src="/section-images/Hero_bg (dark theme).png"
         alt="Background"
         objectFit="cover"
         width={1440} 
         height={872}
         className="dark:opacity-100 opacity-0 absolute top-0 left-0 z-[1] translate-x-[-205px] translate-y-[700px] scale-[1.2] max-1024:translate-y-[770px] max-435:translate-y-[0] max-435:translate-x-[-5rem] max-435:top-[50rem]"
-      />
+      /> */}
 
       
 

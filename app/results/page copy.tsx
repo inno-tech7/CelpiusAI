@@ -6,8 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
-import SemiCircularProgress from "@/components/SemiCircularProgress"
-
+import { CircularProgress } from "@/components/circular-progress"
 import {
   TrendingUp,
   Target,
@@ -137,34 +136,6 @@ const testResults = {
 export default function ResultsPage() {
   const [activeTab, setActiveTab] = useState("overview")
 
-  const getPerformanceBadge = (score: number) => {
-    if (score >= 10) {
-      return {
-        text: "Excellent",
-        className: "mt-2 bg-green-500/20 dark:text-green-300 text-green-600 border-green-500/30 text-base px-4 py-2",
-        icon: TrendingUp
-      }
-    } else if (score >= 7) {
-      return {
-        text: "Good",
-        className: "mt-2 bg-blue-500/20 dark:text-blue-300 text-blue-600 border-blue-500/30 text-base px-4 py-2",
-        icon: Target
-      }
-    } else if (score >= 5) {
-      return {
-        text: "Average",
-        className: "mt-2 bg-yellow-500/20 dark:text-yellow-300 text-yellow-600 border-yellow-500/30 text-base px-4 py-2",
-        icon: Target
-      }
-    } else {
-      return {
-        text: "Needs Work",
-        className: "mt-2 bg-red-500/20 dark:text-red-300 text-red-600 border-red-500/30 text-base px-4 py-2",
-        icon: AlertTriangle
-      }
-    }
-  }
-
   return (
     <DashboardLayout>
       <div className="space-y-8 fade-in">
@@ -236,25 +207,43 @@ export default function ResultsPage() {
 
         {/* Section Breakdown */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-1024:grid-cols-2 max-640:grid-cols-1">
-          {[
-            { name: "Listening", score: 11.5 },
-            { name: "Reading", score: 8.5 },
-            { name: "Writing", score: 6.5 },
-            { name: "Speaking", score: 3.5 }
-          ].map((section) => {
-            const badge = getPerformanceBadge(section.score)
-            const IconComponent = badge.icon
+          {testResults.sections.map((section) => {
+            const IconComponent = section.icon
             return (
-              <div key={section.name} className="card-outline">
-                <div className="flex flex-col items-center justify-center scale-[0.7]">
-                  <h2 className="text-[1.3rem] font-bold text-white">{section.name}</h2>
-                  <SemiCircularProgress value={section.score} size={70} className="mx-auto mt-[-0.5rem]" />
-                  <Badge className={badge.className}>
-                    <IconComponent className="w-3 h-3 mr-1" />
-                    {badge.text}
-                  </Badge>
-                </div>
-              </div>
+              <Card
+                key={section.name}
+                className="bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden"
+              >
+                <CardHeader className={`bg-gradient-to-r ${section.color}/20`}>
+                  <CardTitle className="text-white font-mono flex items-center gap-2 text-lg">
+                    <IconComponent className="w-5 h-5" />
+                    {section.name}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-6 text-center">
+                  <div className="mb-4">
+                    <CircularProgress
+                      value={section.score}
+                      size={80}
+                      strokeWidth={8}
+                      className="mx-auto"
+                      gradient={section.color}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="text-2xl font-bold text-white font-mono">CLB {section.clb}</div>
+                    <div className="dark:text-blue-300 text-blue-500 text-sm">
+                      {section.questions
+                        ? `${section.correct}/${section.questions} correct`
+                        : `${section.completed}/${section.tasks} tasks`}
+                    </div>
+                    <Badge className="bg-green-500/20 dark:text-green-300 text-green-600 border-green-500/30">
+                      <TrendingUp className="w-3 h-3 mr-1" />
+                      {section.improvement}
+                    </Badge>
+                  </div>
+                </CardContent>
+              </Card>
             )
           })}
         </div>
