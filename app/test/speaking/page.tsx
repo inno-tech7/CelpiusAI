@@ -385,7 +385,7 @@ export default function SpeakingTestPage() {
   return (
     <DashboardLayout>
       <div className="card-outline dark:bg-slate-900 text-slate-900 dark:text-white  font-sans h-full flex flex-col">
-        <header className="flex justify-between items-center p-4 bg-blue-900 max-435:flex-col max-435:items-start rounded-t-[20px]">
+        <header className="flex justify-between items-center p-4 bg-blue-950 max-435:flex-col max-435:items-start rounded-t-[23px]">
           <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[50%] max-435:pb-[2rem] max-435:max-w-[90%]">Practice Test A - {currentTaskData.title}</h1>
           <div className="flex items-center space-x-4 max-435:space-x-14">
 
@@ -425,7 +425,7 @@ export default function SpeakingTestPage() {
           </div>
         </main>
 
-        <footer className="flex justify-between items-center p-4 bg-blue-900 rounded-b-[20px]">
+        <footer className="flex justify-between items-center p-4 bg-blue-950 rounded-b-[23px]">
             <div></div>
             <Button onClick={handlePreviousTask} disabled={currentTask === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
               Back

@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback, MouseEvent } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Clock, Play, Headphones, Mic, PenTool, BookOpen, CheckCircle, AlertCircle } from "lucide-react"
 import Link from "next/link"
 import { DashboardLayout } from "@/components/dashboard-layout"
+import ProfileCard from '@/components/ProfileCard'
 
 const testSections = [
   {
@@ -16,7 +17,7 @@ const testSections = [
     duration: "47-55 minutes",
     parts: 6,
     description: "Listen to conversations, discussions, and presentations",
-    color: "from-blue-500 to-cyan-500",
+    color: "from-blue-400/50 to-cyan-500",
     href: "/test/listening",
   },
   {
@@ -26,7 +27,7 @@ const testSections = [
     duration: "55-60 minutes",
     parts: 4,
     description: "Read correspondence, diagrams, information, and viewpoints",
-    color: "from-blue-500 to-cyan-500",
+    color: "from-blue-400/50 to-cyan-500",
     href: "/test/reading",
   },
   {
@@ -36,7 +37,7 @@ const testSections = [
     duration: "53-60 minutes",
     parts: 2,
     description: "Write an email and respond to survey questions",
-    color: "from-blue-500 to-cyan-500",
+    color: "from-blue-400/50 to-cyan-500",
     href: "/test/writing",
   },
   {
@@ -46,13 +47,64 @@ const testSections = [
     duration: "15-20 minutes",
     parts: 8,
     description: "Speak about various topics and situations",
-    color: "from-blue-500 to-cyan-500",
+    color: "from-blue-400/50 to-cyan-500",
     href: "/test/speaking",
   },
 ]
 
+// Throttle function for performance
+function throttle<T extends (...args: any[]) => any>(
+  func: T,
+  delay: number
+): (...args: Parameters<T>) => void {
+  let lastCall = 0;
+  return (...args: Parameters<T>) => {
+    const now = new Date().getTime();
+    if (now - lastCall < delay) {
+      return;
+    }
+    lastCall = now;
+    return func(...args);
+  };
+}
+
 export default function PracticePage() {
   const [selectedTest, setSelectedTest] = useState<string>("complete")
+  const [cardRotations, setCardRotations] = useState<{[key: string]: {x: number, y: number}}>({})
+  
+  // Configuration options
+  const tiltSensitivity = 45; // Lower number = more tilt (default: 7)
+  const glowColors = {
+    from: "blue-400",
+    via: "blue-400", 
+    to: "blue-400"
+  };
+
+  const handleMouseMove = useCallback(
+    throttle((e: MouseEvent<HTMLDivElement>, sectionId: string) => {
+      const card = e.currentTarget;
+      const box = card.getBoundingClientRect();
+      const x = e.clientX - box.left;
+      const y = e.clientY - box.top;
+      const centerX = box.width / 2;
+      const centerY = box.height / 2;
+      const rotateX = (y - centerY) / tiltSensitivity;
+      const rotateY = (centerX - x) / tiltSensitivity;
+
+      setCardRotations(prev => ({
+        ...prev,
+        [sectionId]: { x: rotateX, y: rotateY }
+      }));
+    }, 100),
+    [tiltSensitivity]
+  );
+
+  const handleMouseLeave = (sectionId: string) => {
+    setCardRotations(prev => ({
+      ...prev,
+      [sectionId]: { x: 0, y: 0 }
+    }));
+  };
 
   return (
     <DashboardLayout>
@@ -144,11 +196,21 @@ export default function PracticePage() {
             <div className="grid md:grid-cols-2 gap-6">
               {testSections.map((section) => {
                 const IconComponent = section.icon
+                const rotation = cardRotations[section.id] || { x: 0, y: 0 }
                 return (
-                  <Card
-                    key={section.id}
-                    className="bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden transition-all duration-300"
-                  >
+                  <div key={section.id} className="relative group">
+                    {/* Glow effect behind card */}
+                    <div className={`absolute -inset-1 bg-gradient-to-r from-${glowColors.from} via-${glowColors.via} to-${glowColors.to} rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                    
+                    <Card
+                      className="relative bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 will-change-transform cursor-pointer"
+                      onMouseMove={(e) => handleMouseMove(e, section.id)}
+                      onMouseLeave={() => handleMouseLeave(section.id)}
+                      style={{
+                        transform: `perspective(1000px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale3d(1, 1, 1)`,
+                        transition: "all 400ms cubic-bezier(0.03, 0.98, 0.52, 0.99) 0s",
+                      }}
+                    >
                     <CardHeader className={`bg-gradient-to-r ${section.color}/20`}>
                       <CardTitle className="text-white font-mono flex items-center gap-3">
                         <IconComponent className="w-5 h-5" />
@@ -175,7 +237,8 @@ export default function PracticePage() {
                         <Link href={section.href}>Start {section.name}</Link>
                       </Button>
                     </CardContent>
-                  </Card>
+                    </Card>
+                  </div>
                 )
               })}
             </div>

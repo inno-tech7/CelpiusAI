@@ -494,7 +494,7 @@ export default function ReadingTestPage() {
   return (
     <DashboardLayout>
       <div className="card-outline text-white font-sans">
-        <header className="flex justify-between items-center p-4 bg-blue-900 max-435:flex-col max-435:items-start rounded-t-[20px]">
+        <header className="flex justify-between items-center p-4 bg-blue-950 max-435:flex-col max-435:items-start rounded-t-[23px]">
           <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[70%] max-435:pb-[2rem]">Practice Test A - Reading Part {currentPart + 1}: {readingParts[currentPart].title.replace(/Part \d+: /g, "")}</h1>
           <div className="flex items-center space-x-4 max-435:space-x-32">
             <span className="text-sm text-slate-400">Time remaining: <span className="font-bold text-red-500">{formatTime(partTimeRemaining)}</span></span>
@@ -559,7 +559,7 @@ export default function ReadingTestPage() {
           </div>
         </main>
 
-        <footer className="flex justify-between items-center p-4 bg-blue-900 rounded-b-[20px]">
+        <footer className="flex justify-between items-center p-4 bg-blue-950 rounded-b-[23px]">
           <Button className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
             Answer Key
           </Button>

@@ -18,6 +18,7 @@ const mainSiteNavItems: NavItem[] = [
   { name: "About", href: "#about" },
   { name: "Features", href: "#features" },
   { name: "Pricing", href: "#pricing" },
+  { name: "Testimonials", href: "#testimonials" },
   { name: "Contact", href: "#contact" },
 ]
 
@@ -105,22 +106,25 @@ export function Navigation({
 
     const scrollConfig = {
       default: {
-        '#about': 40,
-        '#features': 8,
-        '#pricing': 25,
-        '#contact': -68,
+        '#about': -200,
+        '#features': -10,
+        '#pricing': -25,
+        '#testimonials': -15,
+        '#contact': -118,
       } as { [key: string]: number },
       'max-435': {
-        '#about': -20,
-        '#features': -40,
-        '#pricing': -25,
-        '#contact': -98,
+        '#about': -200,
+        '#features': -130,
+        '#pricing': -125,
+        '#testimonials': -105,
+        '#contact': -198,
       } as { [key: string]: number },
       'max-415': {
-        '#about': -20,
-        '#features': -40,
-        '#pricing': -25,
-        '#contact': -98,
+        '#about': -200,
+        '#features': -130,
+        '#pricing': -125,
+        '#testimonials': -105,
+        '#contact': -198,
       } as { [key: string]: number },
     }
 
@@ -223,7 +227,7 @@ export function Navigation({
               <Image src="/celpius-ai-logo.png" alt="Celpius AI" width={160} height={54} className="h-[2.5rem] w-auto max-435:relative max-435:left-[-20.45%] max-435:scale-[0.5]" />
             </button>
 
-            <div className="hidden lg:flex items-center justify-center absolute left-1/2 transform -translate-x-1/2">
+            <div className="hidden xl:flex items-center justify-center absolute left-1/2 transform -translate-x-1/2">
               <div className="relative flex items-center space-x-8">
                 {user && navItems === mainSiteNavItems ? (
                   <>
@@ -254,7 +258,7 @@ export function Navigation({
               </div>
             </div>
 
-            <div className="hidden lg:flex items-center space-x-4">
+            <div className="hidden xl:flex items-center space-x-4">
               {!user ? (
                 <>
                   <Link href="/auth/login">
@@ -272,7 +276,7 @@ export function Navigation({
               )}
             </div>
 
-            <div className="lg:hidden flex items-center space-x-2">
+            <div className="xl:hidden flex items-center space-x-2">
               <Button variant="ghost" size="sm" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="relative z-50 w-10 h-10 p-0">
                 <div className="w-5 h-5 flex flex-col justify-center items-center">
                   <span className={`block w-5 h-0.5 bg-current transform transition-all duration-300 ${isMobileMenuOpen ? "rotate-45 translate-y-0.5" : "-translate-y-1"}`} />
@@ -293,7 +297,7 @@ export function Navigation({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 xl:hidden"
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.div
@@ -301,7 +305,7 @@ export function Navigation({
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: "100%" }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="fixed top-0 right-0 h-full w-80 max-w-[80vw] max-435:max-w-[56vw] glass-card border-l border-white/10 z-40 lg:hidden"
+              className="fixed top-0 right-0 h-full w-80 max-w-[80vw] max-435:max-w-[56vw] glass-card border-l border-white/10 z-40 xl:hidden"
             >
               <div className="flex flex-col h-full pt-20 px-6 py-6">
                 <div className="flex-1 space-y-6">

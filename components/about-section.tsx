@@ -6,7 +6,7 @@ import Image from "next/image"
 
 export function AboutSection() {
     return (
-      <section id="about" className="relative h-[85rem] max-1024:h-[82rem] py-20 lg:py-32 max-820:h-[100rem] max-768:h-[106rem] max-768:overflow-hidden max-435:h-[130rem] max-415:h-[137rem]">
+      <section id="about" className="relative h-[73rem] max-1024:h-[73rem] max-820:h-[97rem] max-768:h-[98rem] max-768:overflow-hidden max-435:h-[123rem] max-415:h-[129rem]">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-435:overflow-hidden">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">

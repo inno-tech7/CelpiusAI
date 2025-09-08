@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -10,77 +10,184 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/hooks/use-toast"
-import { Plus, Edit, Trash2, Save, X, Eye, EyeOff } from "lucide-react"
+import { Plus, Edit, Trash2, Save, X, Eye, EyeOff, Upload, Clock, FileText, Image, Video, Volume2 } from "lucide-react"
 
-interface Question {
+interface CELPIPQuestion {
   id: string
-  section: string
-  type: string
+  section: 'listening' | 'reading' | 'writing' | 'speaking'
+  part: number
+  partName: string
+  taskType: string
   prompt: string
+  instructions?: string
   options?: string[]
   correctAnswer?: string
-  mediaUrl?: string
-  difficulty: string
+  mediaFiles?: {
+    audio?: File | string
+    video?: File | string
+    image?: File | string
+  }
+  timing?: {
+    preparationTime?: number // in seconds
+    responseTime?: number // in seconds
+    totalTime?: number // in seconds
+  }
+  difficulty: 'beginner' | 'intermediate' | 'advanced'
   points: number
+  wordCount?: {
+    min?: number
+    max?: number
+  }
+  metadata?: {
+    scenario?: string
+    context?: string
+    targetSkills?: string[]
+  }
 }
 
-const initialMockQuestions: Question[] = [
+// CELPIP Test Structure Constants
+const CELPIP_STRUCTURE = {
+  listening: {
+    parts: [
+      { number: 1, name: 'Listening to Problem Solving', description: 'A conversation between two or more people trying to solve a problem' },
+      { number: 2, name: 'Listening to a Daily Life Conversation', description: 'An informal conversation about an everyday topic' },
+      { number: 3, name: 'Listening for Information', description: 'A monologue, such as an announcement or news report' },
+      { number: 4, name: 'Listening to a News Item', description: 'A short news broadcast' },
+      { number: 5, name: 'Listening to a Discussion', description: 'Audio and Video: Discussion among several people with video component' },
+      { number: 6, name: 'Listening to Viewpoints', description: 'A monologue or discussion where speakers present and defend opinions' }
+    ]
+  },
+  reading: {
+    parts: [
+      { number: 1, name: 'Reading Correspondence', description: 'Read an email or letter and answer questions, including choosing best response' },
+      { number: 2, name: 'Reading to Apply a Diagram', description: 'Use both diagram/chart/schedule and related text to answer questions' },
+      { number: 3, name: 'Reading for Information', description: 'Read informational text like news article and answer factual questions' },
+      { number: 4, name: 'Reading for Viewpoints', description: 'Complex text with different opinions, identify viewpoints and supporting details' }
+    ]
+  },
+  speaking: {
+    parts: [
+      { number: 1, name: 'Giving Advice', description: 'Give advice to a friend or family member about a problem' },
+      { number: 2, name: 'Talking about a Personal Experience', description: 'Tell a short story about a personal experience' },
+      { number: 3, name: 'Describing a Scene', description: 'Describe what is happening in a picture in detail' },
+      { number: 4, name: 'Making Predictions', description: 'Predict what will happen next based on the image from Task 3' },
+      { number: 5, name: 'Comparing and Persuading', description: 'Choose one option and persuade someone it is better, comparing two options' },
+      { number: 6, name: 'Dealing with a Difficult Situation', description: 'Resolve a difficult situation in a polite and effective way' },
+      { number: 7, name: 'Expressing Opinions', description: 'State your opinion and provide reasons and examples to support it' },
+      { number: 8, name: 'Describing an Unusual Situation', description: 'Describe an unusual object/scene to someone who cannot see it' }
+    ]
+  },
+  writing: {
+    parts: [
+      { number: 1, name: 'Writing an Email', description: '27 minutes, 150-200 words. Write email response with appropriate tone' },
+      { number: 2, name: 'Responding to Survey Questions', description: '26 minutes, 150-200 words. Choose and justify one option from survey' }
+    ]
+  }
+}
+
+const initialMockQuestions: CELPIPQuestion[] = [
   {
     id: "1",
     section: "listening",
-    type: "mcq",
-    prompt: "What is the main topic of the conversation?",
-    options: ["Travel plans", "Work schedule", "Weather forecast", "Restaurant review"],
-    correctAnswer: "Travel plans",
-    mediaUrl: "/audio/listening-1.mp3",
+    part: 1,
+    partName: "Listening to Problem Solving",
+    taskType: "mcq",
+    prompt: "What is the main problem the speakers are trying to solve?",
+    instructions: "Listen to the conversation between two people discussing a problem. Answer the questions based on what you hear.",
+    options: ["Finding a new apartment", "Planning a work presentation", "Organizing a family event", "Choosing a vacation destination"],
+    correctAnswer: "Finding a new apartment",
+    mediaFiles: { audio: "/audio/listening-part1-sample.mp3" },
+    timing: { totalTime: 180 },
     difficulty: "intermediate",
     points: 10,
+    metadata: {
+      scenario: "Two roommates discussing housing options",
+      context: "Daily life problem-solving",
+      targetSkills: ["Understanding main ideas", "Following problem-solving discussions"]
+    }
   },
   {
     id: "2",
     section: "reading",
-    type: "mcq",
-    prompt: "According to the passage, what is the author's main argument?",
-    options: ["Technology is harmful", "Education needs reform", "Climate change is urgent", "Economy is improving"],
-    correctAnswer: "Climate change is urgent",
-    difficulty: "advanced",
+    part: 2,
+    partName: "Reading to Apply a Diagram",
+    taskType: "mcq",
+    prompt: "According to the schedule and email, when is the best time for the meeting?",
+    instructions: "Read the email and refer to the schedule diagram to answer the questions.",
+    options: ["Monday 2:00 PM", "Tuesday 10:00 AM", "Wednesday 3:00 PM", "Thursday 1:00 PM"],
+    correctAnswer: "Tuesday 10:00 AM",
+    mediaFiles: { image: "/images/schedule-diagram.png" },
+    difficulty: "intermediate",
     points: 15,
+    metadata: {
+      scenario: "Office meeting scheduling",
+      context: "Workplace communication",
+      targetSkills: ["Diagram interpretation", "Cross-referencing information"]
+    }
   },
   {
     id: "3",
     section: "writing",
-    type: "text",
-    prompt:
-      "Write an email to your friend about a recent vacation you took. Include details about where you went, what you did, and your overall experience. (150-200 words)",
+    part: 1,
+    partName: "Writing an Email",
+    taskType: "email",
+    prompt: "Your friend has asked for advice about choosing between two job offers. Write an email giving your friend advice. In your email, you should: • Ask for more details about both positions • Give your opinion on which job might be better • Suggest what factors your friend should consider",
+    instructions: "Write an email response. Choose an appropriate tone (formal, semi-formal, or informal) based on the recipient.",
+    timing: { totalTime: 1620 }, // 27 minutes
+    wordCount: { min: 150, max: 200 },
     difficulty: "intermediate",
     points: 25,
+    metadata: {
+      scenario: "Giving advice to a friend",
+      context: "Personal correspondence",
+      targetSkills: ["Email writing", "Giving advice", "Appropriate tone"]
+    }
   },
   {
     id: "4",
     section: "speaking",
-    type: "audio",
-    prompt:
-      "Describe a memorable experience from your childhood. Explain what happened, who was involved, and why it was significant to you. You have 60 seconds to prepare and 90 seconds to speak.",
+    part: 3,
+    partName: "Describing a Scene",
+    taskType: "description",
+    prompt: "Describe what is happening in this picture. Talk about the people, objects, activities, and setting. Provide as much detail as possible.",
+    instructions: "Look at the picture and describe what you see. You have 30 seconds to prepare and 60 seconds to speak.",
+    mediaFiles: { image: "/images/speaking-scene.jpg" },
+    timing: { preparationTime: 30, responseTime: 60 },
     difficulty: "intermediate",
     points: 20,
+    metadata: {
+      scenario: "Scene description",
+      context: "Visual description task",
+      targetSkills: ["Descriptive language", "Observation skills", "Fluency"]
+    }
   },
 ]
 
 export default function ContentManagementPage() {
-  const [questions, setQuestions] = useState<Question[]>([])
+  const [questions, setQuestions] = useState<CELPIPQuestion[]>([])
   const [isAddingQuestion, setIsAddingQuestion] = useState(false)
   const [editingQuestion, setEditingQuestion] = useState<string | null>(null)
   const [expandedQuestions, setExpandedQuestions] = useState<Set<string>>(new Set())
-  const [newQuestion, setNewQuestion] = useState<Partial<Question>>({
-    section: "",
-    type: "",
+  const [selectedSection, setSelectedSection] = useState<string>('')
+  const [selectedPart, setSelectedPart] = useState<number>(0)
+  const [uploadedFiles, setUploadedFiles] = useState<{[key: string]: File}>({})
+  const [newQuestion, setNewQuestion] = useState<Partial<CELPIPQuestion>>({
+    section: "listening",
+    part: 1,
+    partName: "",
+    taskType: "mcq",
     prompt: "",
+    instructions: "",
     options: ["", "", "", ""],
     correctAnswer: "",
-    mediaUrl: "",
+    mediaFiles: {},
+    timing: { preparationTime: 0, responseTime: 0, totalTime: 0 },
     difficulty: "intermediate",
     points: 10,
+    wordCount: { min: 0, max: 0 },
+    metadata: { scenario: "", context: "", targetSkills: [] }
   })
+
   const { toast } = useToast()
 
   useEffect(() => {
@@ -99,17 +206,90 @@ export default function ContentManagementPage() {
     }
   }, [questions])
 
+  // Get available parts for selected section
+  const getAvailableParts = (section: string) => {
+    return CELPIP_STRUCTURE[section as keyof typeof CELPIP_STRUCTURE]?.parts || []
+  }
+
+  // Handle file upload
+  const handleFileUpload = (file: File, type: 'audio' | 'video' | 'image') => {
+    const fileId = `${type}_${Date.now()}`
+    setUploadedFiles(prev => ({ ...prev, [fileId]: file }))
+    
+    setNewQuestion(prev => ({
+      ...prev,
+      mediaFiles: {
+        ...prev.mediaFiles,
+        [type]: fileId
+      }
+    }))
+
+    toast({
+      title: "File Uploaded",
+      description: `${type} file uploaded successfully!`,
+    })
+  }
+
+  // Handle section change and auto-update part info
+  const handleSectionChange = (section: string) => {
+    const parts = getAvailableParts(section)
+    setNewQuestion(prev => ({
+      ...prev,
+      section: section as any,
+      part: parts[0]?.number || 1,
+      partName: parts[0]?.name || ""
+    }))
+  }
+
+  // Handle part change and auto-update part name
+  const handlePartChange = (partNumber: number) => {
+    const parts = getAvailableParts(newQuestion.section || "")
+    const selectedPart = parts.find(p => p.number === partNumber)
+    setNewQuestion(prev => ({
+      ...prev,
+      part: partNumber,
+      partName: selectedPart?.name || ""
+    }))
+  }
+
+  // Format time display
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins}:${secs.toString().padStart(2, '0')}`
+  }
+
+  const resetNewQuestion = () => {
+    setNewQuestion({
+      section: "listening",
+      part: 1,
+      partName: "",
+      taskType: "mcq",
+      prompt: "",
+      instructions: "",
+      options: ["", "", "", ""],
+      correctAnswer: "",
+      mediaFiles: {},
+      timing: { preparationTime: 0, responseTime: 0, totalTime: 0 },
+      difficulty: "intermediate",
+      points: 10,
+      wordCount: { min: 0, max: 0 },
+      metadata: { scenario: "", context: "", targetSkills: [] }
+    })
+    setUploadedFiles({})
+  }
+
   const handleAddQuestion = () => {
-    if (!newQuestion.section || !newQuestion.type || !newQuestion.prompt) {
+    if (!newQuestion.section || !newQuestion.taskType || !newQuestion.prompt || !newQuestion.part) {
       toast({
         title: "Error",
-        description: "Please fill in all required fields (Section, Type, and Prompt).",
+        description: "Please fill in all required fields (Section, Part, Task Type, and Prompt).",
         variant: "destructive",
       })
       return
     }
 
-    if (newQuestion.type === "mcq") {
+    if (newQuestion.taskType === "mcq") {
       const validOptions = newQuestion.options?.filter((opt) => opt.trim() !== "") || []
       if (validOptions.length < 2) {
         toast({
@@ -129,36 +309,61 @@ export default function ContentManagementPage() {
       }
     }
 
-    const question: Question = {
+    // Validate media requirements based on section and part
+    if (newQuestion.section === 'listening' && !newQuestion.mediaFiles?.audio) {
+      toast({
+        title: "Error",
+        description: "Listening questions require an audio file.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    if (newQuestion.section === 'speaking' && [3, 4, 5, 8].includes(newQuestion.part!) && !newQuestion.mediaFiles?.image) {
+      toast({
+        title: "Error",
+        description: "This speaking task requires an image.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    if (newQuestion.section === 'listening' && newQuestion.part === 5 && !newQuestion.mediaFiles?.video) {
+      toast({
+        title: "Error",
+        description: "Listening Part 5 requires a video file.",
+        variant: "destructive",
+      })
+      return
+    }
+
+    const question: CELPIPQuestion = {
       id: Date.now().toString(),
       section: newQuestion.section!,
-      type: newQuestion.type!,
+      part: newQuestion.part!,
+      partName: newQuestion.partName!,
+      taskType: newQuestion.taskType!,
       prompt: newQuestion.prompt!,
+      instructions: newQuestion.instructions,
       difficulty: newQuestion.difficulty || "intermediate",
       points: newQuestion.points || 10,
-      ...(newQuestion.type === "mcq" && {
+      timing: newQuestion.timing,
+      wordCount: newQuestion.wordCount,
+      metadata: newQuestion.metadata,
+      ...(newQuestion.taskType === "mcq" && {
         options: newQuestion.options?.filter((opt) => opt.trim() !== ""),
         correctAnswer: newQuestion.correctAnswer,
       }),
-      ...(newQuestion.mediaUrl && { mediaUrl: newQuestion.mediaUrl }),
+      ...(newQuestion.mediaFiles && { mediaFiles: newQuestion.mediaFiles }),
     }
 
     setQuestions([...questions, question])
-    setNewQuestion({
-      section: "",
-      type: "",
-      prompt: "",
-      options: ["", "", "", ""],
-      correctAnswer: "",
-      mediaUrl: "",
-      difficulty: "intermediate",
-      points: 10,
-    })
+    resetNewQuestion()
     setIsAddingQuestion(false)
 
     toast({
       title: "Success",
-      description: "Question added successfully!",
+      description: "CELPIP question added successfully!",
     })
   }
 
@@ -176,6 +381,9 @@ export default function ContentManagementPage() {
       setNewQuestion({
         ...question,
         options: question.options || ["", "", "", ""],
+        timing: question.timing || { preparationTime: 0, responseTime: 0, totalTime: 0 },
+        wordCount: question.wordCount || { min: 0, max: 0 },
+        metadata: question.metadata || { scenario: "", context: "", targetSkills: [] }
       })
       setEditingQuestion(id)
       setIsAddingQuestion(true)
@@ -185,7 +393,7 @@ export default function ContentManagementPage() {
   const handleUpdateQuestion = () => {
     if (!editingQuestion) return
 
-    if (!newQuestion.section || !newQuestion.type || !newQuestion.prompt) {
+    if (!newQuestion.section || !newQuestion.taskType || !newQuestion.prompt || !newQuestion.part) {
       toast({
         title: "Error",
         description: "Please fill in all required fields.",
@@ -194,31 +402,28 @@ export default function ContentManagementPage() {
       return
     }
 
-    const updatedQuestion: Question = {
+    const updatedQuestion: CELPIPQuestion = {
       id: editingQuestion,
       section: newQuestion.section!,
-      type: newQuestion.type!,
+      part: newQuestion.part!,
+      partName: newQuestion.partName!,
+      taskType: newQuestion.taskType!,
       prompt: newQuestion.prompt!,
+      instructions: newQuestion.instructions,
       difficulty: newQuestion.difficulty || "intermediate",
       points: newQuestion.points || 10,
-      ...(newQuestion.type === "mcq" && {
+      timing: newQuestion.timing,
+      wordCount: newQuestion.wordCount,
+      metadata: newQuestion.metadata,
+      ...(newQuestion.taskType === "mcq" && {
         options: newQuestion.options?.filter((opt) => opt.trim() !== ""),
         correctAnswer: newQuestion.correctAnswer,
       }),
-      ...(newQuestion.mediaUrl && { mediaUrl: newQuestion.mediaUrl }),
+      ...(newQuestion.mediaFiles && { mediaFiles: newQuestion.mediaFiles }),
     }
 
     setQuestions(questions.map((q) => (q.id === editingQuestion ? updatedQuestion : q)))
-    setNewQuestion({
-      section: "",
-      type: "",
-      prompt: "",
-      options: ["", "", "", ""],
-      correctAnswer: "",
-      mediaUrl: "",
-      difficulty: "intermediate",
-      points: 10,
-    })
+    resetNewQuestion()
     setIsAddingQuestion(false)
     setEditingQuestion(null)
 
@@ -245,16 +450,7 @@ export default function ContentManagementPage() {
   }
 
   const cancelEdit = () => {
-    setNewQuestion({
-      section: "",
-      type: "",
-      prompt: "",
-      options: ["", "", "", ""],
-      correctAnswer: "",
-      mediaUrl: "",
-      difficulty: "intermediate",
-      points: 10,
-    })
+    resetNewQuestion()
     setIsAddingQuestion(false)
     setEditingQuestion(null)
   }
@@ -296,7 +492,7 @@ export default function ContentManagementPage() {
                 <Label>Section *</Label>
                 <Select
                   value={newQuestion.section}
-                  onValueChange={(value) => setNewQuestion({ ...newQuestion, section: value })}
+                  onValueChange={handleSectionChange}
                 >
                   <SelectTrigger className="glass-card border-white/10">
                     <SelectValue placeholder="Select section" />
@@ -311,27 +507,55 @@ export default function ContentManagementPage() {
               </div>
 
               <div className="space-y-2">
-                <Label>Question Type *</Label>
+                <Label>Part *</Label>
                 <Select
-                  value={newQuestion.type}
-                  onValueChange={(value) => setNewQuestion({ ...newQuestion, type: value })}
+                  value={newQuestion.part?.toString()}
+                  onValueChange={(value) => handlePartChange(parseInt(value))}
                 >
                   <SelectTrigger className="glass-card border-white/10">
-                    <SelectValue placeholder="Select type" />
+                    <SelectValue placeholder="Select part" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="mcq">Multiple Choice</SelectItem>
-                    <SelectItem value="text">Text Response</SelectItem>
-                    <SelectItem value="audio">Audio Response</SelectItem>
+                    {getAvailableParts(newQuestion.section || "").map((part) => (
+                      <SelectItem key={part.number} value={part.number.toString()}>
+                        Part {part.number}: {part.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
+                <Label>Task Type *</Label>
+                <Select
+                  value={newQuestion.taskType}
+                  onValueChange={(value) => setNewQuestion({ ...newQuestion, taskType: value })}
+                >
+                  <SelectTrigger className="glass-card border-white/10">
+                    <SelectValue placeholder="Select task type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="mcq">Multiple Choice</SelectItem>
+                    <SelectItem value="email">Email Writing</SelectItem>
+                    <SelectItem value="survey">Survey Response</SelectItem>
+                    <SelectItem value="description">Description</SelectItem>
+                    <SelectItem value="advice">Giving Advice</SelectItem>
+                    <SelectItem value="experience">Personal Experience</SelectItem>
+                    <SelectItem value="prediction">Making Predictions</SelectItem>
+                    <SelectItem value="comparison">Comparing & Persuading</SelectItem>
+                    <SelectItem value="situation">Difficult Situation</SelectItem>
+                    <SelectItem value="opinion">Expressing Opinion</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
                 <Label>Difficulty</Label>
                 <Select
                   value={newQuestion.difficulty}
-                  onValueChange={(value) => setNewQuestion({ ...newQuestion, difficulty: value })}
+                  onValueChange={(value) => setNewQuestion({ ...newQuestion, difficulty: value as 'beginner' | 'intermediate' | 'advanced' })}
                 >
                   <SelectTrigger className="glass-card border-white/10">
                     <SelectValue placeholder="Select difficulty" />
@@ -343,20 +567,110 @@ export default function ContentManagementPage() {
                   </SelectContent>
                 </Select>
               </div>
+
+              <div className="space-y-2">
+                <Label>Points</Label>
+                <Input
+                  type="number"
+                  placeholder="Enter points (e.g., 10)"
+                  value={newQuestion.points}
+                  onChange={(e) => setNewQuestion({ ...newQuestion, points: parseInt(e.target.value) || 10 })}
+                  className="glass-card border-white/10"
+                  min="1"
+                  max="100"
+                />
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <Label>Points</Label>
-              <Input
-                type="number"
-                placeholder="Enter points (e.g., 10)"
-                value={newQuestion.points}
-                onChange={(e) => setNewQuestion({ ...newQuestion, points: Number.parseInt(e.target.value) || 10 })}
-                className="glass-card border-white/10"
-                min="1"
-                max="100"
-              />
+            {/* Timing Configuration */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-2">
+                <Label>Preparation Time (seconds)</Label>
+                <Input
+                  type="number"
+                  placeholder="e.g., 30"
+                  value={newQuestion.timing?.preparationTime || 0}
+                  onChange={(e) => setNewQuestion({ 
+                    ...newQuestion, 
+                    timing: { 
+                      ...newQuestion.timing, 
+                      preparationTime: parseInt(e.target.value) || 0 
+                    } 
+                  })}
+                  className="glass-card border-white/10"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Response Time (seconds)</Label>
+                <Input
+                  type="number"
+                  placeholder="e.g., 90"
+                  value={newQuestion.timing?.responseTime || 0}
+                  onChange={(e) => setNewQuestion({ 
+                    ...newQuestion, 
+                    timing: { 
+                      ...newQuestion.timing, 
+                      responseTime: parseInt(e.target.value) || 0 
+                    } 
+                  })}
+                  className="glass-card border-white/10"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Total Time (seconds)</Label>
+                <Input
+                  type="number"
+                  placeholder="e.g., 180"
+                  value={newQuestion.timing?.totalTime || 0}
+                  onChange={(e) => setNewQuestion({ 
+                    ...newQuestion, 
+                    timing: { 
+                      ...newQuestion.timing, 
+                      totalTime: parseInt(e.target.value) || 0 
+                    } 
+                  })}
+                  className="glass-card border-white/10"
+                />
+              </div>
             </div>
+
+            {/* Word Count for Writing Tasks */}
+            {(newQuestion.section === 'writing') && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Minimum Words</Label>
+                  <Input
+                    type="number"
+                    placeholder="e.g., 150"
+                    value={newQuestion.wordCount?.min || 0}
+                    onChange={(e) => setNewQuestion({ 
+                      ...newQuestion, 
+                      wordCount: { 
+                        ...newQuestion.wordCount, 
+                        min: parseInt(e.target.value) || 0 
+                      } 
+                    })}
+                    className="glass-card border-white/10"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label>Maximum Words</Label>
+                  <Input
+                    type="number"
+                    placeholder="e.g., 200"
+                    value={newQuestion.wordCount?.max || 0}
+                    onChange={(e) => setNewQuestion({ 
+                      ...newQuestion, 
+                      wordCount: { 
+                        ...newQuestion.wordCount, 
+                        max: parseInt(e.target.value) || 0 
+                      } 
+                    })}
+                    className="glass-card border-white/10"
+                  />
+                </div>
+              </div>
+            )}
 
             <div className="space-y-2">
               <Label>Question Prompt *</Label>
@@ -368,7 +682,105 @@ export default function ContentManagementPage() {
               />
             </div>
 
-            {newQuestion.type === "mcq" && (
+            {/* Instructions Field */}
+            <div className="space-y-2">
+              <Label>Instructions</Label>
+              <Textarea
+                placeholder="Enter specific instructions for this question..."
+                value={newQuestion.instructions}
+                onChange={(e) => setNewQuestion({ ...newQuestion, instructions: e.target.value })}
+                className="glass-card border-white/10 min-h-[80px]"
+              />
+            </div>
+
+            {/* File Upload Section */}
+            <div className="space-y-4">
+              <Label className="text-lg font-semibold">Media Files</Label>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Audio Upload */}
+                <div className="space-y-2">
+                  <Label className="flex items-center gap-2">
+                    <Volume2 className="h-4 w-4" />
+                    Audio File
+                  </Label>
+                  <div className="border-2 border-dashed border-white/20 rounded-lg p-4 text-center">
+                    <input
+                      type="file"
+                      accept="audio/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) handleFileUpload(file, 'audio')
+                      }}
+                      className="hidden"
+                      id="audio-upload"
+                    />
+                    <label htmlFor="audio-upload" className="cursor-pointer">
+                      <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground">Click to upload audio</p>
+                    </label>
+                    {newQuestion.mediaFiles?.audio && (
+                      <p className="text-xs text-green-400 mt-2">Audio uploaded</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Video Upload */}
+                <div className="space-y-2">
+                  <Label className="flex items-center gap-2">
+                    <Video className="h-4 w-4" />
+                    Video File
+                  </Label>
+                  <div className="border-2 border-dashed border-white/20 rounded-lg p-4 text-center">
+                    <input
+                      type="file"
+                      accept="video/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) handleFileUpload(file, 'video')
+                      }}
+                      className="hidden"
+                      id="video-upload"
+                    />
+                    <label htmlFor="video-upload" className="cursor-pointer">
+                      <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground">Click to upload video</p>
+                    </label>
+                    {newQuestion.mediaFiles?.video && (
+                      <p className="text-xs text-green-400 mt-2">Video uploaded</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Image Upload */}
+                <div className="space-y-2">
+                  <Label className="flex items-center gap-2">
+                    <Image className="h-4 w-4" />
+                    Image File
+                  </Label>
+                  <div className="border-2 border-dashed border-white/20 rounded-lg p-4 text-center">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) handleFileUpload(file, 'image')
+                      }}
+                      className="hidden"
+                      id="image-upload"
+                    />
+                    <label htmlFor="image-upload" className="cursor-pointer">
+                      <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground">Click to upload image</p>
+                    </label>
+                    {newQuestion.mediaFiles?.image && (
+                      <p className="text-xs text-green-400 mt-2">Image uploaded</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {newQuestion.taskType === "mcq" && (
               <>
                 <div className="space-y-2">
                   <Label>Answer Options *</Label>

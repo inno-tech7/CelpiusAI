@@ -278,7 +278,7 @@ export default function WritingTestPage() {
   return (
     <DashboardLayout>
       <div className="card-outline text-white font-sans">
-        <header className="flex justify-between items-center p-4 bg-blue-900 max-435:flex-col max-435:items-start rounded-t-[20px]">
+        <header className="flex justify-between items-center p-4 bg-blue-950 max-435:flex-col max-435:items-start rounded-t-[23px]">
           <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[70%] max-435:pb-[2rem]">Practice Test A - Writing {currentTaskData.title}</h1>
           <div className="flex items-center space-x-4 max-435:space-x-32">
             <span className="text-sm text-slate-400">Time remaining: <span className="font-bold text-red-500">{formatTime(taskTimeRemaining)}</span></span>
@@ -333,7 +333,7 @@ export default function WritingTestPage() {
           </div>
         </main>
 
-        <footer className="flex justify-between items-center p-4 bg-blue-900 rounded-b-[20px]">
+        <footer className="flex justify-between items-center p-4 bg-blue-950 rounded-b-[23px]">
           <div></div>
           <Button onClick={handlePreviousTask} disabled={currentTask === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
             Back

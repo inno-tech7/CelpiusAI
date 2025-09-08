@@ -559,7 +559,7 @@ export default function ListeningTestPage() {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-        <header className="flex justify-between items-center p-4 bg-blue-900 max-435:flex-col max-435:items-start rounded-t-[20px]">
+        <header className="flex justify-between items-center p-4 bg-blue-950 max-435:flex-col max-435:items-start rounded-t-[23px]">
           <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[70%] max-435:pb-[2rem]">Practice Test A - Listening Part {currentPart + 1}: Listening to Problem Solving</h1>
           <div className="flex items-center space-x-4 max-435:space-x-40">
             <span className="text-sm text-slate-400 max-435:flex max-435:flex-col">Time remaining: <span className="font-bold text-red-500">{formatTime(timeRemaining)}</span></span>
@@ -680,7 +680,7 @@ export default function ListeningTestPage() {
           </div>
         </main>
 
-        <footer className="flex justify-between items-center p-4 bg-blue-900 rounded-b-[20px]">
+        <footer className="flex justify-between items-center p-4 bg-blue-950 rounded-b-[23px]">
           <Button className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
             Answer Key
           </Button>

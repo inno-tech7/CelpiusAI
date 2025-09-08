@@ -10,7 +10,7 @@ import Image from "next/image"
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="relative py-20 lg:py-32 h-[85rem] max-1024:h-[160rem] max-435:h-[182rem]">
+    <section id="features" className="relative py-20 lg:py-32 h-[77rem] max-1024:h-[133rem] max-820:h-[141rem] max-435:h-[151rem]">
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <motion.h2
@@ -41,60 +41,27 @@ export function FeaturesSection() {
 
             {/* ----------------------------GRID FEATURE CARDS---------------------------------------- */}
 
-              <div className="grid grid-cols-2 gap-[7rem] mt-[7rem] max-1024:grid-cols-1">
+              <div className="grid grid-cols-2 gap-[1.2rem] mt-[7rem] max-1024:grid-cols-1">
 
 
                 <div className="card-outline-feature p-[2rem] w-[100%] overflow-hidden">
                     
-                      <h3 className="dark:text-slate-300 text-slate-700 text-[1.5rem] text-start font-[700] ">Listening <span className="font-[200]">comprehension</span> </h3>
+                    <h3 className="dark:text-slate-300 text-slate-700 text-[1.5rem] text-start font-[700] ">Listening <span className="font-[200]">comprehension</span> </h3>
 
-                      <p className="pt-[1rem] gradient-features-sh text-[1.1rem] font-[300] text-start">
-                        Interactive listening exercises with detailed explanations and progress tracking to advance your learning experience.
-                      </p>
-                    
-                    <div className="relative w-[200px] h-[200px] scale-[1] mt-[1rem] mx-auto z-20">
+                    <p className="pt-[1rem] gradient-features-sh text-[1.1rem] font-[300] text-start">
+                      Interactive listening exercises with detailed explanations and progress tracking to advance your learning experience.
+                    </p>
+
+                    <div className="relative opacity-[100%] w-[310px] h-[170px] scale-[1.7] max-435:scale-[1] mt-[6.0rem] mb-[2rem] mx-auto z-10">
                       <Image
-                        src="/features-section/Listening comprehension icon.png"
-                        alt="Listening comprehension"
+                        src="/features-section/Feature aesthetic 1.png"
+                        alt="Feature aesthetic 1"
                         fill
                         quality={100} 
-                        className=" object-contain"
+                        className="object-cover"
                       />
                     </div>
-
-                    <div className="relative opacity-[14%] w-[277px] h-[200px] scale-[1] mt-[-12.5rem] mb-[2rem] mx-auto z-10">
-                      <Image
-                        src="/features-section/01.png"
-                        alt="01 (big)"
-                        fill
-                        quality={100} 
-                        className=" object-cover"
-                      />
-                    </div>
-
-                    <div className="flex flex-row">
-
-                    <div className="relative w-[86px] h-[60px] scale-[1]">
-                      <Image
-                        src="/features-section/01.png"
-                        alt="01 (small)"
-                        fill
-                        quality={100} 
-                        className=" object-cover"
-                      />
-                    </div>
-
-                    <div className="relative w-[60px] h-[60px] scale-[4] ml-auto translate-x-[-3.5rem] translate-y-[-3.7rem]">
-                      <Image
-                        src="/features-section/Bottom right radio wave.png"
-                        alt="Bottom right radio wave"
-                        fill
-                        quality={100} 
-                        className=" object-cover"
-                      />
-                    </div>
-                  </div>
-                </div>
+              </div>
 
 
 
@@ -105,50 +72,18 @@ export function FeaturesSection() {
                       <p className="pt-[1rem] gradient-features-sh text-[1.1rem] font-[300] text-start">
                         Have an experience of timed reading exercises and follow up your reading speed and accuracy over time.
                       </p>
+
+                      <div className="relative opacity-[100%] w-[310px] h-[170px] scale-[1.7] max-435:scale-[1] mt-[6.0rem] mb-[2rem] mx-auto z-10">
+                      <Image
+                        src="/features-section/Feature aesthetic 2.png"
+                        alt="Feature aesthetic 2"
+                        fill
+                        quality={100} 
+                        className="object-cover"
+                      />
+                    </div>
+
                     
-                    <div className="relative w-[200px] h-[200px] scale-[1] mt-[1rem] mx-auto z-20">
-                      <Image
-                        src="/features-section/Track reading speed.png"
-                        alt="Track reading speed"
-                        fill
-                        quality={100} 
-                        className=" object-contain"
-                      />
-                    </div>
-
-                    <div className="relative opacity-[14%] w-[320px] h-[200px] scale-[1] mt-[-12.5rem] mb-[2rem] mx-auto z-10">
-                      <Image
-                        src="/features-section/02.png"
-                        alt="02 (big)"
-                        fill
-                        quality={100} 
-                        className=" object-cover"
-                      />
-                    </div>
-
-                    <div className="flex flex-row">
-
-                    <div className="relative w-[98px] h-[61px] scale-[1]">
-                      <Image
-                        src="/features-section/02.png"
-                        alt="02 (small)"
-                        fill
-                        quality={100} 
-                        className=" object-cover"
-                      />
-                    </div>
-
-                    <div className="relative w-[60px] h-[60px] scale-[4] ml-auto translate-x-[-3.5rem] translate-y-[-3.7rem]">
-                      <Image
-                        src="/features-section/Bottom right radio wave.png"
-                        alt="Bottom right radio wave"
-                        fill
-                        quality={100} 
-                        className=" object-cover"
-                      />
-                    </div>
-
-                  </div>
                 </div>
 
 
@@ -161,49 +96,18 @@ export function FeaturesSection() {
                       <p className="pt-[1rem] gradient-features-sh text-[1.1rem] font-[300] text-start">
                         Comprehensive grammar, coherence, and vocabulary analysis with line-by-line suggestions.
                       </p>
+
+                      <div className="relative opacity-[100%] w-[310px] h-[170px] scale-[1.7] max-435:scale-[1] mt-[6.0rem] mb-[2rem] mx-auto z-10">
+                      <Image
+                        src="/features-section/Feature aesthetic 3.png"
+                        alt="Feature aesthetic 3"
+                        fill
+                        quality={100} 
+                        className="object-cover"
+                      />
+                    </div>
+
                     
-                    <div className="relative w-[200px] h-[200px] scale-[1] mt-[1rem] mx-auto z-20">
-                      <Image
-                        src="/features-section/Writing analysis.png"
-                        alt="Writing analysis"
-                        fill
-                        quality={100} 
-                        className=" object-contain"
-                      />
-                    </div>
-
-                    <div className="relative opacity-[14%] w-[321px] h-[200px] scale-[1] mt-[-12.5rem] mb-[2rem] mx-auto z-10">
-                      <Image
-                        src="/features-section/03.png"
-                        alt="03 (big)"
-                        fill
-                        quality={100} 
-                        className=" object-cover"
-                      />
-                    </div>
-
-                    <div className="flex flex-row">
-
-                    <div className="relative w-[96px] h-[60px] scale-[1]">
-                      <Image
-                        src="/features-section/03.png"
-                        alt="03 (small)"
-                        fill
-                        quality={100} 
-                        className=" object-cover"
-                      />
-                    </div>
-
-                    <div className="relative w-[60px] h-[60px] scale-[4] ml-auto translate-x-[-3.5rem] translate-y-[-3.7rem]">
-                      <Image
-                        src="/features-section/Bottom right radio wave.png"
-                        alt="Bottom right radio wave"
-                        fill
-                        quality={100} 
-                        className=" object-cover"
-                      />
-                    </div>
-                  </div>
                 </div>
 
 
@@ -216,49 +120,17 @@ export function FeaturesSection() {
                       <p className="pt-[1rem] gradient-features-sh text-[1.1rem] font-[300] text-start">
                         Record your responses and get AI-powered feedback on pronunciation, fluency, and emotional tone.
                       </p>
-                    
-                    <div className="relative w-[200px] h-[200px] scale-[1] mt-[1rem] mx-auto z-20">
+
+
+                      <div className="relative opacity-[100%] w-[310px] h-[170px] scale-[1.7] max-435:scale-[1] mt-[6.0rem] mb-[2rem] mx-auto z-10">
                       <Image
-                        src="/features-section/Speaking practice.png"
-                        alt="Speaking practice"
+                        src="/features-section/Feature aesthetic 4.png"
+                        alt="Feature aesthetic 4"
                         fill
                         quality={100} 
-                        className=" object-contain"
+                        className="object-cover"
                       />
                     </div>
-
-                    <div className="relative opacity-[14%] w-[351px] h-[200px] scale-[1] mt-[-12.5rem] mb-[2rem] mx-auto z-10">
-                      <Image
-                        src="/features-section/04.png"
-                        alt="04 (big)"
-                        fill
-                        quality={100} 
-                        className=" object-cover"
-                      />
-                    </div>
-
-                    <div className="flex flex-row">
-
-                    <div className="relative w-[105px] h-[60px] scale-[1]">
-                      <Image
-                        src="/features-section/04.png"
-                        alt="04 (small)"
-                        fill
-                        quality={100} 
-                        className=" object-cover"
-                      />
-                    </div>
-
-                    <div className="relative w-[60px] h-[60px] scale-[4] ml-auto translate-x-[-3.5rem] translate-y-[-3.7rem]">
-                      <Image
-                        src="/features-section/Bottom right radio wave.png"
-                        alt="Bottom right radio wave"
-                        fill
-                        quality={100} 
-                        className=" object-cover"
-                      />
-                    </div>
-                  </div>
                 </div>
               </div>
           </motion.div>

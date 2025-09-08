@@ -8,6 +8,7 @@ import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import SemiCircularProgress from "@/components/SemiCircularProgress"
+import SpotlightCard from '@/components/SpotlightCard';
 import { Progress } from "@/components/ui/progress"
 
 import { Badge } from "@/components/ui/badge"
@@ -84,22 +85,25 @@ export default function DashboardPage() {
           </div>
         </motion.div>
 
+        {/* <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(59, 130, 246, 0.50)">
+          // Content goes here
+        </SpotlightCard> */}
+
 
         <motion.div variants={fadeInUp} className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <Card className="glass-card">
-            <CardContent className="p-6">
-              <div className="flex items-center space-x-2">
-                <BarChart3 className="h-5 w-5 text-blue-500" />
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Current CLB</p>
-                  <p className="text-2xl font-bold">8.5</p>
-                </div>
+          
+          <SpotlightCard className="custom-spotlight-card border-blue-200/50 border-[2px]" spotlightColor="rgba(59, 130, 246, 0.50)">
+            <div className="flex items-center space-x-2">
+              <BarChart3 className="h-5 w-5 text-blue-500" />
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">Current CLB</p>
+                <p className="text-2xl font-bold">8.5</p>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </SpotlightCard>
+            
 
-          <Card className="glass-card">
-            <CardContent className="p-6">
+          <SpotlightCard className="custom-spotlight-card border-blue-200/50 border-[2px]" spotlightColor="rgba(59, 130, 246, 0.50)">
               <div className="flex items-center space-x-2">
                 <Clock className="h-5 w-5 text-green-500" />
                 <div>
@@ -107,11 +111,9 @@ export default function DashboardPage() {
                   <p className="text-2xl font-bold">24h</p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+          </SpotlightCard>
 
-          <Card className="glass-card">
-            <CardContent className="p-6">
+          <SpotlightCard className="custom-spotlight-card border-blue-200/50 border-[2px]" spotlightColor="rgba(59, 130, 246, 0.50)">
               <div className="flex items-center space-x-2">
                 <Target className="h-5 w-5 text-purple-500" />
                 <div>
@@ -119,11 +121,9 @@ export default function DashboardPage() {
                   <p className="text-2xl font-bold">12</p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+          </SpotlightCard>
 
-          <Card className="glass-card">
-            <CardContent className="p-6">
+          <SpotlightCard className="custom-spotlight-card border-blue-200/50 border-[2px]" spotlightColor="rgba(59, 130, 246, 0.50)">
               <div className="flex items-center space-x-2">
                 <TrendingUp className="h-5 w-5 text-orange-500" />
                 <div>
@@ -131,8 +131,8 @@ export default function DashboardPage() {
                   <p className="text-2xl font-bold">+1.2</p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+          </SpotlightCard>
+          
         </motion.div>
 
 
