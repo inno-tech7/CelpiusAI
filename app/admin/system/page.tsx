@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Server, Cpu, AlertCircle, CheckCircle } from "lucide-react"
+import BorderSpotlight from "@/components/BorderSpotlight"
 
 const systemMetrics = {
   aiEngine: {
@@ -49,7 +50,14 @@ export default function SystemMonitoringPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card className="card-outline">
+      <BorderSpotlight
+        color="#5ea0ff"
+        brightness={1}
+        feather={80}
+        borderWidth={7}
+        borderRadius="1.5rem"
+        >
+        <Card className="glassmorphic-dashboard">
           <CardHeader>
             <CardTitle className="flex items-center"><Cpu className="mr-2"/> AI Engine Status</CardTitle>
             <CardDescription>Performance of the core AI model</CardDescription>
@@ -61,8 +69,16 @@ export default function SystemMonitoringPage() {
             <div className="flex justify-between items-center"><span className="text-muted-foreground">Average Latency</span> <span>{systemMetrics.aiEngine.latency}</span></div>
           </CardContent>
         </Card>
+      </BorderSpotlight>
 
-        <Card className="card-outline">
+      <BorderSpotlight
+        color="#5ea0ff"
+        brightness={1}
+        feather={80}
+        borderWidth={7}
+        borderRadius="1.5rem"
+      >
+        <Card className="glassmorphic-dashboard">
           <CardHeader>
             <CardTitle className="flex items-center"><Server className="mr-2"/> API Health</CardTitle>
             <CardDescription>Status of public and internal APIs</CardDescription>
@@ -74,9 +90,17 @@ export default function SystemMonitoringPage() {
             <div className="flex justify-between items-center"><span className="text-muted-foreground">Error Rate</span> <span>{systemMetrics.api.errorRate}</span></div>
           </CardContent>
         </Card>
+        </BorderSpotlight>
       </div>
 
-      <Card className="card-outline">
+      <BorderSpotlight
+        color="#5ea0ff"
+        brightness={1}
+        feather={80}
+        borderWidth={7}
+        borderRadius="1.5rem"
+      >
+      <Card className="glassmorphic-dashboard">
         <CardHeader>
           <CardTitle>Server Infrastructure</CardTitle>
           <CardDescription>Live status of our server fleet</CardDescription>
@@ -104,7 +128,7 @@ export default function SystemMonitoringPage() {
           </div>
         </CardContent>
       </Card>
-
+      </BorderSpotlight>
     </motion.div>
   )
 }

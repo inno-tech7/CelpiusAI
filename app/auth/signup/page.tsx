@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -14,10 +14,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useAuth } from "@/hooks/use-auth"
 import { useModal } from "@/components/modal-provider"
 import { useToast } from "@/hooks/use-toast"
-import { Eye, EyeOff, Mail, Lock, User } from "lucide-react"
+import { Eye, EyeOff, User, Mail, Lock, ArrowLeft, ArrowRight, Globe, Target, Check } from "lucide-react"
 import Image from "next/image"
+import BorderSpotlight from "@/components/BorderSpotlight"
 
 export default function SignupPage() {
+  const [currentStep, setCurrentStep] = useState(1)
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -34,6 +36,8 @@ export default function SignupPage() {
   const { toast } = useToast()
   const { showModal } = useModal()
   const router = useRouter()
+
+  const totalSteps = 3
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -72,201 +76,528 @@ export default function SignupPage() {
     setFormData((prev) => ({ ...prev, [field]: value }))
   }
 
-  return (
-    <div className="min-h-screen body-gradient-bg flex items-center justify-center p-4 relative z-10">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="w-full max-w-md"
-      >
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-block">
-            <Image
-              src="/celpius-ai-logo.png"
-              alt="Celpius AI"
-              width={120}
-              height={40}
-              className="h-10 w-auto mx-auto"
-            />
-          </Link>
-        </div>
+  const nextStep = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1)
+    }
+  }
 
-        <Card className="glass-diag-sign-up border-white/10">
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1)
+    }
+  }
 
-          <Image
-              src="/section-images/flare (horizontal).png"
-              alt="flare"
-              width={500} 
-              height={3500} 
-              quality={100} 
-              className="absolute top-[-5.6%] left-[-6.45%] dark:opacity-100 opacity-0 z-20 max-w-none max-h-none md:scale-[1] max-435:left-[-14.45%] max-435:scale-[0.7] max-415:left-[-17.45%]" 
-            />
+  const validateStep = (step: number) => {
+    switch (step) {
+      case 1:
+        return formData.firstName && formData.lastName
+      case 2:
+        return formData.email && formData.password && formData.confirmPassword && formData.password === formData.confirmPassword
+      case 3:
+        return formData.nativeLanguage && formData.targetCLB
+      default:
+        return false
+    }
+  }
 
-          <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
-            <CardDescription>Start your CELPIP preparation journey</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="firstName" className="font-mono text-sm">
-                    First Name
-                  </Label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground z-10" />
-                    <Input
-                      id="firstName"
-                      placeholder="First name"
-                      value={formData.firstName}
-                      onChange={(e) => updateFormData("firstName", e.target.value)}
-                      className="pl-10 glass-card border-white/10"
-                      required
-                    />
-                  </div>
+  const handleStepSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (currentStep === totalSteps) {
+      handleSubmit(e)
+    } else if (validateStep(currentStep)) {
+      nextStep()
+    } else {
+      showModal("Error", "Please fill in all required fields.")
+    }
+  }
+
+  const getStepTitle = () => {
+    switch (currentStep) {
+      case 1:
+        return "Personal Information"
+      case 2:
+        return "Account Security"
+      case 3:
+        return "Learning Preferences"
+      default:
+        return "Create Account"
+    }
+  }
+
+  const getStepDescription = () => {
+    switch (currentStep) {
+      case 1:
+        return "Let's start with your basic information"
+      case 2:
+        return "Set up your login credentials"
+      case 3:
+        return "Help us personalize your experience"
+      default:
+        return "Start your CELPIP preparation journey"
+    }
+  }
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 gap-6">
+              <div className="space-y-3">
+                <Label htmlFor="firstName" className="text-white/90 font-medium text-sm">
+                  First Name
+                </Label>
+                <div className="relative group">
+                  <User className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/40 group-focus-within:text-blue-400 transition-colors z-10" />
+                  <Input
+                    id="firstName"
+                    placeholder="First name"
+                    value={formData.firstName}
+                    onChange={(e) => updateFormData("firstName", e.target.value)}
+                    className="pl-12 pr-4 py-3 bg-white/5 border border-white/20 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 rounded-xl transition-all duration-200 hover:bg-white/10"
+                    required
+                  />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="lastName" className="font-mono text-sm">
-                    Last Name
-                  </Label>
+              </div>
+              <div className="space-y-3">
+                <Label htmlFor="lastName" className="text-white/90 font-medium text-sm">
+                  Last Name
+                </Label>
+                <div className="relative group">
+                  <User className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/40 group-focus-within:text-blue-400 transition-colors z-10" />
                   <Input
                     id="lastName"
                     placeholder="Last name"
                     value={formData.lastName}
                     onChange={(e) => updateFormData("lastName", e.target.value)}
-                    className="glass-card border-white/10"
+                    className="pl-12 pr-4 py-3 bg-white/5 border border-white/20 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 rounded-xl transition-all duration-200 hover:bg-white/10"
                     required
                   />
                 </div>
               </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="email" className="font-mono text-sm">
-                  Email
-                </Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground z-10" />
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={formData.email}
-                    onChange={(e) => updateFormData("email", e.target.value)}
-                    className="pl-10 glass-card border-white/10"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="password" className="font-mono text-sm">
-                  Password
-                </Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground z-10" />
-                  <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Create password"
-                    value={formData.password}
-                    onChange={(e) => updateFormData("password", e.target.value)}
-                    className="pl-10 pr-10 glass-card border-white/10"
-                    required
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </Button>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword" className="font-mono text-sm">
-                  Confirm Password
-                </Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground z-10" />
-                  <Input
-                    id="confirmPassword"
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm password"
-                    value={formData.confirmPassword}
-                    onChange={(e) => updateFormData("confirmPassword", e.target.value)}
-                    className="pl-10 pr-10 glass-card border-white/10"
-                    required
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  >
-                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                  </Button>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label className="font-mono text-sm">Native Language</Label>
-                <Select
-                  value={formData.nativeLanguage}
-                  onValueChange={(value) => updateFormData("nativeLanguage", value)}
-                >
-                  <SelectTrigger className="glass-card border-white/10">
-                    <SelectValue placeholder="Select your native language" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="spanish">Spanish</SelectItem>
-                    <SelectItem value="french">French</SelectItem>
-                    <SelectItem value="mandarin">Mandarin</SelectItem>
-                    <SelectItem value="hindi">Hindi</SelectItem>
-                    <SelectItem value="arabic">Arabic</SelectItem>
-                    <SelectItem value="portuguese">Portuguese</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label className="font-mono text-sm">Target CLB Level</Label>
-                <Select value={formData.targetCLB} onValueChange={(value) => updateFormData("targetCLB", value)}>
-                  <SelectTrigger className="glass-card border-white/10">
-                    <SelectValue placeholder="Select target CLB level" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="7">CLB 7</SelectItem>
-                    <SelectItem value="8">CLB 8</SelectItem>
-                    <SelectItem value="9">CLB 9</SelectItem>
-                    <SelectItem value="10">CLB 10</SelectItem>
-                    <SelectItem value="11">CLB 11</SelectItem>
-                    <SelectItem value="12">CLB 12</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <Button type="submit" className="w-full glow" disabled={isLoading}>
-                {isLoading ? "Creating account..." : "Create Account"}
-              </Button>
-            </form>
-
-            <div className="mt-6 text-center">
-              <p className="text-sm text-muted-foreground">
-                Already have an account?{" "}
-                <Link href="/auth/login" className="font-mono text-primary hover:underline">
-                  Sign in
-                </Link>
-              </p>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        )
+      case 2:
+        return (
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <Label htmlFor="email" className="text-white/90 font-medium text-sm">
+                Email Address
+              </Label>
+              <div className="relative group">
+                <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/40 group-focus-within:text-blue-400 transition-colors z-10" />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Email address"
+                  value={formData.email}
+                  onChange={(e) => updateFormData("email", e.target.value)}
+                  className="pl-12 pr-4 py-3 bg-white/5 border border-white/20 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 rounded-xl transition-all duration-200 hover:bg-white/10"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <Label htmlFor="password" className="text-white/90 font-medium text-sm">
+                Password
+              </Label>
+              <div className="relative group">
+                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/40 group-focus-within:text-blue-400 transition-colors z-10" />
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={(e) => updateFormData("password", e.target.value)}
+                  className="pl-12 pr-12 py-3 bg-white/5 border border-white/20 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 rounded-xl transition-all duration-200 hover:bg-white/10"
+                  required
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-white/10 text-white/50 hover:text-white/80 rounded-lg transition-all"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </Button>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <Label htmlFor="confirmPassword" className="text-white/90 font-medium text-sm">
+                Confirm Password
+              </Label>
+              <div className="relative group">
+                <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/40 group-focus-within:text-blue-400 transition-colors z-10" />
+                <Input
+                  id="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Confirm password"
+                  value={formData.confirmPassword}
+                  onChange={(e) => updateFormData("confirmPassword", e.target.value)}
+                  className="pl-12 pr-12 py-3 bg-white/5 border border-white/20 text-white placeholder:text-white/50 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 rounded-xl transition-all duration-200 hover:bg-white/10"
+                  required
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-white/10 text-white/50 hover:text-white/80 rounded-lg transition-all"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </Button>
+              </div>
+            </div>
+          </div>
+        )
+      case 3:
+        return (
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <Label htmlFor="nativeLanguage" className="text-white/90 font-medium text-sm">
+                Native Language
+              </Label>
+              <div className="relative group">
+                <Globe className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/40 group-focus-within:text-blue-400 transition-colors z-10" />
+                <Select value={formData.nativeLanguage} onValueChange={(value) => updateFormData("nativeLanguage", value)}>
+                  <SelectTrigger className="pl-12 pr-4 py-3 bg-white/5 border border-white/20 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 rounded-xl transition-all duration-200 hover:bg-white/10">
+                    <SelectValue placeholder="Native language" className="text-white/50" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-slate-900/95 backdrop-blur-sm border-slate-700 rounded-xl">
+                    <SelectItem value="spanish" className="text-white hover:bg-slate-700/50 rounded-lg">Spanish</SelectItem>
+                    <SelectItem value="french" className="text-white hover:bg-slate-700/50 rounded-lg">French</SelectItem>
+                    <SelectItem value="mandarin" className="text-white hover:bg-slate-700/50 rounded-lg">Mandarin</SelectItem>
+                    <SelectItem value="arabic" className="text-white hover:bg-slate-700/50 rounded-lg">Arabic</SelectItem>
+                    <SelectItem value="portuguese" className="text-white hover:bg-slate-700/50 rounded-lg">Portuguese</SelectItem>
+                    <SelectItem value="other" className="text-white hover:bg-slate-700/50 rounded-lg">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <Label htmlFor="targetCLB" className="text-white/90 font-medium text-sm">
+                Target CLB Level
+              </Label>
+              <div className="relative group">
+                <Target className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/40 group-focus-within:text-blue-400 transition-colors z-10" />
+                <Select value={formData.targetCLB} onValueChange={(value) => updateFormData("targetCLB", value)}>
+                  <SelectTrigger className="pl-12 pr-4 py-3 bg-white/5 border border-white/20 text-white focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 rounded-xl transition-all duration-200 hover:bg-white/10">
+                    <SelectValue placeholder="Target CLB level" className="text-white/50" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-slate-900/95 backdrop-blur-sm border-slate-700 rounded-xl">
+                    <SelectItem value="clb4" className="text-white hover:bg-slate-700/50 rounded-lg">CLB 4 - Basic</SelectItem>
+                    <SelectItem value="clb5" className="text-white hover:bg-slate-700/50 rounded-lg">CLB 5 - Intermediate Low</SelectItem>
+                    <SelectItem value="clb6" className="text-white hover:bg-slate-700/50 rounded-lg">CLB 6 - Intermediate Mid</SelectItem>
+                    <SelectItem value="clb7" className="text-white hover:bg-slate-700/50 rounded-lg">CLB 7 - Intermediate High</SelectItem>
+                    <SelectItem value="clb8" className="text-white hover:bg-slate-700/50 rounded-lg">CLB 8 - Advanced Low</SelectItem>
+                    <SelectItem value="clb9" className="text-white hover:bg-slate-700/50 rounded-lg">CLB 9 - Advanced Mid</SelectItem>
+                    <SelectItem value="clb10" className="text-white hover:bg-slate-700/50 rounded-lg">CLB 10 - Advanced High</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="mt-8 p-4 bg-blue-500/10 border border-blue-400/20 rounded-xl">
+              <div className="flex items-start space-x-3">
+                <div className="flex-shrink-0 w-2 h-2 bg-blue-400 rounded-full mt-2"></div>
+                <div className="text-sm text-blue-200/90">
+                  <p className="font-medium mb-1">Almost there!</p>
+                  <p className="text-blue-200/70">Complete your profile to get access.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      default:
+        return null
+    }
+  }
+
+  return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="min-h-screen body-gradient-bg flex items-center justify-center p-4 lg:overflow-hidden"
+      >
+
+        {/* Joined Two-Column Card */}
+
+        <BorderSpotlight
+          color="#5ea0ff"
+          brightness={1}
+          feather={80}
+          borderWidth={7}
+          borderRadius="1.5rem"
+          >
+        
+        <div className="glassmorphic-auth rounded-[1.5rem] w-full max-w-[75rem]">
+        
+          <div className="grid lg:grid-cols-2 min-h-[600px] max-1024:grid-cols-1 ">
+            {/* Left Column - Form */}
+            <div className="px-[2rem] py-[1.5rem] flex flex-col justify-center max-1024:px-[3rem] max-1024:pb-[2rem]">
+
+              {/* Logo at top center */}
+                            <div className="flex justify-center max-1024:mb-[2rem] xl:hidden">
+                              <Link href="/" className="cursor-pointer">
+                                <Image
+                                  src="/celpius-ai-logo.png"
+                                  alt="Celpius AI"
+                                  width={120}
+                                  height={40}
+                                  className="h-10 w-auto hover:opacity-80 transition-opacity"
+                                />
+                              </Link>
+                            </div>
+
+              <div className="max-w-md mx-auto w-full">
+                <AnimatePresence mode="wait">
+                  <motion.div 
+                    key={`header-${currentStep}`}
+                    initial={{ opacity: 0, x: 30, scale: 0.95 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -30, scale: 0.95 }}
+                    transition={{ 
+                      duration: 0.4, 
+                      ease: [0.4, 0.0, 0.2, 1],
+                      scale: { duration: 0.3 }
+                    }}
+                    className="mb-8"
+                  >
+                    {/* Progress Bar */}
+                    <div className="mb-[1rem]">
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="text-sm font-medium text-white/70">Step {currentStep} of {totalSteps}</span>
+                        <span className="text-sm font-medium text-white/70">{Math.round((currentStep / totalSteps) * 100)}%</span>
+                      </div>
+                      
+                      {/* Progress Bar Container */}
+                      <div className="relative mb-2">
+                        <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                          <motion.div
+                            className="h-full bg-gradient-to-r from-blue-500 to-blue-600/0 rounded-full shadow-lg"
+                            initial={{ width: 0 }}
+                            animate={{ width: `${(currentStep / totalSteps) * 100}%` }}
+                            transition={{ duration: 0.5, ease: "easeInOut" }}
+                          />
+                        </div>
+                        
+                        {/* Step Markers */}
+                        <div className="absolute -top-1 left-0 w-full flex justify-between">
+                          {[1, 2, 3].map((step, index) => (
+                            <div
+                              key={step}
+                              className={`w-4 h-4 rounded-full border-2 transition-all duration-300 flex items-center justify-center ${
+                                step <= currentStep
+                                  ? "border-[#6394ff]"
+                                  : "bg-white/20 border-white/30"
+                              }`}
+                              style={{
+                                backgroundColor: step <= currentStep ? '#112b65' : undefined,
+                                marginLeft: index === 0 ? '-8px' : '0',
+                                marginRight: index === 2 ? '0px' : '0',
+                              }}
+                            >
+                              {step < currentStep && (
+                                <motion.div
+                                  initial={{ scale: 0 }}
+                                  animate={{ scale: 1 }}
+                                  transition={{ delay: 0.2 }}
+                                  className="flex items-center justify-center"
+                                >
+                                  <Check className="h-2 w-2 text-white" />
+                                </motion.div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      {/* Step Labels */}
+                      <div className="flex justify-between mt-4 text-xs">
+                        <span className={`transition-colors ${currentStep >= 1 ? 'text-blue-400' : 'text-white/50'}`}>
+                          1
+                        </span>
+                        <span className={`transition-colors ${currentStep >= 2 ? 'text-blue-400' : 'text-white/50'}`}>
+                          2
+                        </span>
+                        <span className={`transition-colors ${currentStep >= 3 ? 'text-blue-400' : 'text-white/50'}`}>
+                          3
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <h1 className="text-3xl font-bold text-white mb-2">{getStepTitle()}</h1>
+                      <p className="text-white/70">{getStepDescription()}</p>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+
+                <form onSubmit={handleStepSubmit} className="space-y-6">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentStep}
+                      initial={{ opacity: 0, x: 30, scale: 0.95 }}
+                      animate={{ opacity: 1, x: 0, scale: 1 }}
+                      exit={{ opacity: 0, x: -30, scale: 0.95 }}
+                      transition={{ 
+                        duration: 0.4, 
+                        ease: [0.4, 0.0, 0.2, 1],
+                        scale: { duration: 0.3 }
+                      }}
+                      className="min-h-[200px] flex items-center"
+                    >
+                      <div className="w-full">
+                        {renderStep()}
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={`buttons-${currentStep}`}
+                      initial={{ opacity: 0, x: 30, scale: 0.95 }}
+                      animate={{ opacity: 1, x: 0, scale: 1 }}
+                      exit={{ opacity: 0, x: -30, scale: 0.95 }}
+                      transition={{ 
+                        duration: 0.4, 
+                        ease: [0.4, 0.0, 0.2, 1],
+                        scale: { duration: 0.3 }
+                      }}
+                      className={`flex items-center ${currentStep === 1 ? 'justify-center' : 'justify-between max-435:flex-col max-435:gap-[1rem]'}`}
+                    >
+                      <AnimatePresence>
+                        {currentStep > 1 && (
+                          <motion.div
+                            initial={{ opacity: 0, x: -30, scale: 0.9 }}
+                            animate={{ opacity: 1, x: 0, scale: 1 }}
+                            exit={{ opacity: 0, x: -30, scale: 0.9 }}
+                            transition={{ 
+                              duration: 0.4,
+                              ease: [0.4, 0.0, 0.2, 1]
+                            }}
+                          >
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={prevStep}
+                              className="flex items-center gap-2 bg-white/5 border-white/20 text-white/80 hover:bg-white/10 hover:text-white transition-all duration-200 px-6 py-3 rounded-xl"
+                            >
+                              <ArrowLeft className="h-4 w-4" />
+                              Back
+                            </Button>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                      
+                      <motion.div
+                        layout
+                        transition={{ 
+                          duration: 0.4,
+                          ease: [0.4, 0.0, 0.2, 1]
+                        }}
+                      >
+                        <Button
+                          type="submit"
+                          className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 px-8 rounded-xl transition-all duration-200 flex items-center gap-2 group"
+                          disabled={isLoading}
+                        >
+                          {isLoading ? (
+                            <>
+                              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                              Processing...
+                            </>
+                          ) : currentStep === totalSteps ? (
+                            <>
+                              Create Account
+                              <div className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                                <Check className="h-2.5 w-2.5" />
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              Next Step
+                              <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                            </>
+                          )}
+                        </Button>
+                      </motion.div>
+                    </motion.div>
+                  </AnimatePresence>
+                </form>
+
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={`footer-${currentStep}`}
+                    initial={{ opacity: 0, x: 30, scale: 0.95 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -30, scale: 0.95 }}
+                    transition={{ 
+                      duration: 0.4, 
+                      ease: [0.4, 0.0, 0.2, 1],
+                      scale: { duration: 0.3 }
+                    }}
+                    className="mt-6 text-center max-435:mt-[0.1rem]"
+                  >
+                    <div className="flex flex-row gap-[1.5rem] justify-center max-1024:flex max-1024:flex-col max-1024:pt-[1rem] max-435:gap-[0.7rem]">
+                        <p className="text-white/70">
+                          Already have an account?{" "}
+                        </p>
+                        <Link href="/auth/login" className="text-blue-400 hover:text-blue-300 font-medium">
+                          Sign in
+                        </Link>
+                    </div> 
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
+
+            {/* Right Column - Visual */}
+            <div className="flex flex-col p-8 lg:p-[2rem] relative overflow-hidden border-l border-white/20 max-1024:hidden">
+              {/* Logo at top center */}
+              <div className="flex justify-center">
+                <Link href="/" className="cursor-pointer">
+                  <Image
+                    src="/celpius-ai-logo.png"
+                    alt="Celpius AI"
+                    width={120}
+                    height={40}
+                    className="h-10 w-auto hover:opacity-80 transition-opacity"
+                  />
+                </Link>
+              </div>
+              
+              {/* Main content centered */}
+              <div className="flex-1 flex items-center justify-center">
+                <div className="text-center text-white relative z-10">
+                  <div className="mb-8">
+                    <div className="mx-auto mb-6 relative">
+                      <Image
+                        src="/auth/concentric-circles.png"
+                        alt="Concentric Circles"
+                        width={960}
+                        height={400}
+                        className="w-[60rem] h-[25rem] object-contain"
+                      />
+                    </div>
+                  </div>
+                  <h2 className="text-3xl font-bold mb-4">Just a few steps away...</h2>
+                  <p className="text-white/70 text-lg leading-relaxed max-w-sm mx-auto">
+                    to get started
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </BorderSpotlight>
       </motion.div>
-    </div>
   )
 }

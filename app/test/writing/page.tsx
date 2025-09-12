@@ -278,7 +278,7 @@ export default function WritingTestPage() {
   return (
     <DashboardLayout>
       <div className="card-outline text-white font-sans">
-        <header className="flex justify-between items-center p-4 bg-blue-950 max-435:flex-col max-435:items-start rounded-t-[23px]">
+        <header className="flex justify-between items-center p-4 bg-blue-950/0 max-435:flex-col max-435:items-start rounded-t-[23px] border-[1px] border-b-[#3b4687]">
           <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[70%] max-435:pb-[2rem]">Practice Test A - Writing {currentTaskData.title}</h1>
           <div className="flex items-center space-x-4 max-435:space-x-32">
             <span className="text-sm text-slate-400">Time remaining: <span className="font-bold text-red-500">{formatTime(taskTimeRemaining)}</span></span>
@@ -292,7 +292,7 @@ export default function WritingTestPage() {
           {/* Left Column */}
           <div className="col-span-1 border-r border-slate-700 flex flex-col max-1024:border-r-0 p-4 sm:p-6 md:p-8">
             <div className="flex-grow">
-              <div className="flex items-center bg-blue-900/60 p-3 rounded-md mb-4">
+              <div className="flex items-center bg-blue-900/0 p-3 rounded-md mb-4">
                 <AlertCircle className="text-blue-400 mr-3" />
                 <p className="text-blue-400 font-semibold font-mono">Read the following information.</p>
               </div>
@@ -307,7 +307,7 @@ export default function WritingTestPage() {
           {/* Right Column */}
           <div className="col-span-2 flex flex-col p-4 sm:p-6 md:p-8">
             <div className="flex-grow">
-              <div className="flex items-center bg-blue-900/60 p-3 rounded-md mb-4">
+              <div className="flex items-center bg-blue-900/0 p-3 rounded-md mb-4">
                 <AlertCircle className="text-blue-400 mr-3" />
                 <p className="text-blue-400 font-semibold font-mono whitespace-pre-line">{currentTaskData.taskPrompt}</p>
               </div>
@@ -333,7 +333,7 @@ export default function WritingTestPage() {
           </div>
         </main>
 
-        <footer className="flex justify-between items-center p-4 bg-blue-950 rounded-b-[23px]">
+        <footer className="flex justify-between items-center p-4 bg-blue-950/0 rounded-b-[23px] border-[1px] border-t-[#3b4687]">
           <div></div>
           <Button onClick={handlePreviousTask} disabled={currentTask === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
             Back

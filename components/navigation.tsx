@@ -8,6 +8,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/hooks/use-auth"
 import SpottyBtn from "./spotty-btn"
+import BorderSpotlight from "./BorderSpotlight"
 
 interface NavItem {
   name: string
@@ -34,6 +35,7 @@ export function Navigation({
   isLandingPage = false 
 }: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false)
+  const [windowWidth, setWindowWidth] = useState(0)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { user, signOut } = useAuth()
   const pathname = usePathname()
@@ -44,8 +46,17 @@ export function Navigation({
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20)
     }
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+    
+    handleResize() // Set initial width
     window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    window.addEventListener("resize", handleResize)
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("resize", handleResize)
+    }
   }, [])
 
   useEffect(() => {
@@ -106,11 +117,11 @@ export function Navigation({
 
     const scrollConfig = {
       default: {
-        '#about': -200,
-        '#features': -10,
-        '#pricing': -25,
-        '#testimonials': -15,
-        '#contact': -118,
+        '#about': -300,
+        '#features': -110,
+        '#pricing': -125,
+        '#testimonials': -115,
+        '#contact': -218,
       } as { [key: string]: number },
       'max-435': {
         '#about': -200,
@@ -218,63 +229,94 @@ export function Navigation({
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 1, duration: 1.2, ease: [0.25, 0.25, 0.25, 0.75] }}
         className={`fixed top-0 left-0 right-0 z-50 ${
-          isScrolled ? "glass-card shadow-lg" : "bg-transparent"
+          isScrolled && windowWidth <= 1024 ? "glass-card shadow-lg" : "bg-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-20">
+          {/* Glassmorphic container - only visible on lg+ screens */}
+
+          <div className="hidden xl:block mx-4 mt-4 mb-2">
+            <BorderSpotlight 
+              color="#5ea0ff" 
+              brightness={1} 
+              feather={80} 
+              borderWidth={7}
+              borderRadius="5rem"
+            >
+              <div className="glassmorphic-nav">
+                <div className="flex items-center justify-between h-16 lg:h-20 px-6">
+                  <button onClick={handleLogoClick} className="flex items-center sm:ml-[1rem] sm:mt-[0rem] sm:scale-[0.9] z-50 relative">
+                    <Image src="/celpius-ai-logo.png" alt="Celpius AI" width={160} height={54} className="h-[2.5rem] w-auto max-435:relative max-435:left-[-20.45%] max-435:scale-[0.5]" />
+                  </button>
+
+                  <div className="hidden xl:flex items-center justify-center absolute left-1/2 transform -translate-x-1/2">
+                    <div className="relative flex items-center space-x-8">
+                      {user && navItems === mainSiteNavItems ? (
+                        <>
+                          <div className="nav-item">
+                            <Link href="/dashboard" className={`font-mono text-sm font-medium transition-colors ${pathname === "/dashboard" ? "text-blue-600 dark:text-blue-400" : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
+                              <span className={pathname === "/dashboard" ? "active" : ""}>Dashboard</span>
+                            </Link>
+                          </div>
+                          <div className="nav-item">
+                            <Link href="/practice" className={`font-mono text-sm font-medium transition-colors ${pathname.startsWith("/practice") ? "text-blue-600 dark:text-blue-400" : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
+                              <span className={pathname.startsWith("/practice") ? "active" : ""}>Practice</span>
+                            </Link>
+                          </div>
+                          <div className="nav-item">
+                            <Link href="/results" className={`font-mono text-sm font-medium transition-colors ${pathname.startsWith("/results") ? "text-blue-600 dark:text-blue-400" : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
+                              <span className={pathname.startsWith("/results") ? "active" : ""}>Results</span>
+                            </Link>
+                          </div>
+                          {user.email === "admin@celpius.ai" && (
+                            <div className="nav-item">
+                              <Link href="/admin" className={`font-mono text-sm font-medium transition-colors ${pathname.startsWith("/admin") ? "text-blue-600 dark:text-blue-400" : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
+                                <span className={pathname.startsWith("/admin") ? "active" : ""}>Admin</span>
+                              </Link>
+                            </div>
+                          )}
+                        </>
+                      ) : renderNavLinks(false)}
+                    </div>
+                  </div>
+
+                  <div className="hidden xl:flex items-center space-x-4">
+                    {!user ? (
+                      <>
+                        <Link href="/auth/login">
+                          <Button variant="ghost" size="sm" className="font-mono">Sign In</Button>
+                        </Link>
+                        <Link href="/auth/signup">
+                          <SpottyBtn className="nav-glow font-mono text-white transform scale-[0.85] hover:scale-[0.9] transition-transform">Get Started</SpottyBtn>
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-sm text-muted-foreground">Welcome, {user.firstName}</span>
+                        <Button variant="ghost" size="sm" onClick={() => (onSignOut ? onSignOut() : signOut(router))} className="font-mono">Sign Out</Button>
+                      </>
+                    )}
+                  </div>
+
+                  <div className="xl:hidden flex items-center space-x-2">
+                    <Button variant="ghost" size="sm" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="relative z-50 w-10 h-10 p-0">
+                      <div className="w-5 h-5 flex flex-col justify-center items-center">
+                        <span className={`block w-5 h-0.5 bg-current transform transition-all duration-300 ${isMobileMenuOpen ? "rotate-45 translate-y-0.5" : "-translate-y-1"}`} />
+                        <span className={`block w-5 h-0.5 bg-current transform transition-all duration-300 ${isMobileMenuOpen ? "opacity-0" : "opacity-100"}`} />
+                        <span className={`block w-5 h-0.5 bg-current transform transition-all duration-300 ${isMobileMenuOpen ? "-rotate-45 -translate-y-0.5" : "translate-y-1"}`} />
+                      </div>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </BorderSpotlight>
+          </div>
+
+          {/* Fallback navigation for screens < 1024px */}
+          <div className="xl:hidden flex items-center justify-between h-16 lg:h-20">
             <button onClick={handleLogoClick} className="flex items-center sm:ml-[1rem] sm:mt-[0rem] sm:scale-[0.9] z-50 relative">
               <Image src="/celpius-ai-logo.png" alt="Celpius AI" width={160} height={54} className="h-[2.5rem] w-auto max-435:relative max-435:left-[-20.45%] max-435:scale-[0.5]" />
             </button>
-
-            <div className="hidden xl:flex items-center justify-center absolute left-1/2 transform -translate-x-1/2">
-              <div className="relative flex items-center space-x-8">
-                {user && navItems === mainSiteNavItems ? (
-                  <>
-                    <div className="nav-item">
-                      <Link href="/dashboard" className={`font-mono text-sm font-medium transition-colors ${pathname === "/dashboard" ? "text-blue-600 dark:text-blue-400" : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
-                        <span className={pathname === "/dashboard" ? "active" : ""}>Dashboard</span>
-                      </Link>
-                    </div>
-                    <div className="nav-item">
-                      <Link href="/practice" className={`font-mono text-sm font-medium transition-colors ${pathname.startsWith("/practice") ? "text-blue-600 dark:text-blue-400" : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
-                        <span className={pathname.startsWith("/practice") ? "active" : ""}>Practice</span>
-                      </Link>
-                    </div>
-                    <div className="nav-item">
-                      <Link href="/results" className={`font-mono text-sm font-medium transition-colors ${pathname.startsWith("/results") ? "text-blue-600 dark:text-blue-400" : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
-                        <span className={pathname.startsWith("/results") ? "active" : ""}>Results</span>
-                      </Link>
-                    </div>
-                    {user.email === "admin@celpius.ai" && (
-                      <div className="nav-item">
-                        <Link href="/admin" className={`font-mono text-sm font-medium transition-colors ${pathname.startsWith("/admin") ? "text-blue-600 dark:text-blue-400" : "text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400"}`}>
-                          <span className={pathname.startsWith("/admin") ? "active" : ""}>Admin</span>
-                        </Link>
-                      </div>
-                    )}
-                  </>
-                ) : renderNavLinks(false)}
-              </div>
-            </div>
-
-            <div className="hidden xl:flex items-center space-x-4">
-              {!user ? (
-                <>
-                  <Link href="/auth/login">
-                    <Button variant="ghost" size="sm" className="font-mono">Sign In</Button>
-                  </Link>
-                  <Link href="/auth/signup">
-                    <SpottyBtn className="nav-glow font-mono text-white transform scale-[0.85] hover:scale-[0.9] transition-transform">Get Started</SpottyBtn>
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <span className="text-sm text-muted-foreground">Welcome, {user.firstName}</span>
-                  <Button variant="ghost" size="sm" onClick={() => (onSignOut ? onSignOut() : signOut(router))} className="font-mono">Sign Out</Button>
-                </>
-              )}
-            </div>
 
             <div className="xl:hidden flex items-center space-x-2">
               <Button variant="ghost" size="sm" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="relative z-50 w-10 h-10 p-0">

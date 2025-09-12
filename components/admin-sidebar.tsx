@@ -127,13 +127,15 @@ export function AdminSidebar() {
         <div className="px-3 pb-4 border-t border-white/10 pt-4 space-y-3">
           {/* Welcome User */}
           {user && (
-            <div className="flex flex-col items-center justify-center px-3 py-2 h-[15rem] rounded-lg glass spotty-cta pointer-events-none">
+            <div className="flex flex-col items-start justify-center px-3 py-2 h-[6rem] rounded-lg glass spotty-cta pointer-events-none">
+              <div className="flex flex-row items-center">
               <p className="text-[1rem] leading-[2rem] font-mono text-slate-600 dark:text-slate-100">
                 Welcome,
               </p>
               <p className="text-[1rem] leading-[2rem] font-mono text-slate-600 dark:text-slate-100">
                 {user.firstName || "User"}
               </p>
+             </div>
               <p className="text-[0.7rem]  dark:text-gray-400 text-blue-700 truncate mt-2">{user.email}</p>
             </div>
           )}

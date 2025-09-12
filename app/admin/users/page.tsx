@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import BorderSpotlight from "@/components/BorderSpotlight"
 
 const mockUsers = [
   { id: "1", name: "John Doe", email: "john.doe@example.com", role: "Pro User", status: "Active", lastLogin: "2024-07-20" },
@@ -49,7 +50,16 @@ export default function UserManagementPage() {
         onClose={() => setIsModalOpen(false)}
         onAddUser={handleAddUser}
       />
-      <Card className="card-outline">
+
+    <BorderSpotlight
+      color="#5ea0ff"
+      brightness={1}
+      feather={80}
+      borderWidth={7}
+      borderRadius="1.5rem"
+      >
+
+      <Card className="glassmorphic-dashboard">
         <CardHeader>
           <CardTitle>User Management</CardTitle>
           <CardDescription>View, manage, and edit user accounts.</CardDescription>
@@ -118,6 +128,7 @@ export default function UserManagementPage() {
           </div>
         </CardContent>
       </Card>
+      </BorderSpotlight>
     </motion.div>
   )
 }

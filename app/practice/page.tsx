@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Clock, Play, Headphones, Mic, PenTool, BookOpen, CheckCircle, AlertCircle } from "lucide-react"
 import Link from "next/link"
 import { DashboardLayout } from "@/components/dashboard-layout"
-import ProfileCard from '@/components/ProfileCard'
+import BorderSpotlight from "@/components/BorderSpotlight"
 
 const testSections = [
   {
@@ -17,7 +17,7 @@ const testSections = [
     duration: "47-55 minutes",
     parts: 6,
     description: "Listen to conversations, discussions, and presentations",
-    color: "from-blue-400/50 to-cyan-500",
+    color: "from-[rgb(2,45,81)] to-[rgb(96,165,250)]",
     href: "/test/listening",
   },
   {
@@ -27,7 +27,7 @@ const testSections = [
     duration: "55-60 minutes",
     parts: 4,
     description: "Read correspondence, diagrams, information, and viewpoints",
-    color: "from-blue-400/50 to-cyan-500",
+    color: "from-[rgb(2,45,81)] to-[rgb(96,165,250)]",
     href: "/test/reading",
   },
   {
@@ -37,7 +37,7 @@ const testSections = [
     duration: "53-60 minutes",
     parts: 2,
     description: "Write an email and respond to survey questions",
-    color: "from-blue-400/50 to-cyan-500",
+    color: "from-[rgb(2,45,81)] to-[rgb(96,165,250)]",
     href: "/test/writing",
   },
   {
@@ -47,7 +47,7 @@ const testSections = [
     duration: "15-20 minutes",
     parts: 8,
     description: "Speak about various topics and situations",
-    color: "from-blue-400/50 to-cyan-500",
+    color: "from-[rgb(2,45,81)] to-[rgb(96,165,250)]",
     href: "/test/speaking",
   },
 ]
@@ -119,7 +119,14 @@ export default function PracticePage() {
         </div>
 
         {/* Test Instructions */}
-        <Card className="bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl">
+        <BorderSpotlight
+                color="#5ea0ff"
+                brightness={1}
+                feather={80}
+                borderWidth={7}
+                borderRadius="2rem"
+              >
+        <Card className="glassmorphic-dashboard">
           <CardHeader>
             <CardTitle className="hero-card-font-sh-features font-mono flex items-center gap-2">
               <AlertCircle className="w-5 h-5 text-blue-400" />
@@ -149,6 +156,7 @@ export default function PracticePage() {
             </div>
           </CardContent>
         </Card>
+        </BorderSpotlight>
 
         {/* Test Selection */}
         <div className="space-y-6">
@@ -246,7 +254,14 @@ export default function PracticePage() {
         </div>
 
         {/* Performance Standards */}
-        <Card className="bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl">
+        <BorderSpotlight
+          color="#5ea0ff"
+          brightness={1}
+          feather={80}
+          borderWidth={7}
+          borderRadius="2rem"
+        >
+        <Card className="glassmorphic-dashboard">
           <CardHeader>
             <CardTitle className="hero-card-font-sh-features font-mono flex items-center gap-2">
               <CheckCircle className="w-5 h-5 text-green-400" />
@@ -276,6 +291,7 @@ export default function PracticePage() {
             </div>
           </CardContent>
         </Card>
+      </BorderSpotlight>
       </div>
     </DashboardLayout>
   )

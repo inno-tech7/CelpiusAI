@@ -11,6 +11,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/hooks/use-toast"
 import { Plus, Edit, Trash2, Save, X, Eye, EyeOff, Upload, Clock, FileText, Image, Video, Volume2 } from "lucide-react"
+import BorderSpotlight from "@/components/BorderSpotlight"
+
 
 interface CELPIPQuestion {
   id: string
@@ -517,7 +519,7 @@ export default function ContentManagementPage() {
                   </SelectTrigger>
                   <SelectContent>
                     {getAvailableParts(newQuestion.section || "").map((part) => (
-                      <SelectItem key={part.number} value={part.number.toString()}>
+                      <SelectItem key={`part-${part.number}`} value={part.number.toString()}>
                         Part {part.number}: {part.name}
                       </SelectItem>
                     ))}
@@ -786,7 +788,7 @@ export default function ContentManagementPage() {
                   <Label>Answer Options *</Label>
                   <div className="space-y-3">
                     {newQuestion.options?.map((option, index) => (
-                      <div key={index} className="flex items-center space-x-2">
+                      <div key={`option-${index}`} className="flex items-center space-x-2">
                         <span className="text-sm font-mono w-8">{String.fromCharCode(65 + index)}.</span>
                         <Input
                           placeholder={`Option ${index + 1}`}
@@ -812,7 +814,7 @@ export default function ContentManagementPage() {
                       {newQuestion.options
                         ?.filter((opt) => opt.trim() !== "")
                         .map((option, index) => (
-                          <SelectItem key={index} value={option}>
+                          <SelectItem key={`correct-answer-${index}`} value={option}>
                             {String.fromCharCode(65 + index)}. {option}
                           </SelectItem>
                         ))}
@@ -855,7 +857,7 @@ export default function ContentManagementPage() {
           <h2 className="text-xl font-semibold">Questions ({questions.length})</h2>
           <div className="flex space-x-2">
             {["listening", "reading", "writing", "speaking"].map((section) => (
-              <Badge key={section} variant="outline" className="capitalize">
+              <Badge key={`section-${section}`} variant="outline" className="capitalize">
                 {section}: {questions.filter((q) => q.section === section).length}
               </Badge>
             ))}
@@ -864,7 +866,15 @@ export default function ContentManagementPage() {
 
         <div className="grid grid-cols-1 gap-4">
           {questions.map((question) => (
-            <Card key={question.id} className="card-outline">
+            <BorderSpotlight
+            key={`spotlight-${question.id}`}
+            color="#5ea0ff"
+            brightness={1}
+            feather={80}
+            borderWidth={7}
+            borderRadius="1.5rem"
+            >
+            <Card className="glassmorphic-dashboard">
               <CardHeader>
                 <div className="flex items-center justify-between max-435:flex-col max-435:items-start max-435:gap-[2rem]">
                   <div className="flex items-center space-x-2">
@@ -927,7 +937,7 @@ export default function ContentManagementPage() {
                         <ul className="space-y-1">
                           {question.options.map((option, index) => (
                             <li
-                              key={index}
+                              key={`question-${question.id}-option-${index}`}
                               className={`text-sm flex items-center space-x-2 p-2 rounded ${
                                 option === question.correctAnswer
                                   ? "bg-green-500/20 text-green-400 font-medium"
@@ -957,6 +967,7 @@ export default function ContentManagementPage() {
                 )}
               </CardContent>
             </Card>
+            </BorderSpotlight>
           ))}
         </div>
 

@@ -7,6 +7,8 @@ import HeadphonesIcon from './icons/headphones-icon';
 import { motion} from "framer-motion"
 import { fadeIn } from "@/app/variants/variants"
 import Image from "next/image"
+import BorderSpotlight from "@/components/BorderSpotlight"
+
 
 export function FeaturesSection() {
   return (
@@ -43,8 +45,15 @@ export function FeaturesSection() {
 
               <div className="grid grid-cols-2 gap-[1.2rem] mt-[7rem] max-1024:grid-cols-1">
 
+                <BorderSpotlight
+                  color="#5ea0ff"
+                  brightness={1}
+                  feather={80}
+                  borderWidth={7}
+                  borderRadius="1.5rem"
+                >
 
-                <div className="card-outline-feature p-[2rem] w-[100%] overflow-hidden">
+                <div className="glassmorphic-dashboard rounded-[1.5rem] p-[2rem] w-[100%] overflow-hidden">
                     
                     <h3 className="dark:text-slate-300 text-slate-700 text-[1.5rem] text-start font-[700] ">Listening <span className="font-[200]">comprehension</span> </h3>
 
@@ -61,11 +70,19 @@ export function FeaturesSection() {
                         className="object-cover"
                       />
                     </div>
-              </div>
+                </div>
+                </BorderSpotlight>
 
 
+                <BorderSpotlight
+                  color="#5ea0ff"
+                  brightness={1}
+                  feather={80}
+                  borderWidth={7}
+                  borderRadius="1.5rem"
+                >
 
-                 <div className="card-outline-feature p-[2rem] w-[100%] overflow-hidden">
+                 <div className="glassmorphic-dashboard rounded-[1.5rem] p-[2rem] w-[100%] overflow-hidden">
                     
                       <h3 className="dark:text-slate-300 text-slate-700 text-[1.5rem] text-start font-[700] ">Tracking <span className="font-[200]">reading speed</span> </h3>
 
@@ -82,14 +99,17 @@ export function FeaturesSection() {
                         className="object-cover"
                       />
                     </div>
-
-                    
                 </div>
+                </BorderSpotlight>
 
-
-
-
-                 <div className="card-outline-feature p-[2rem] w-[100%] overflow-hidden">
+                <BorderSpotlight
+                  color="#5ea0ff"
+                  brightness={1}
+                  feather={80}
+                  borderWidth={7}
+                  borderRadius="1.5rem"
+                >
+                 <div className="glassmorphic-dashboard rounded-[1.5rem] p-[2rem] w-[100%] overflow-hidden">
                     
                       <h3 className="dark:text-slate-300 text-slate-700 text-[1.5rem] text-start font-[700] ">Writing <span className="font-[200]">analysis</span> </h3>
 
@@ -106,14 +126,18 @@ export function FeaturesSection() {
                         className="object-cover"
                       />
                     </div>
-
-                    
                 </div>
+                </BorderSpotlight>
 
 
-
-
-                 <div className="card-outline-feature p-[2rem] w-[100%] overflow-hidden">
+                <BorderSpotlight
+                  color="#5ea0ff"
+                  brightness={1}
+                  feather={80}
+                  borderWidth={7}
+                  borderRadius="1.5rem"
+                >
+                 <div className="glassmorphic-dashboard rounded-[1.5rem] p-[2rem] w-[100%] overflow-hidden">
                     
                       <h3 className="dark:text-slate-300 text-slate-700 text-[1.5rem] text-start font-[700] ">Speaking <span className="font-[200]">practice</span> </h3>
 
@@ -132,6 +156,7 @@ export function FeaturesSection() {
                       />
                     </div>
                 </div>
+                </BorderSpotlight>
               </div>
           </motion.div>
             {/* ----------------------------GRID FEATURE CARDS---------------------------------------- */}

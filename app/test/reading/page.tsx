@@ -494,7 +494,7 @@ export default function ReadingTestPage() {
   return (
     <DashboardLayout>
       <div className="card-outline text-white font-sans">
-        <header className="flex justify-between items-center p-4 bg-blue-950 max-435:flex-col max-435:items-start rounded-t-[23px]">
+        <header className="flex justify-between items-center p-4 bg-blue-950/0 max-435:flex-col max-435:items-start rounded-t-[23px] border-[1px] border-b-[#3b4687] ">
           <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[70%] max-435:pb-[2rem]">Practice Test A - Reading Part {currentPart + 1}: {readingParts[currentPart].title.replace(/Part \d+: /g, "")}</h1>
           <div className="flex items-center space-x-4 max-435:space-x-32">
             <span className="text-sm text-slate-400">Time remaining: <span className="font-bold text-red-500">{formatTime(partTimeRemaining)}</span></span>
@@ -508,7 +508,7 @@ export default function ReadingTestPage() {
           {/* Left Column */}
           <div className="border-r border-slate-700 flex flex-col max-1024:border-r-0 p-4 sm:p-6 md:p-8">
             <div className="flex-grow">
-              <div className="flex items-center bg-blue-900/60 p-3 rounded-md mb-4">
+              <div className="flex items-center bg-blue-900/0 p-3 rounded-md mb-4">
                 <AlertCircle className="text-blue-400 mr-3" />
                 <p className="text-blue-400 font-semibold font-mono">Read the following message.</p>
               </div>
@@ -521,7 +521,7 @@ export default function ReadingTestPage() {
           </div>
 
           {/* Right Column */}
-          <div className="bg-slate-800/50 p-4 sm:p-6 md:p-8 rounded-md flex flex-col">
+          <div className="bg-slate-800/0 p-4 sm:p-6 md:p-8 rounded-md flex flex-col">
             <div className="flex-grow">
               <div className="flex items-center mb-4 text-blue-300">
                 <AlertCircle className="text-blue-400 mr-3" />
@@ -559,7 +559,7 @@ export default function ReadingTestPage() {
           </div>
         </main>
 
-        <footer className="flex justify-between items-center p-4 bg-blue-950 rounded-b-[23px]">
+        <footer className="flex justify-between items-center p-4 bg-blue-950/0 rounded-b-[23px] border-[1px] border-t-[#3b4687]">
           <Button className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
             Answer Key
           </Button>

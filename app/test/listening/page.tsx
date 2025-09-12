@@ -559,7 +559,7 @@ export default function ListeningTestPage() {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-        <header className="flex justify-between items-center p-4 bg-blue-950 max-435:flex-col max-435:items-start rounded-t-[23px]">
+        <header className="flex justify-between items-center p-4 bg-blue-950/0 max-435:flex-col max-435:items-start rounded-t-[23px] border-[1px] border-b-[#3b4687]">
           <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[70%] max-435:pb-[2rem]">Practice Test A - Listening Part {currentPart + 1}: Listening to Problem Solving</h1>
           <div className="flex items-center space-x-4 max-435:space-x-40">
             <span className="text-sm text-slate-400 max-435:flex max-435:flex-col">Time remaining: <span className="font-bold text-red-500">{formatTime(timeRemaining)}</span></span>
@@ -573,12 +573,12 @@ export default function ListeningTestPage() {
           {/* Left Column */}
           <div className="border-r border-slate-700 flex flex-col max-1024:border-r-0 p-4 sm:p-6 md:p-8">
             <div className="flex-grow">
-              <div className="flex items-center bg-blue-900/60 p-3 rounded-md mb-4">
+              <div className="flex items-center bg-blue-900/0 p-3 rounded-md mb-4">
                 <AlertCircle className="text-blue-400 mr-3" />
                 <p className="text-blue-400 font-semibold font-mono">{currentPartData.title}</p>
               </div>
 
-              <div className="border border-slate-700 rounded-md p-4 space-y-4 bg-slate-800/50">
+              <div className="border border-slate-700 rounded-md p-4 space-y-4 bg-slate-800/0">
                 <div className="bg-slate-700/50 p-4 rounded-lg flex items-center justify-center h-24">
                   {!hasPlayedAudio ? (
                     <div className="text-center text-slate-400">
@@ -655,7 +655,7 @@ export default function ListeningTestPage() {
           </div>
 
           {/* Right Column */}
-          <div className="bg-slate-800/50 p-4 sm:p-6 md:p-8 rounded-md flex flex-col">
+          <div className="bg-slate-800/0 p-4 sm:p-6 md:p-8 rounded-md flex flex-col">
             <div className="flex-grow">
               <p className="font-semibold mb-2 text-blue-400 font-mono">Question {currentQuestion + 1} of {currentPartData.questions.length}</p>
               <div className="flex items-center mb-4 text-blue-300">
@@ -680,7 +680,7 @@ export default function ListeningTestPage() {
           </div>
         </main>
 
-        <footer className="flex justify-between items-center p-4 bg-blue-950 rounded-b-[23px]">
+        <footer className="flex justify-between items-center p-4 bg-blue-950/0 rounded-b-[23px] border-[1px] border-t-[#3b4687]">
           <Button className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
             Answer Key
           </Button>

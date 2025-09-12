@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
 import SemiCircularProgress from "@/components/SemiCircularProgress"
+import BorderSpotlight from "@/components/BorderSpotlight"
 
 import {
   TrendingUp,
@@ -245,7 +246,15 @@ export default function ResultsPage() {
             const badge = getPerformanceBadge(section.score)
             const IconComponent = badge.icon
             return (
-              <div key={section.name} className="card-outline">
+              <BorderSpotlight
+              key={section.name}
+              color="#5ea0ff"
+              brightness={1}
+              feather={80}
+              borderWidth={7}
+              borderRadius="1.5rem"
+            >
+              <div className="glassmorphic-dashboard rounded-[1.5rem]">
                 <div className="flex flex-col items-center justify-center scale-[0.7]">
                   <h2 className="text-[1.3rem] font-bold text-white">{section.name}</h2>
                   <SemiCircularProgress value={section.score} size={70} className="mx-auto mt-[-0.5rem]" />
@@ -255,12 +264,20 @@ export default function ResultsPage() {
                   </Badge>
                 </div>
               </div>
+            </BorderSpotlight>
             )
           })}
         </div>
 
         {/* Detailed Analysis Tabs */}
-        <Card className="bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl">
+    <BorderSpotlight
+      color="#5ea0ff"
+      brightness={1}
+      feather={80}
+      borderWidth={7}
+      borderRadius="1.5rem"
+      >
+        <Card className="glassmorphic-dashboard">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <CardHeader>
               <TabsList className="grid w-full grid-cols-4 dark:bg-black/30 bg-white/50">
@@ -472,6 +489,7 @@ export default function ResultsPage() {
             </CardContent>
           </Tabs>
         </Card>
+      </BorderSpotlight>
       </div>
     </DashboardLayout>
   )

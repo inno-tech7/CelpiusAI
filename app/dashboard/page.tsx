@@ -8,8 +8,7 @@ import { DashboardLayout } from "@/components/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import SemiCircularProgress from "@/components/SemiCircularProgress"
-import SpotlightCard from '@/components/SpotlightCard';
-import { Progress } from "@/components/ui/progress"
+import BorderSpotlight from "@/components/BorderSpotlight"
 
 import { Badge } from "@/components/ui/badge"
 import {
@@ -39,6 +38,30 @@ const staggerChildren = {
     },
   },
 }
+
+const cards = [
+  {
+    icon: <BarChart3 className="h-5 w-5 text-blue-500" />,
+    label: "Current CLB",
+    value: "8.5",
+  },
+  {
+    icon: <Clock className="h-5 w-5 text-green-500" />,
+    label: "Study Time",
+    value: "24h",
+  },
+  {
+    icon: <Target className="h-5 w-5 text-purple-500" />,
+    label: "Tests Taken",
+    value: "12",
+  },
+  {
+    icon: <TrendingUp className="h-5 w-5 text-orange-500" />,
+    label: "Improvement",
+    value: "+1.2",
+  },
+];
+
 
 export default function DashboardPage() {
   const { user } = useAuth()
@@ -75,7 +98,7 @@ export default function DashboardPage() {
         <motion.div variants={fadeInUp}>
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold">Welcome, {user?.firstName || "Student"} !</h1>
+              <h1 className="text-3xl font-bold max-435:max-w-[40%]">Welcome, {user?.firstName || "Student"} !</h1>
               <p className="text-muted-foreground mt-2 max-435:w-[62%]">Continue your CELPIP preparation journey</p>
             </div>
             <Badge variant="secondary" className="glass-card">
@@ -85,60 +108,47 @@ export default function DashboardPage() {
           </div>
         </motion.div>
 
-        {/* <SpotlightCard className="custom-spotlight-card" spotlightColor="rgba(59, 130, 246, 0.50)">
-          // Content goes here
-        </SpotlightCard> */}
+        
 
 
         <motion.div variants={fadeInUp} className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          
-          <SpotlightCard className="custom-spotlight-card border-blue-200/50 border-[2px]" spotlightColor="rgba(59, 130, 246, 0.50)">
-            <div className="flex items-center space-x-2">
-              <BarChart3 className="h-5 w-5 text-blue-500" />
-              <div>
-                <p className="text-sm font-medium text-muted-foreground">Current CLB</p>
-                <p className="text-2xl font-bold">8.5</p>
-              </div>
-            </div>
-          </SpotlightCard>
-            
 
-          <SpotlightCard className="custom-spotlight-card border-blue-200/50 border-[2px]" spotlightColor="rgba(59, 130, 246, 0.50)">
-              <div className="flex items-center space-x-2">
-                <Clock className="h-5 w-5 text-green-500" />
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground max-768:w-[20%] max-435:w-[100%]">Study Time</p>
-                  <p className="text-2xl font-bold">24h</p>
+          {cards.map((card, idx) => (
+            <BorderSpotlight
+              key={idx}
+              color="#5ea0ff"
+              brightness={1}
+              feather={80}
+              borderWidth={7}
+              borderRadius="1.5rem"
+            >
+                <div className="glassmorphic-dashboard p-8 rounded-[1.5rem]">
+                  <div className="flex items-center space-x-2">
+                    {card.icon}
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">
+                        {card.label}
+                      </p>
+                      <p className="text-2xl font-bold">{card.value}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-          </SpotlightCard>
-
-          <SpotlightCard className="custom-spotlight-card border-blue-200/50 border-[2px]" spotlightColor="rgba(59, 130, 246, 0.50)">
-              <div className="flex items-center space-x-2">
-                <Target className="h-5 w-5 text-purple-500" />
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Tests Taken</p>
-                  <p className="text-2xl font-bold">12</p>
-                </div>
-              </div>
-          </SpotlightCard>
-
-          <SpotlightCard className="custom-spotlight-card border-blue-200/50 border-[2px]" spotlightColor="rgba(59, 130, 246, 0.50)">
-              <div className="flex items-center space-x-2">
-                <TrendingUp className="h-5 w-5 text-orange-500" />
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Improvement</p>
-                  <p className="text-2xl font-bold">+1.2</p>
-                </div>
-              </div>
-          </SpotlightCard>
+              </BorderSpotlight>
+            ))}
           
         </motion.div>
 
 
         <motion.div variants={fadeInUp}>
-          <Card className="glass-dashboard">
-
+        <BorderSpotlight
+          color="#5ea0ff"
+          brightness={1}
+          feather={80}
+          borderWidth={7}
+          borderRadius="1.5rem"
+        >
+          <Card className="glassmorphic-dashboard">
+{/* 
             <Image
                 src="/section-images/flare (horizontal).png"
                 alt="flare"
@@ -146,7 +156,7 @@ export default function DashboardPage() {
                 height={3500} 
                 quality={100} 
                 className="absolute top-[-20.3%] xl:left-[27.55%] lg:left-[25.55%] max-820:top-[-11%] max-1024:left-[9.55%] max-820:left-[18.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none scale-[1.4] max-1024:scale-[0.7] max-820:scale-[1.2] max-768:top-[-10.7%] max-768:scale-[1] max-435:top-[-7.2%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:left-[-17.45%] max-415:scale-[0.55]"
-            />
+            /> */}
 
             <CardHeader>
               <CardTitle>Quick Start</CardTitle>
@@ -206,22 +216,31 @@ export default function DashboardPage() {
               </div>
             </CardContent>
           </Card>
+        </BorderSpotlight>
+
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 max-1024:grid-cols-1 gap-8">
           
 
           <motion.div variants={fadeInUp}>
-            <Card className="glass-dashboard">
+          <BorderSpotlight
+              color="#5ea0ff"
+              brightness={1}
+              feather={80}
+              borderWidth={7}
+              borderRadius="1.5rem"
+            >
+            <Card className="glassmorphic-dashboard">
 
-              <Image
+              {/* <Image
                 src="/section-images/flare (horizontal).png"
                 alt="flare"
                 width={500} 
                 height={3500} 
                 quality={100} 
                 className="absolute top-[-10.2%] xl:left-[3.2%] lg:left-[-5.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[0.8] lg:scale-[0.9] max-1024:top-[-10.5%] max-820:top-[-10.5%] max-820:left-[18.55%] max-820:scale-[1.2] max-435:top-[-10.4%] max-1024:left-[10.45%] max-435:left-[-14.45%] max-1024:scale-[0.95] max-768:scale-[1] max-435:scale-[0.65] max-415:top-[-10.5%] max-415:left-[-18%]"
-              />
+              /> */}
 
               <CardHeader>
                 <CardTitle>Recent Tests</CardTitle>
@@ -251,20 +270,28 @@ export default function DashboardPage() {
                 ))}
               </CardContent>
             </Card>
+            </BorderSpotlight>
           </motion.div>
 
 
           <motion.div variants={fadeInUp}>
-            <Card className="glass-dashboard">
+          <BorderSpotlight
+              color="#5ea0ff"
+              brightness={1}
+              feather={80}
+              borderWidth={7}
+              borderRadius="1.5rem"
+            >
+            <Card className="glassmorphic-dashboard">
 
-              <Image
+              {/* <Image
                 src="/section-images/flare (horizontal).png"
                 alt="flare"
                 width={500} 
                 height={3500} 
                 quality={100} 
                 className="absolute top-[-9.2%] xl:left-[2.55%] lg:left-[-5.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[0.9] max-1024:left-[15%] max-1024:scale-[0.9] max-1024:top-[-9%] max-820:top-[-9%] max-820:left-[18.55%] max-820:scale-[1.2] max-768:scale-[1] max-435:top-[-9%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:left-[-19%]"
-              />
+              /> */}
 
               <CardHeader>
                 <CardTitle>Progress Overview</CardTitle>
@@ -296,22 +323,30 @@ export default function DashboardPage() {
 
               {/* </CardContent> */}
             </Card>
+            </BorderSpotlight>
           </motion.div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 max-1024:grid-cols-1 gap-8">
 
           <motion.div variants={fadeInUp}>
-            <Card className="glass-dashboard">
+          <BorderSpotlight
+              color="#5ea0ff"
+              brightness={1}
+              feather={80}
+              borderWidth={7}
+              borderRadius="1.5rem"
+            >
+            <Card className="glassmorphic-dashboard">
 
-              <Image
+              {/* <Image
                 src="/section-images/flare (horizontal).png"
                 alt="flare"
                 width={500} 
                 height={3500} 
                 quality={100} 
                 className="absolute top-[-11.5%] xl:left-[4.55%] lg:left-[-7.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[0.9] lg:scale-[0.9] max-1024:left-[9.45%] max-820:top-[-11.5%] max-820:left-[18.55%]  max-820:scale-[1.4] max-768:scale-[1] max-435:top-[-11.5%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:top-[-11.5%] max-415:left-[-19%]"
-              />
+              /> */}
 
               <CardHeader>
                 <CardTitle>Areas for Improvement</CardTitle>
@@ -331,20 +366,28 @@ export default function DashboardPage() {
                 ))}
               </CardContent>
             </Card>
+            </BorderSpotlight>
           </motion.div>
 
 
           <motion.div variants={fadeInUp}>
-            <Card className="glass-dashboard">
+          <BorderSpotlight
+              color="#5ea0ff"
+              brightness={1}
+              feather={80}
+              borderWidth={7}
+              borderRadius="1.5rem"
+            >
+            <Card className="glassmorphic-dashboard">
 
-              <Image
+              {/* <Image
                 src="/section-images/flare (horizontal).png"
                 alt="flare"
                 width={500} 
                 height={3500} 
                 quality={100} 
                 className="absolute xl:top-[-12.5%] lg:top-[-12.5%] xl:left-[4%] lg:left-[-1%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[0.8] lg:scale-[0.9] max-1024:left-[9.45%] max-820:top-[-12.5%] max-820:left-[18.55%] max-820:scale-[1.4] max-768:scale-[1] max-435:top-[-11%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:top-[-10.4%] max-415:left-[-19%]"
-              />
+              /> */}
 
               <CardHeader>
                 <CardTitle>AI Recommendations</CardTitle>
@@ -359,6 +402,7 @@ export default function DashboardPage() {
                 ))}
               </CardContent>
             </Card>
+            </BorderSpotlight>
           </motion.div>
         </div>
       </motion.div>

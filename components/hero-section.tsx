@@ -12,7 +12,7 @@ import CardSwap, { Card } from './CardSwap'
 
 export function HeroSection() {
   return (
-    <section className="relative lg:pt-[10rem] h-[59rem] md:pt-[5rem] max-768:pt-[1rem] sm:pt-[10rem] lg:pb-[30rem] overflow-hidden max-1024:h-[95rem] max-820:h-[86rem] max-768:h-[79rem] max-435:h-[65rem] max-435:pt-[0rem]">
+    <section className="relative lg:pt-[6rem] h-[89rem] md:pt-[5rem] max-768:pt-[1rem] sm:pt-[10rem] lg:pb-[30rem] overflow-hidden max-1024:h-[95rem] max-820:h-[86rem] max-768:h-[79rem] max-435:h-[65rem] max-435:pt-[0rem]">
 
       {/* <Image
         src="/section-images/lines (dark theme).png"
@@ -89,7 +89,7 @@ export function HeroSection() {
 
           <div className="px-8 mb-[14rem] max-1024:mb-[17rem] max-820:pt-[3rem] max-768:mb-[11rem]">
 
-              <div className="flex flex-col items-start text-start max-1024:items-center max-1024:text-center">
+              <div className="flex flex-col items-center text-center max-1024:items-center max-1024:text-center">
                 <motion.p
                   variants={fadeIn('up', 0.3)}
                   initial="hidden"
@@ -124,7 +124,7 @@ export function HeroSection() {
                   initial="hidden"
                   whileInView={"show"}
                   viewport={{ once: true, amount: 0.6 }}
-                  className="flex flex-col sm:flex-row items-center justify-center gap-4 ml-[1.4rem]"
+                  className="flex flex-col sm:flex-row items-center justify-center gap-4"
                 >
                   <Link href="/auth/signup">
                     <SpottyBtn size="lg" className="text-white font-[400] group w-full sm:w-auto font-mono transform scale-[1.20] hover:scale-[1.25] transition-transform max-435:scale-[0.9]">

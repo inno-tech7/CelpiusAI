@@ -11,6 +11,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { usePlans } from "@/components/providers/plans-provider";
 import { Check, Edit, PlusCircle, X, Save } from "lucide-react"
 import { AddPlanModal } from "@/components/admin/add-plan-modal"
+import BorderSpotlight from "@/components/BorderSpotlight"
+
 
 
 const recentTransactions = [
@@ -68,7 +70,14 @@ export default function BillingManagementPage() {
         <p className="text-muted-foreground mt-2">Manage subscription plans, pricing, and view transactions.</p>
       </div>
 
-      <Card className="card-outline">
+      <BorderSpotlight
+        color="#5ea0ff"
+        brightness={1}
+        feather={80}
+        borderWidth={7}
+        borderRadius="1.5rem"
+        >
+      <Card className="glassmorphic-dashboard">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
@@ -133,8 +142,17 @@ export default function BillingManagementPage() {
           ))}
         </CardContent>
       </Card>
+      </BorderSpotlight>
 
-      <Card className="card-outline">
+      <BorderSpotlight
+        color="#5ea0ff"
+        brightness={1}
+        feather={80}
+        borderWidth={7}
+        borderRadius="1.5rem"
+      >
+
+      <Card className="glassmorphic-dashboard">
         <CardHeader>
           <CardTitle>Recent Transactions</CardTitle>
           <CardDescription>Latest subscription payments and activities.</CardDescription>
@@ -170,6 +188,8 @@ export default function BillingManagementPage() {
           </div>
         </CardContent>
       </Card>
+      </BorderSpotlight>
+      
 
       <AddPlanModal
         isOpen={isAddPlanModalOpen}

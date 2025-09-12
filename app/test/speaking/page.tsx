@@ -385,7 +385,7 @@ export default function SpeakingTestPage() {
   return (
     <DashboardLayout>
       <div className="card-outline dark:bg-slate-900 text-slate-900 dark:text-white  font-sans h-full flex flex-col">
-        <header className="flex justify-between items-center p-4 bg-blue-950 max-435:flex-col max-435:items-start rounded-t-[23px]">
+        <header className="flex justify-between items-center p-4 bg-blue-950/0 max-435:flex-col max-435:items-start rounded-t-[23px] border-[1px] border-b-[#3b4687]">
           <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[50%] max-435:pb-[2rem] max-435:max-w-[90%]">Practice Test A - {currentTaskData.title}</h1>
           <div className="flex items-center space-x-4 max-435:space-x-14">
 
@@ -406,7 +406,7 @@ export default function SpeakingTestPage() {
 
         <main className="flex-grow flex flex-col justify-center items-center pt-6">
           <div className="w-full max-w-[96%]">
-            <div className="flex items-start bg-blue-100 dark:bg-blue-900/60 p-3 rounded-md mb-8">
+            <div className="flex items-start bg-blue-100 dark:bg-blue-900/0 p-3 rounded-md mb-8">
               <AlertCircle className="text-blue-500 dark:text-blue-400 mr-3 mt-1 flex-shrink-0" />
               <p className="text-blue-800 dark:text-blue-300 font-semibold">{currentTaskData.prompt}</p>
             </div>
@@ -425,7 +425,7 @@ export default function SpeakingTestPage() {
           </div>
         </main>
 
-        <footer className="flex justify-between items-center p-4 bg-blue-950 rounded-b-[23px]">
+        <footer className="flex justify-between items-center p-4 bg-blue-950/0 rounded-b-[23px] border-[1px] border-t-[#3b4687]">
             <div></div>
             <Button onClick={handlePreviousTask} disabled={currentTask === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
               Back
