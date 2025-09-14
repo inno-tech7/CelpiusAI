@@ -2,6 +2,8 @@
 
 import ScrollAnimatedText from "@/components/animation/scroll-animated-text"
 import Image from "next/image"
+import BorderSpotlight from "@/components/BorderSpotlight"
+
 
 
 export function AboutSection() {
@@ -30,7 +32,7 @@ export function AboutSection() {
               height={872}
               className="dark:opacity-50 absolute top-0 left-0 z-0 translate-x-[200px] translate-y-[100px] scale-[0.9] max-1024:scale-[1.3] max-1024:translate-x-[70px] max-768:overflow-hidden max-435:overflow-hidden max-435:translate-y-[550px] max-435:translate-x-[-45px] max-435:scale-[2.3]"
             />
-
+          
             <ScrollAnimatedText
               text="We're revolutionizing CELPIP preparation with cutting-edge AI technology, helping thousands of students achieve their Canadian immigration dreams through intelligent, personalized learning experiences. Our platform combines advanced artificial intelligence with proven educational methodologies to deliver the most effective CELPIP preparation available."
               className="max-w-3xl mx-auto tracking-[-0.02rem]"
@@ -63,9 +65,22 @@ export function AboutSection() {
                 className="relative rotate-[150deg] translate-y-[-30rem] translate-x-[13.7rem] left-[17.55%] z-30 scale-[0.5] max-1024:translate-y-[-25rem] max-1024:translate-x-[10.7rem] max-1024:scale-[0.35] dark:opacity-100 opacity-0 max-820:hidden"
             />
 
+          <BorderSpotlight
+            color="#5ea0ff"
+            brightness={1}
+            feather={80}
+            borderWidth={7}
+            borderRadius="24px"
+            className="
+              max-w-[40%] scale-[0.9] translate-y-[-42rem] translate-x-[1.2rem]  
+              max-1024:scale-[0.6] max-1024:translate-y-[-38.3rem] max-1024:translate-x-[5.2rem] 
+              max-820:max-w-[100%] max-820:translate-y-[0] max-820:translate-x-[0] 
+              max-820:scale-[1] max-820:my-[2rem]
+            "
+          >
+          <div className="card-outline-about relative overflow-hidden">
 
-
-            <div className="card-outline-about relative overflow-hidden flex items-center max-w-[40%] scale-[0.9] translate-y-[-42rem] translate-x-[1.2rem] z-20 max-1024:scale-[0.6] max-1024:translate-y-[-38.3rem] max-1024:translate-x-[5.2rem] max-820:max-w-[100%] max-820:translate-y-[0] max-820:translate-x-[0] max-820:scale-[1] max-820:my-[2rem]">
+            <div className="flex items-center z-20">
               <Image
                 src="/about-section/Artificial Intelligence (dark).png"
                 alt="Artificial Intelligence"
@@ -93,6 +108,8 @@ export function AboutSection() {
                 />
 
             </div>
+          </div>
+          </BorderSpotlight>
 
             {/* About card AI */}
 
@@ -110,8 +127,18 @@ export function AboutSection() {
                 className="relative rotate-[221deg] translate-y-[-51rem] translate-x-[25.7rem] left-[17.55%] dark:opacity-100 opacity-0 z-30 scale-[0.5] max-1024:scale-[0.35] max-1024:translate-y-[-48rem] max-1024:translate-x-[18.7rem] max-820:hidden"
             />
 
-            
-                <div className="card-outline-about relative overflow-hidden flex items-center max-w-[40%] scale-[0.9] translate-y-[-63rem] translate-x-[40.6rem] z-20 max-1024:scale-[0.6] max-1024:translate-y-[-60.6rem] max-1024:translate-x-[27.6rem] max-820:max-w-[100%] max-820:translate-y-[0] max-820:translate-x-[0] max-820:scale-[1] max-820:my-[2rem]">
+          <BorderSpotlight
+            color="#5ea0ff"
+            brightness={1}
+            feather={80}
+            borderWidth={7}
+            borderRadius="24px"
+            className="
+            max-w-[40%] scale-[0.9] translate-y-[-63rem] translate-x-[40.6rem] max-1024:scale-[0.6] max-1024:translate-y-[-62.3rem] max-1024:translate-x-[27.5rem] max-820:max-w-[100%] max-820:translate-y-[0] max-820:translate-x-[0] max-820:scale-[1] max-820:my-[2rem]
+            "
+          >
+          <div className="card-outline-about relative overflow-hidden">
+               <div className="flex items-center scale-[0.9] z-20">
 
                   <Image
                     src="/about-section/Progress Track (dark).png"
@@ -141,6 +168,8 @@ export function AboutSection() {
                     />
 
                 </div>
+              </div>
+              </BorderSpotlight>
             {/* About card Progress Track */}
 
 
@@ -155,8 +184,18 @@ export function AboutSection() {
                 className="relative rotate-[309deg] translate-y-[-56rem] translate-x-[35.3rem] left-[17.55%] dark:opacity-100 opacity-0 z-30 scale-[0.5] max-1024:scale-[0.35] max-1024:translate-y-[-48rem] max-1024:translate-x-[22.3rem] max-1024:rotate-[342deg] max-820:hidden"
             />
 
+            <BorderSpotlight
+              color="#5ea0ff"
+              brightness={1}
+              feather={80}
+              borderWidth={7}
+              borderRadius="24px"
+              className="
+              max-w-[40%] scale-[0.9] translate-y-[-59.7rem] translate-x-[50.1rem] z-20 max-1024:scale-[0.6] max-1024:translate-y-[-54.1rem] max-1024:translate-x-[31.1rem]  max-1024:max-w-[42%] max-820:max-w-[100%] max-820:translate-y-[0] max-820:translate-x-[0] max-820:scale-[1] max-820:my-[2rem]
+              "
+          >
             
-                <div className="card-outline-about relative overflow-hidden flex items-center max-w-[40%] scale-[0.9] translate-y-[-59.7rem] translate-x-[50.1rem] z-20 max-1024:scale-[0.6] max-1024:translate-y-[-54.1rem] max-1024:translate-x-[31.1rem]  max-1024:max-w-[42%] max-820:max-w-[100%] max-820:translate-y-[0] max-820:translate-x-[0] max-820:scale-[1] max-820:my-[2rem]">
+                <div className="card-outline-about relative overflow-hidden flex items-center">
                   <Image
                     src="/about-section/Response Analysis (dark).png"
                     alt="Response Analysis"
@@ -184,6 +223,7 @@ export function AboutSection() {
                     />
 
                 </div>
+            </BorderSpotlight>
             {/* About card Response Analysis */}
 
             
@@ -198,8 +238,19 @@ export function AboutSection() {
                 className="relative rotate-[82deg] translate-y-[-61rem] translate-x-[11.3rem] left-[17.55%] dark:opacity-100 opacity-0 z-30 scale-[0.5] max-1024:scale-[0.35] max-1024:translate-y-[-66.4rem] max-1024:translate-x-[10.3rem] max-1024:rotate-[70deg] max-820:hidden"
             />
 
+            <BorderSpotlight
+              color="#5ea0ff"
+              brightness={1}
+              feather={80}
+              borderWidth={7}
+              borderRadius="24px"
+              className="
+              max-w-[40%] scale-[0.9] translate-y-[-64.7rem] translate-x-[-0.9rem] z-20 max-1024:scale-[0.6] max-1024:translate-y-[-72.1rem] max-1024:translate-x-[4.9rem] max-820:max-w-[100%] max-820:translate-y-[0] max-820:translate-x-[0] max-820:scale-[1] max-820:my-[2rem]
+              "
+          >
+
             
-                <div className="card-outline-about relative overflow-hidden flex items-center max-w-[40%] scale-[0.9] translate-y-[-64.7rem] translate-x-[-0.9rem] z-20 max-1024:scale-[0.6] max-1024:translate-y-[-72.1rem] max-1024:translate-x-[4.9rem] max-820:max-w-[100%] max-820:translate-y-[0] max-820:translate-x-[0] max-820:scale-[1] max-820:my-[2rem]">
+                <div className="card-outline-about relative overflow-hidden flex items-center">
                   <Image
                     src="/about-section/Quality Material (dark).png"
                     alt="Quality Material"
@@ -228,6 +279,7 @@ export function AboutSection() {
                       className="absolute left-[17rem] dark:opacity-30 opacity-0 z-20 scale-[2.6] h-auto max-1024:scale-[1.8] max-1024:left-[14rem]"
                     />
                 </div>
+              </BorderSpotlight>
             {/* About card Quality Material */}
 
             </div>

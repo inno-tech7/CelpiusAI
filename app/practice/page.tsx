@@ -126,7 +126,7 @@ export default function PracticePage() {
                 borderWidth={7}
                 borderRadius="2rem"
               >
-        <Card className="glassmorphic-dashboard">
+        <div className="glassmorphic-dashboard rounded-[2rem]">
           <CardHeader>
             <CardTitle className="hero-card-font-sh-features font-mono flex items-center gap-2">
               <AlertCircle className="w-5 h-5 text-blue-400" />
@@ -155,7 +155,7 @@ export default function PracticePage() {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </div>
         </BorderSpotlight>
 
         {/* Test Selection */}
@@ -163,7 +163,14 @@ export default function PracticePage() {
           <h2 className="text-2xl font-bold hero-card-font-sh-features font-mono text-center">Choose Your Practice Mode</h2>
 
           {/* Complete Test Option */}
-          <Card className="bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden">
+          <BorderSpotlight
+                color="#5ea0ff"
+                brightness={1}
+                feather={80}
+                borderWidth={7}
+                borderRadius="2rem"
+              >
+          <div className="glassmorphic-dashboard rounded-[2rem] overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-blue-600/20 to-purple-600/20">
               <CardTitle className="text-blue-500 dark:text-blue-400 font-mono flex items-center gap-3">
                 <Play className="w-6 h-6 text-blue-500 dark:text-blue-400" />
@@ -195,7 +202,8 @@ export default function PracticePage() {
                 </Button>
               </div>
             </CardContent>
-          </Card>
+          </div>
+          </BorderSpotlight>
 
           {/* Individual Sections */}
           <div className="space-y-4">
@@ -209,9 +217,11 @@ export default function PracticePage() {
                   <div key={section.id} className="relative group">
                     {/* Glow effect behind card */}
                     <div className={`absolute -inset-1 bg-gradient-to-r from-${glowColors.from} via-${glowColors.via} to-${glowColors.to} rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+
                     
-                    <Card
-                      className="relative bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden transition-all duration-300 will-change-transform cursor-pointer"
+                    
+                    <div
+                      className="glassmorphic-dashboard rounded-[2rem] overflow-hidden relative transition-all duration-300 will-change-transform cursor-pointer"
                       onMouseMove={(e) => handleMouseMove(e, section.id)}
                       onMouseLeave={() => handleMouseLeave(section.id)}
                       style={{
@@ -219,6 +229,14 @@ export default function PracticePage() {
                         transition: "all 400ms cubic-bezier(0.03, 0.98, 0.52, 0.99) 0s",
                       }}
                     >
+                      <BorderSpotlight
+                      color="#5ea0ff"
+                      brightness={1}
+                      feather={80}
+                      borderWidth={7}
+                      borderRadius="2rem"
+                    >
+
                     <CardHeader className={`bg-gradient-to-r ${section.color}/20`}>
                       <CardTitle className="text-white font-mono flex items-center gap-3">
                         <IconComponent className="w-5 h-5" />
@@ -245,7 +263,8 @@ export default function PracticePage() {
                         <Link href={section.href}>Start {section.name}</Link>
                       </Button>
                     </CardContent>
-                    </Card>
+                    </BorderSpotlight>
+                    </div>
                   </div>
                 )
               })}
@@ -255,13 +274,13 @@ export default function PracticePage() {
 
         {/* Performance Standards */}
         <BorderSpotlight
-          color="#5ea0ff"
-          brightness={1}
-          feather={80}
-          borderWidth={7}
-          borderRadius="2rem"
-        >
-        <Card className="glassmorphic-dashboard">
+                color="#5ea0ff"
+                brightness={1}
+                feather={80}
+                borderWidth={7}
+                borderRadius="2rem"
+              >
+        <div className="glassmorphic-dashboard rounded-[2rem]">
           <CardHeader>
             <CardTitle className="hero-card-font-sh-features font-mono flex items-center gap-2">
               <CheckCircle className="w-5 h-5 text-green-400" />
@@ -290,7 +309,7 @@ export default function PracticePage() {
               </Button>
             </div>
           </CardContent>
-        </Card>
+        </div>
       </BorderSpotlight>
       </div>
     </DashboardLayout>

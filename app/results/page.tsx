@@ -176,7 +176,14 @@ export default function ResultsPage() {
         </div>
 
         {/* Overall Score Card */}
-        <Card className="bg-black/20 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden">
+        <BorderSpotlight
+                color="#5ea0ff"
+                brightness={1}
+                feather={80}
+                borderWidth={7}
+                borderRadius="2rem"
+              >
+          <div className="glassmorphic-dashboard rounded-[2rem] overflow-hidden">
           <CardHeader className="bg-gradient-to-r from-blue-600/20 to-purple-600/20">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center max-435:items-center gap-4">
               <div>
@@ -233,7 +240,8 @@ export default function ResultsPage() {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </div>
+        </BorderSpotlight>
 
         {/* Section Breakdown */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-1024:grid-cols-2 max-640:grid-cols-1">

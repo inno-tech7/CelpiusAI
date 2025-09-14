@@ -2,6 +2,8 @@
 
 import { Users, BarChart, Bot, DollarSign } from "lucide-react"
 import { motion } from "framer-motion"
+import BorderSpotlight from "@/components/BorderSpotlight"
+
 
 const stats = [
   { title: "Total Users", value: "1,257", icon: Users, change: "+12%" },
@@ -20,7 +22,15 @@ export default function AdminPage() {
       <h1 className="text-4xl font-bold mb-8">Dashboard</h1>
       <div className="grid lg:grid-cols-2 gap-8 max-1024:grid-cols-1 ">
         {stats.map((stat) => (
-          <div key={stat.title} className="card-outline p-6">
+          <BorderSpotlight
+              key={stat.title}
+              color="#5ea0ff"
+              brightness={1}
+              feather={80}
+              borderWidth={7}
+              borderRadius="1.5rem"
+            >
+          <div className="glassmorphic-dashboard p-8 rounded-[1.5rem]">
             <div className="flex items-center justify-between">
               <p className="text-sm text-gray-400">{stat.title}</p>
               <stat.icon className="h-6 w-6 text-gray-500" />
@@ -30,6 +40,7 @@ export default function AdminPage() {
               {stat.change} vs last month
             </p>
           </div>
+          </BorderSpotlight>
         ))}
       </div>
       {/* Further dashboard components like charts will go here */}

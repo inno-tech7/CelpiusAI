@@ -481,7 +481,14 @@ export default function ContentManagementPage() {
       </div>
 
       {isAddingQuestion && (
-        <Card className="card-outline glass-card border-blue-500/20">
+        <BorderSpotlight
+          color="#5ea0ff"
+          brightness={1}
+          feather={80}
+          borderWidth={7}
+          borderRadius="1.5rem"
+          >
+        <Card className="glassmorphic-dashboard">
           <CardHeader>
             <CardTitle>{editingQuestion ? "Edit Question" : "Add New Question"}</CardTitle>
             <CardDescription>
@@ -850,6 +857,7 @@ export default function ContentManagementPage() {
             </div>
           </CardContent>
         </Card>
+        </BorderSpotlight>
       )}
 
       <div className="space-y-4">

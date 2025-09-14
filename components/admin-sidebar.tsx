@@ -15,6 +15,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/hooks/use-auth"
 import { motion } from "framer-motion";
+import BorderSpotlight from "@/components/BorderSpotlight"
+
 
 const navItems = [
   { title: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -36,7 +38,7 @@ export function AdminSidebar() {
 
   return (
     <motion.div
-      className="fixed left-0 top-0 z-40 h-screen w-64 pl-4 pt-10 pr-4 pb-[2.9rem] max-820:hidden"
+      className="fixed left-0 top-0 z-40 w-64 h-screen max-820:hidden flex pt-[2.5rem] pb-[2rem] pl-[1rem]"
       variants={sidebarVariants}
       initial="hidden"
       animate="visible"
@@ -62,16 +64,18 @@ export function AdminSidebar() {
           background-color: #a8cfff;
         }
       `}</style>
-      <div className="h-[41rem] w-[17rem] glass-dashboard flex flex-col max-1024:h-[80rem]">
 
-        <Image
-            src="/section-images/flare (vertical).png"
-            alt="flare"
-            width={500} 
-            height={3500} 
-            quality={100} 
-            className="absolute top-[-203.5%] max-1024:top-[-55.5%] max-1024:left-[6.55%] xl:left-[7%] lg:left-[25.55%] max-820:top-[-11%]  max-820:left-[18.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none scale-[0.10] max-820:scale-[1.4] max-768:top-[-10.7%] max-435:top-[-7.2%] max-435:left-[-14.45%] max-435:scale-[0.7]"
-        />
+      <BorderSpotlight
+        color="#5ea0ff"
+        brightness={1}
+        feather={80}
+        borderWidth={7}
+        borderRadius="2rem"
+      >
+    
+    <div className="h-full w-[16rem] glassmorphic-dashboard rounded-[2rem] flex flex-col justify-between">
+
+        
 
         {/* Logo Section */}
         <div className="px-6 py-6 border-b border-white/10">
@@ -124,7 +128,7 @@ export function AdminSidebar() {
         </nav>
 
         {/* Bottom Section - User Info, Theme Toggle, Sign Out */}
-        <div className="px-3 pb-4 border-t border-white/10 pt-4 space-y-3">
+        <div className="px-3 pb-7 border-t border-white/10 pt-4 space-y-3">
           {/* Welcome User */}
           {user && (
             <div className="flex flex-col items-start justify-center px-3 py-2 h-[6rem] rounded-lg glass spotty-cta pointer-events-none">
@@ -158,6 +162,7 @@ export function AdminSidebar() {
           )}
         </div>
       </div>
+      </BorderSpotlight>
     </motion.div>
   )
 }
