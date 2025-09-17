@@ -21,7 +21,7 @@ export default function HomePage() {
 
 
   return (
-    <div className="min-h-screen body-gradient-bg">
+    <div className="min-h-screen body-gradient-bg overflow-hidden">
             <Navigation onSignOut={() => signOut(router)} isLandingPage={true} />
       
 

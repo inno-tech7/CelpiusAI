@@ -26,48 +26,6 @@ export function HeroSection() {
 
 
 
-{/* CardSwap */}
-<div style={{ height: '0px', position: 'relative' }}>
-  <CardSwap
-    cardDistance={60}
-    verticalDistance={70}
-    delay={5000}
-    pauseOnHover={false}
-  >
-    <Card customClass="absolute overflow-hidden p-0">
-      <Image
-        src="/hero-cards/Hero_CardSwap 3 (dark theme).png"
-        alt="Hero image"
-        fill
-        quality={100} 
-        unoptimized={true}
-        className="object-cover"
-      />
-    </Card>
-
-    <Card customClass="absolute overflow-hidden p-0">
-      <Image
-        src="/hero-cards/Hero_CardSwap 1 (dark theme).png"
-        alt="Hero image"
-        fill
-        quality={100} 
-        unoptimized={true}
-        className="object-cover"
-      />
-    </Card>
-
-    <Card customClass="absolute overflow-hidden p-0">
-      <Image
-        src="/hero-cards/Hero_CardSwap 2 (dark theme).png"
-        alt="Hero image"
-        fill
-        quality={100} 
-        unoptimized={true}
-        className="object-cover"
-      />
-    </Card>
-  </CardSwap>
-</div>
 
 
 
@@ -85,7 +43,7 @@ export function HeroSection() {
       
 
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-[2] mt-[3rem]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-[2] mt-[6rem]">
 
           <div className="px-8 mb-[14rem] max-1024:mb-[17rem] max-820:pt-[3rem] max-768:mb-[11rem]">
 
@@ -160,8 +118,50 @@ export function HeroSection() {
                   quality={100} 
                   className="absolute top-[115.5%] xl:left-[2.55%] lg:left-[17.55%] dark:opacity-0 opacity-100 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[1]  max-820:scale-[1.5] max-435:top-[-5.1%] max-435:left-[-15.45%] max-435:scale-[0.7]"
                 /> */}
-    
 
+                {/* CardSwap */}
+                <div className="mt-[11rem] flex justify-center max-435:mt-[4rem] max-435:scale-[0.5]">
+                  <CardSwap
+                    cardDistance={0}
+                    verticalDistance={5}
+                    delay={5000}
+                    pauseOnHover={false}
+                  >
+                    <Card customClass="absolute overflow-hidden p-0">
+                      <Image
+                        src="/hero-cards/Hero_CardSwap 3 (dark theme).png"
+                        alt="Hero image"
+                        fill
+                        quality={100} 
+                        unoptimized={true}
+                        className="object-cover"
+                      />
+                    </Card>
+
+                    <Card customClass="absolute overflow-hidden p-0">
+                      <Image
+                        src="/hero-cards/Hero_CardSwap 1 (dark theme).png"
+                        alt="Hero image"
+                        fill
+                        quality={100} 
+                        unoptimized={true}
+                        className="object-cover"
+                      />
+                    </Card>
+
+                    <Card customClass="absolute overflow-hidden p-0">
+                      <Image
+                        src="/hero-cards/Hero_CardSwap 2 (dark theme).png"
+                        alt="Hero image"
+                        fill
+                        quality={100} 
+                        unoptimized={true}
+                        className="object-cover"
+                      />
+                    </Card>
+                  </CardSwap>
+                  
+                </div>
               </div>
           </div>
       </div>

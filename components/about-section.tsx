@@ -21,7 +21,7 @@ export function AboutSection() {
               objectFit="cover"
               width={1440} 
               height={872}
-              className="dark:opacity-80 absolute top-0 left-0 z-0 translate-x-[-271px] translate-y-[-40px] scale-[0.9] max-1024:scale-[1.3] max-1024:translate-x-[70px] max-768:overflow-hidden max-435:overflow-hidden max-435:translate-x-[45px] max-435:scale-[2.3]"
+              className="dark:opacity-80 absolute top-0 left-0 z-0 translate-x-[-271px] translate-y-[-40px] scale-[0.9] max-1024:scale-[1.3] max-1024:translate-x-[70px] max-435:translate-x-[45px] max-435:scale-[2.3]"
             />
 
             <Image
@@ -30,7 +30,7 @@ export function AboutSection() {
               objectFit="cover"
               width={1440} 
               height={872}
-              className="dark:opacity-50 absolute top-0 left-0 z-0 translate-x-[200px] translate-y-[100px] scale-[0.9] max-1024:scale-[1.3] max-1024:translate-x-[70px] max-768:overflow-hidden max-435:overflow-hidden max-435:translate-y-[550px] max-435:translate-x-[-45px] max-435:scale-[2.3]"
+              className="dark:opacity-50 absolute top-0 left-0 z-0 translate-x-[200px] translate-y-[100px] scale-[0.9] max-1024:scale-[1.3] max-1024:translate-x-[70px] max-435:translate-y-[550px] max-435:translate-x-[-45px] max-435:scale-[2.3]"
             />
           
             <ScrollAnimatedText
@@ -138,7 +138,7 @@ export function AboutSection() {
             "
           >
           <div className="card-outline-about relative overflow-hidden">
-               <div className="flex items-center scale-[0.9] z-20">
+               <div className="flex items-center z-20">
 
                   <Image
                     src="/about-section/Progress Track (dark).png"
