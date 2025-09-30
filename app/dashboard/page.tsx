@@ -1,16 +1,16 @@
-"use client"
+'use client';
 
-import Image from "next/image"
-import Link from "next/link"
-import { motion } from "framer-motion"
-import { useAuth } from "@/hooks/use-auth"
-import { DashboardLayout } from "@/components/dashboard-layout"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import SemiCircularProgress from "@/components/SemiCircularProgress"
-import BorderSpotlight from "@/components/BorderSpotlight"
+import Image from 'next/image';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { useAuth } from '@/hooks/use-auth';
+import { DashboardLayout } from '@/components/dashboard-layout';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import SemiCircularProgress from '@/components/SemiCircularProgress';
+import BorderSpotlight from '@/components/BorderSpotlight';
 
-import { Badge } from "@/components/ui/badge"
+import { Badge } from '@/components/ui/badge';
 import {
   BarChart3,
   Clock,
@@ -23,13 +23,13 @@ import {
   Play,
   Calendar,
   Award,
-} from "lucide-react"
+} from 'lucide-react';
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, ease: "easeOut" },
-}
+  transition: { duration: 0.6, ease: 'easeOut' },
+};
 
 const staggerChildren = {
   animate: {
@@ -37,82 +37,85 @@ const staggerChildren = {
       staggerChildren: 0.1,
     },
   },
-}
+};
 
 const cards = [
   {
     icon: <BarChart3 className="h-5 w-5 text-blue-500" />,
-    label: "Current CLB",
-    value: "8.5",
+    label: 'Current CLB',
+    value: '8.5',
   },
   {
     icon: <Clock className="h-5 w-5 text-green-500" />,
-    label: "Study Time",
-    value: "24h",
+    label: 'Study Time',
+    value: '24h',
   },
   {
     icon: <Target className="h-5 w-5 text-purple-500" />,
-    label: "Tests Taken",
-    value: "12",
+    label: 'Tests Taken',
+    value: '12',
   },
   {
     icon: <TrendingUp className="h-5 w-5 text-orange-500" />,
-    label: "Improvement",
-    value: "+1.2",
+    label: 'Improvement',
+    value: '+1.2',
   },
 ];
 
-
 export default function DashboardPage() {
-  const { user } = useAuth()
+  const { user } = useAuth();
 
   const recentTests = [
     {
       id: 1,
-      type: "Complete Test",
+      type: 'Complete Test',
       score: 8.5,
-      date: "2024-01-15",
+      date: '2024-01-15',
       sections: { listening: 9, reading: 8, writing: 8, speaking: 9 },
     },
-    { id: 2, type: "Writing Practice", score: 7.5, date: "2024-01-12", sections: { writing: 7.5 } },
-    { id: 3, type: "Speaking Practice", score: 8.0, date: "2024-01-10", sections: { speaking: 8 } },
-  ]
+    { id: 2, type: 'Writing Practice', score: 7.5, date: '2024-01-12', sections: { writing: 7.5 } },
+    { id: 3, type: 'Speaking Practice', score: 8.0, date: '2024-01-10', sections: { speaking: 8 } },
+  ];
 
   const weakAreas = [
-    { area: "Past Tense Usage", frequency: 15, improvement: "+20%" },
-    { area: "Pronunciation /th/", frequency: 8, improvement: "+15%" },
-    { area: "Essay Structure", frequency: 6, improvement: "+10%" },
-  ]
+    { area: 'Past Tense Usage', frequency: 15, improvement: '+20%' },
+    { area: 'Pronunciation /th/', frequency: 8, improvement: '+15%' },
+    { area: 'Essay Structure', frequency: 6, improvement: '+10%' },
+  ];
 
   const recommendations = [
-    "Practice more complex sentence structures in writing",
-    "Focus on pronunciation drills for /th/ sounds",
-    "Review past tense irregular verbs",
-    "Work on speaking fluency with timed exercises",
-  ]
+    'Practice more complex sentence structures in writing',
+    'Focus on pronunciation drills for /th/ sounds',
+    'Review past tense irregular verbs',
+    'Work on speaking fluency with timed exercises',
+  ];
 
   return (
     <DashboardLayout>
-      <motion.div initial="initial" animate="animate" variants={staggerChildren} className="space-y-8">
-
+      <motion.div
+        initial="initial"
+        animate="animate"
+        variants={staggerChildren}
+        className="space-y-8"
+      >
         <motion.div variants={fadeInUp}>
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold max-435:max-w-[40%]">Welcome, {user?.firstName || "Student"} !</h1>
-              <p className="text-muted-foreground mt-2 max-435:w-[62%]">Continue your CELPIP preparation journey</p>
+              <h1 className="text-3xl font-bold max-435:max-w-[40%]">
+                Welcome, {user?.firstName || 'Student'} !
+              </h1>
+              <p className="mt-2 text-muted-foreground max-435:w-[62%]">
+                Continue your CELPIP preparation journey
+              </p>
             </div>
             <Badge variant="secondary" className="glass-card">
-              <Award className="h-4 md:w-4 max-435:w-[3rem] mr-2" />
-              Target: CLB {user?.targetCLB || "9"}
+              <Award className="mr-2 h-4 md:w-4 max-435:w-[3rem]" />
+              Target: CLB {user?.targetCLB || '9'}
             </Badge>
           </div>
         </motion.div>
 
-        
-
-
-        <motion.div variants={fadeInUp} className="grid grid-cols-1 md:grid-cols-4 gap-6">
-
+        <motion.div variants={fadeInUp} className="grid grid-cols-1 gap-6 md:grid-cols-4">
           {cards.map((card, idx) => (
             <BorderSpotlight
               key={idx}
@@ -122,290 +125,235 @@ export default function DashboardPage() {
               borderWidth={7}
               borderRadius="1.5rem"
             >
-                <div className="glassmorphic-dashboard p-8 rounded-[1.5rem]">
-                  <div className="flex items-center space-x-2">
-                    {card.icon}
-                    <div>
-                      <p className="text-sm font-medium text-muted-foreground">
-                        {card.label}
-                      </p>
-                      <p className="text-2xl font-bold">{card.value}</p>
-                    </div>
+              <div className="glassmorphic-dashboard rounded-[1.5rem] p-8">
+                <div className="flex items-center space-x-2">
+                  {card.icon}
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">{card.label}</p>
+                    <p className="text-2xl font-bold">{card.value}</p>
                   </div>
                 </div>
-              </BorderSpotlight>
-            ))}
-          
+              </div>
+            </BorderSpotlight>
+          ))}
         </motion.div>
-
 
         <motion.div variants={fadeInUp}>
-        <BorderSpotlight
-          color="#5ea0ff"
-          brightness={1}
-          feather={80}
-          borderWidth={7}
-          borderRadius="1.5rem"
-        >
-          <Card className="glassmorphic-dashboard">
-{/* 
-            <Image
-                src="/section-images/flare (horizontal).png"
-                alt="flare"
-                width={500} 
-                height={3500} 
-                quality={100} 
-                className="absolute top-[-20.3%] xl:left-[27.55%] lg:left-[25.55%] max-820:top-[-11%] max-1024:left-[9.55%] max-820:left-[18.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none scale-[1.4] max-1024:scale-[0.7] max-820:scale-[1.2] max-768:top-[-10.7%] max-768:scale-[1] max-435:top-[-7.2%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:left-[-17.45%] max-415:scale-[0.55]"
-            /> */}
+          <BorderSpotlight
+            color="#5ea0ff"
+            brightness={1}
+            feather={80}
+            borderWidth={7}
+            borderRadius="1.5rem"
+          >
+            <Card className="glassmorphic-dashboard">
+              <CardHeader>
+                <CardTitle>Quick Start</CardTitle>
+                <CardDescription>Choose your practice mode</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
+                  <Link href="/test/complete" className="group">
+                    <Button
+                      variant="outline"
+                      className="glass-card glow-before glow-after flex h-20 w-full flex-col items-center justify-center space-y-2 bg-transparent max-1024:space-y-0"
+                    >
+                      <Play className="h-6 w-6" />
+                      <span className="font-mono text-sm max-1024:text-wrap">Complete Test</span>
+                    </Button>
+                  </Link>
 
-            <CardHeader>
-              <CardTitle>Quick Start</CardTitle>
-              <CardDescription>Choose your practice mode</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                <Link href="/test/complete" className="group">
-                  <Button
-                    variant="outline"
-                    className="w-full h-20 flex flex-col items-center justify-center space-y-2 max-1024:space-y-0 glass-card bg-transparent glow-before glow-after"
-                  >
-                    <Play className="h-6 w-6" />
-                    <span className="font-mono max-1024:text-wrap text-sm">Complete Test</span>
-                  </Button>
-                </Link>
+                  <Link href="/test/listening" className="group">
+                    <Button
+                      variant="outline"
+                      className="glass-card glow-before glow-after flex h-20 w-full flex-col items-center justify-center space-y-2 bg-transparent"
+                    >
+                      <Headphones className="h-6 w-6" />
+                      <span className="font-mono text-sm">Listening</span>
+                    </Button>
+                  </Link>
 
-                <Link href="/test/listening" className="group">
-                  <Button
-                    variant="outline"
-                    className="w-full h-20 flex flex-col items-center justify-center space-y-2 glass-card bg-transparent glow-before glow-after"
-                  >
-                    <Headphones className="h-6 w-6" />
-                    <span className="font-mono text-sm">Listening</span>
-                  </Button>
-                </Link>
+                  <Link href="/test/reading" className="group">
+                    <Button
+                      variant="outline"
+                      className="glass-card glow-before glow-after flex h-20 w-full flex-col items-center justify-center space-y-2 bg-transparent"
+                    >
+                      <BookOpen className="h-6 w-6" />
+                      <span className="font-mono text-sm">Reading</span>
+                    </Button>
+                  </Link>
 
-                <Link href="/test/reading" className="group">
-                  <Button
-                    variant="outline"
-                    className="w-full h-20 flex flex-col items-center justify-center space-y-2 glass-card bg-transparent glow-before glow-after"
-                  >
-                    <BookOpen className="h-6 w-6" />
-                    <span className="font-mono text-sm">Reading</span>
-                  </Button>
-                </Link>
+                  <Link href="/test/writing" className="group">
+                    <Button
+                      variant="outline"
+                      className="glass-card glow-before glow-after flex h-20 w-full flex-col items-center justify-center space-y-2 bg-transparent"
+                    >
+                      <PenTool className="h-6 w-6" />
+                      <span className="font-mono text-sm">Writing</span>
+                    </Button>
+                  </Link>
 
-                <Link href="/test/writing" className="group">
-                  <Button
-                    variant="outline"
-                    className="w-full h-20 flex flex-col items-center justify-center space-y-2 glass-card bg-transparent glow-before glow-after"
-                  >
-                    <PenTool className="h-6 w-6" />
-                    <span className="font-mono text-sm">Writing</span>
-                  </Button>
-                </Link>
-
-                <Link href="/test/speaking" className="group">
-                  <Button
-                    variant="outline"
-                    className="w-full h-20 flex flex-col items-center justify-center space-y-2 glass-card bg-transparent glow-before glow-after"
-                  >
-                    <Mic className="h-6 w-6" />
-                    <span className="font-mono text-sm">Speaking</span>
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        </BorderSpotlight>
-
+                  <Link href="/test/speaking" className="group">
+                    <Button
+                      variant="outline"
+                      className="glass-card glow-before glow-after flex h-20 w-full flex-col items-center justify-center space-y-2 bg-transparent"
+                    >
+                      <Mic className="h-6 w-6" />
+                      <span className="font-mono text-sm">Speaking</span>
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </BorderSpotlight>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 max-1024:grid-cols-1 gap-8">
-          
-
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 max-1024:grid-cols-1">
           <motion.div variants={fadeInUp}>
-          <BorderSpotlight
+            <BorderSpotlight
               color="#5ea0ff"
               brightness={1}
               feather={80}
               borderWidth={7}
               borderRadius="1.5rem"
             >
-            <Card className="glassmorphic-dashboard">
-
-              {/* <Image
-                src="/section-images/flare (horizontal).png"
-                alt="flare"
-                width={500} 
-                height={3500} 
-                quality={100} 
-                className="absolute top-[-10.2%] xl:left-[3.2%] lg:left-[-5.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[0.8] lg:scale-[0.9] max-1024:top-[-10.5%] max-820:top-[-10.5%] max-820:left-[18.55%] max-820:scale-[1.2] max-435:top-[-10.4%] max-1024:left-[10.45%] max-435:left-[-14.45%] max-1024:scale-[0.95] max-768:scale-[1] max-435:scale-[0.65] max-415:top-[-10.5%] max-415:left-[-18%]"
-              /> */}
-
-              <CardHeader>
-                <CardTitle>Recent Tests</CardTitle>
-                <CardDescription>Your latest practice sessions</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {recentTests.map((test) => (
-                  <div key={test.id} className="flex items-center justify-between p-4 glass rounded-lg">
-                    <div>
-                      <p className="font-medium">{test.type}</p>
-                      <p className="text-sm text-muted-foreground flex items-center">
-                        <Calendar className="h-4 w-4 mr-1" />
-                        {test.date}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-lg font-bold">CLB {test.score}</p>
-                      <div className="flex space-x-1">
-                        {Object.entries(test.sections).map(([section, score]) => (
-                          <Badge key={section} variant="secondary" className="text-xs">
-                            {section.charAt(0).toUpperCase()}: {score}
-                          </Badge>
-                        ))}
+              <Card className="glassmorphic-dashboard">
+                <CardHeader>
+                  <CardTitle>Recent Tests</CardTitle>
+                  <CardDescription>Your latest practice sessions</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {recentTests.map((test) => (
+                    <div
+                      key={test.id}
+                      className="glass flex items-center justify-between rounded-lg p-4"
+                    >
+                      <div>
+                        <p className="font-medium">{test.type}</p>
+                        <p className="flex items-center text-sm text-muted-foreground">
+                          <Calendar className="mr-1 h-4 w-4" />
+                          {test.date}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-bold">CLB {test.score}</p>
+                        <div className="flex space-x-1">
+                          {Object.entries(test.sections).map(([section, score]) => (
+                            <Badge key={section} variant="secondary" className="text-xs">
+                              {section.charAt(0).toUpperCase()}: {score}
+                            </Badge>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
+                  ))}
+                </CardContent>
+              </Card>
             </BorderSpotlight>
           </motion.div>
 
-
           <motion.div variants={fadeInUp}>
-          <BorderSpotlight
+            <BorderSpotlight
               color="#5ea0ff"
               brightness={1}
               feather={80}
               borderWidth={7}
               borderRadius="1.5rem"
             >
-            <Card className="glassmorphic-dashboard">
+              <Card className="glassmorphic-dashboard">
+                <CardHeader>
+                  <CardTitle>Progress Overview</CardTitle>
+                  <CardDescription>Your current skill levels</CardDescription>
+                </CardHeader>
 
-              {/* <Image
-                src="/section-images/flare (horizontal).png"
-                alt="flare"
-                width={500} 
-                height={3500} 
-                quality={100} 
-                className="absolute top-[-9.2%] xl:left-[2.55%] lg:left-[-5.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[0.9] max-1024:left-[15%] max-1024:scale-[0.9] max-1024:top-[-9%] max-820:top-[-9%] max-820:left-[18.55%] max-820:scale-[1.2] max-768:scale-[1] max-435:top-[-9%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:left-[-19%]"
-              /> */}
+                <div className="mt-[-1rem] grid grid-cols-2 gap-[0rem]">
+                  <div className="flex scale-[0.7] flex-col items-center justify-center">
+                    <h2 className="text-[1.3rem] font-bold text-white">Listening</h2>
+                    <SemiCircularProgress value={11.5} size={70} className="mx-auto mt-[-0.5rem]" />
+                  </div>
 
-              <CardHeader>
-                <CardTitle>Progress Overview</CardTitle>
-                <CardDescription>Your current skill levels</CardDescription>
-              </CardHeader>
-              {/* <CardContent className="flex flex-col items-center justify-center py-8"> */}
+                  <div className="flex scale-[0.7] flex-col items-center justify-center">
+                    <h2 className="text-[1.3rem] font-bold text-white">Reading</h2>
+                    <SemiCircularProgress value={8.5} size={70} className="mx-auto mt-[-0.5rem]" />
+                  </div>
 
-                <div className="grid grid-cols-2 gap-[0rem] mt-[-1rem]">
-                    <div className="flex flex-col items-center justify-center scale-[0.7]">
-                      <h2 className="text-[1.3rem] font-bold text-white">Listening</h2>
-                      <SemiCircularProgress value={11.5} size={70} className="mx-auto mt-[-0.5rem]" />
-                    </div>
+                  <div className="flex scale-[0.7] flex-col items-center justify-center">
+                    <h2 className="text-[1.3rem] font-bold text-white">Writing</h2>
+                    <SemiCircularProgress value={6.5} size={70} className="mx-auto mt-[-0.5rem]" />
+                  </div>
 
-                    <div className="flex flex-col items-center justify-center scale-[0.7]">
-                      <h2 className="text-[1.3rem] font-bold text-white">Reading</h2>
-                      <SemiCircularProgress value={8.5} size={70} className="mx-auto mt-[-0.5rem]" />
-                    </div>
-
-                    <div className="flex flex-col items-center justify-center scale-[0.7]">
-                      <h2 className="text-[1.3rem] font-bold text-white">Writing</h2>
-                      <SemiCircularProgress value={6.5} size={70} className="mx-auto mt-[-0.5rem]" />
-                    </div>
-
-                    <div className="flex flex-col items-center justify-center scale-[0.7]">
-                      <h2 className="text-[1.3rem] font-bold text-white">Speaking</h2>
-                      <SemiCircularProgress value={3.5} size={70} className="mx-auto mt-[-0.5rem]" />
-                    </div>
+                  <div className="flex scale-[0.7] flex-col items-center justify-center">
+                    <h2 className="text-[1.3rem] font-bold text-white">Speaking</h2>
+                    <SemiCircularProgress value={3.5} size={70} className="mx-auto mt-[-0.5rem]" />
+                  </div>
                 </div>
-
-              {/* </CardContent> */}
-            </Card>
+              </Card>
             </BorderSpotlight>
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 max-1024:grid-cols-1 gap-8">
-
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 max-1024:grid-cols-1">
           <motion.div variants={fadeInUp}>
-          <BorderSpotlight
+            <BorderSpotlight
               color="#5ea0ff"
               brightness={1}
               feather={80}
               borderWidth={7}
               borderRadius="1.5rem"
             >
-            <Card className="glassmorphic-dashboard">
-
-              {/* <Image
-                src="/section-images/flare (horizontal).png"
-                alt="flare"
-                width={500} 
-                height={3500} 
-                quality={100} 
-                className="absolute top-[-11.5%] xl:left-[4.55%] lg:left-[-7.55%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[0.9] lg:scale-[0.9] max-1024:left-[9.45%] max-820:top-[-11.5%] max-820:left-[18.55%]  max-820:scale-[1.4] max-768:scale-[1] max-435:top-[-11.5%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:top-[-11.5%] max-415:left-[-19%]"
-              /> */}
-
-              <CardHeader>
-                <CardTitle>Areas for Improvement</CardTitle>
-                <CardDescription>AI-identified focus areas</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {weakAreas.map((area, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 glass rounded-lg">
-                    <div>
-                      <p className="font-medium">{area.area}</p>
-                      <p className="text-sm text-muted-foreground">{area.frequency} occurrences</p>
+              <Card className="glassmorphic-dashboard">
+                <CardHeader>
+                  <CardTitle>Areas for Improvement</CardTitle>
+                  <CardDescription>AI-identified focus areas</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {weakAreas.map((area, index) => (
+                    <div
+                      key={index}
+                      className="glass flex items-center justify-between rounded-lg p-3"
+                    >
+                      <div>
+                        <p className="font-medium">{area.area}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {area.frequency} occurrences
+                        </p>
+                      </div>
+                      <Badge variant="outline" className="border-green-500 text-green-500">
+                        {area.improvement}
+                      </Badge>
                     </div>
-                    <Badge variant="outline" className="text-green-500 border-green-500">
-                      {area.improvement}
-                    </Badge>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
+                  ))}
+                </CardContent>
+              </Card>
             </BorderSpotlight>
           </motion.div>
 
-
           <motion.div variants={fadeInUp}>
-          <BorderSpotlight
+            <BorderSpotlight
               color="#5ea0ff"
               brightness={1}
               feather={80}
               borderWidth={7}
               borderRadius="1.5rem"
             >
-            <Card className="glassmorphic-dashboard">
-
-              {/* <Image
-                src="/section-images/flare (horizontal).png"
-                alt="flare"
-                width={500} 
-                height={3500} 
-                quality={100} 
-                className="absolute xl:top-[-12.5%] lg:top-[-12.5%] xl:left-[4%] lg:left-[-1%] dark:opacity-100 opacity-0 max-408:dark:opacity-0 z-20 max-w-none max-h-none xl:scale-[0.8] lg:scale-[0.9] max-1024:left-[9.45%] max-820:top-[-12.5%] max-820:left-[18.55%] max-820:scale-[1.4] max-768:scale-[1] max-435:top-[-11%] max-435:left-[-14.45%] max-435:scale-[0.65] max-415:top-[-10.4%] max-415:left-[-19%]"
-              /> */}
-
-              <CardHeader>
-                <CardTitle>AI Recommendations</CardTitle>
-                <CardDescription>Personalized study suggestions</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {recommendations.map((rec, index) => (
-                  <div key={index} className="flex items-start space-x-3 p-3 glass rounded-lg">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
-                    <p className="text-sm">{rec}</p>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
+              <Card className="glassmorphic-dashboard">
+                <CardHeader>
+                  <CardTitle>AI Recommendations</CardTitle>
+                  <CardDescription>Personalized study suggestions</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  {recommendations.map((rec, index) => (
+                    <div key={index} className="glass flex items-start space-x-3 rounded-lg p-3">
+                      <div className="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-blue-500" />
+                      <p className="text-sm">{rec}</p>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
             </BorderSpotlight>
           </motion.div>
         </div>
       </motion.div>
     </DashboardLayout>
-  )
+  );
 }

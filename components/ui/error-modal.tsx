@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import type React from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { X, AlertTriangle } from "lucide-react"
+import type React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, AlertTriangle } from 'lucide-react';
 
 interface ErrorModalProps {
-  title: string
-  description: string
-  onClose: () => void
+  title: string;
+  description: string;
+  onClose: () => void;
 }
 
 export function ErrorModal({ title, description, onClose }: ErrorModalProps) {
@@ -21,11 +21,11 @@ export function ErrorModal({ title, description, onClose }: ErrorModalProps) {
         onClick={onClose}
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, x: "-50%", y: "-48%" }}
-          animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
-          exit={{ opacity: 0, scale: 0.95, x: "-50%", y: "-48%" }}
+          initial={{ opacity: 0, scale: 0.95, x: '-50%', y: '-48%' }}
+          animate={{ opacity: 1, scale: 1, x: '-50%', y: '-50%' }}
+          exit={{ opacity: 0, scale: 0.95, x: '-50%', y: '-48%' }}
           transition={{ duration: 0.2 }}
-          className="fixed left-[50%] top-[50%] w-full max-w-md rounded-2xl border border-red-500/20 bg-red-900/30 p-8 text-white shadow-2xl shadow-red-500/20 glass-card-error"
+          className="glass-card-error fixed left-[50%] top-[50%] w-full max-w-md rounded-2xl border border-red-500/20 bg-red-900/30 p-8 text-white shadow-2xl shadow-red-500/20"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex flex-col items-center text-center">
@@ -37,12 +37,12 @@ export function ErrorModal({ title, description, onClose }: ErrorModalProps) {
           </div>
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 rounded-full p-1 text-red-200/50 transition-colors hover:bg-red-500/20 hover:text-red-200"
+            className="absolute right-4 top-4 rounded-full p-1 text-red-200/50 transition-colors hover:bg-red-500/20 hover:text-red-200"
           >
             <X className="h-5 w-5" />
           </button>
         </motion.div>
       </motion.div>
     </AnimatePresence>
-  )
+  );
 }

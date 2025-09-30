@@ -1,42 +1,48 @@
-"use client"
+'use client';
 
-import type React from "react"
-import { cn } from "@/lib/utils"
+import type React from 'react';
+import { cn } from '@/lib/utils';
 
 interface CircularProgressProps {
-  value: number
-  size?: number
-  strokeWidth?: number
-  className?: string
-  children?: React.ReactNode
+  value: number;
+  size?: number;
+  strokeWidth?: number;
+  className?: string;
+  children?: React.ReactNode;
 }
 
 const getProgressColor = (value: number) => {
-  if (value >= 90) return { stroke: "#10b981", glow: "0 0 20px rgba(16, 185, 129, 0.5)" } // Green for excellent
-  if (value >= 80) return { stroke: "#3b82f6", glow: "0 0 20px rgba(59, 130, 246, 0.5)" } // Blue for good
-  if (value >= 70) return { stroke: "#f59e0b", glow: "0 0 20px rgba(245, 158, 11, 0.5)" } // Orange for average
-  return { stroke: "#ef4444", glow: "0 0 20px rgba(239, 68, 68, 0.5)" } // Red for needs improvement
-}
+  if (value >= 90) return { stroke: '#10b981', glow: '0 0 20px rgba(16, 185, 129, 0.5)' }; // Green for excellent
+  if (value >= 80) return { stroke: '#3b82f6', glow: '0 0 20px rgba(59, 130, 246, 0.5)' }; // Blue for good
+  if (value >= 70) return { stroke: '#f59e0b', glow: '0 0 20px rgba(245, 158, 11, 0.5)' }; // Orange for average
+  return { stroke: '#ef4444', glow: '0 0 20px rgba(239, 68, 68, 0.5)' }; // Red for needs improvement
+};
 
 const getGradientId = (value: number) => {
-  if (value >= 90) return "excellent-gradient"
-  if (value >= 80) return "good-gradient"
-  if (value >= 70) return "average-gradient"
-  return "poor-gradient"
-}
+  if (value >= 90) return 'excellent-gradient';
+  if (value >= 80) return 'good-gradient';
+  if (value >= 70) return 'average-gradient';
+  return 'poor-gradient';
+};
 
-export function CircularProgress({ value, size = 120, strokeWidth = 8, className, children }: CircularProgressProps) {
-  const radius = (size - strokeWidth) / 2
-  const circumference = radius * 2 * Math.PI
-  const strokeDasharray = circumference
-  const strokeDashoffset = circumference - (value / 100) * circumference
+export function CircularProgress({
+  value,
+  size = 120,
+  strokeWidth = 8,
+  className,
+  children,
+}: CircularProgressProps) {
+  const radius = (size - strokeWidth) / 2;
+  const circumference = radius * 2 * Math.PI;
+  const strokeDasharray = circumference;
+  const strokeDashoffset = circumference - (value / 100) * circumference;
 
-  const colors = getProgressColor(value)
-  const gradientId = getGradientId(value)
+  const colors = getProgressColor(value);
+  const gradientId = getGradientId(value);
 
   return (
-    <div className={cn("relative inline-flex items-center justify-center", className)}>
-      <svg width={size} height={size} className="transform -rotate-90">
+    <div className={cn('relative inline-flex items-center justify-center', className)}>
+      <svg width={size} height={size} className="-rotate-90 transform">
         <defs>
           <linearGradient id="excellent-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#10b981" />
@@ -84,5 +90,5 @@ export function CircularProgress({ value, size = 120, strokeWidth = 8, className
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">{children}</div>
     </div>
-  )
+  );
 }

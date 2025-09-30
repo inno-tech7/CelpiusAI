@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import type React from 'react';
 import { createContext, useContext, useState } from 'react';
@@ -22,24 +22,29 @@ const PlansContext = createContext<PlansContextType | undefined>(undefined);
 
 const initialPlans: Plan[] = [
   {
-    name: "Free Tier",
-    price: "$0",
-    period: "/month",
-    features: ["1 Full Practice Test", "Limited AI Feedback", "Community Access"],
+    name: 'Free Tier',
+    price: '$0',
+    period: '/month',
+    features: ['1 Full Practice Test', 'Limited AI Feedback', 'Community Access'],
     isCurrent: false,
   },
   {
-    name: "Pro Monthly",
-    price: "$19",
-    period: "/month",
-    features: ["10 Full Practice Tests", "Unlimited AI Feedback", "Priority Support", "Detailed Analytics"],
+    name: 'Pro Monthly',
+    price: '$19',
+    period: '/month',
+    features: [
+      '10 Full Practice Tests',
+      'Unlimited AI Feedback',
+      'Priority Support',
+      'Detailed Analytics',
+    ],
     isCurrent: true,
   },
   {
-    name: "Pro Yearly",
-    price: "$180",
-    period: "/year",
-    features: ["Everything in Pro Monthly", "20% Discount", "Early Access to New Features"],
+    name: 'Pro Yearly',
+    price: '$180',
+    period: '/year',
+    features: ['Everything in Pro Monthly', '20% Discount', 'Early Access to New Features'],
     isCurrent: false,
   },
 ];
@@ -48,13 +53,11 @@ export function PlansProvider({ children }: { children: React.ReactNode }) {
   const [plans, setPlans] = useState<Plan[]>(initialPlans);
 
   const addPlan = (plan: Omit<Plan, 'isCurrent'>) => {
-    setPlans(prev => [...prev, { ...plan, isCurrent: false }]);
+    setPlans((prev) => [...prev, { ...plan, isCurrent: false }]);
   };
 
   const updatePlan = (planName: string, updatedData: Partial<Plan>) => {
-    setPlans(prev => 
-      prev.map(p => (p.name === planName ? { ...p, ...updatedData } : p))
-    );
+    setPlans((prev) => prev.map((p) => (p.name === planName ? { ...p, ...updatedData } : p)));
   };
 
   return (

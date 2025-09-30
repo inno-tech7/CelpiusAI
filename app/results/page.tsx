@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Progress } from "@/components/ui/progress"
-import SemiCircularProgress from "@/components/SemiCircularProgress"
-import BorderSpotlight from "@/components/BorderSpotlight"
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Progress } from '@/components/ui/progress';
+import SemiCircularProgress from '@/components/SemiCircularProgress';
+import BorderSpotlight from '@/components/BorderSpotlight';
 
 import {
   TrendingUp,
@@ -22,85 +22,90 @@ import {
   BarChart3,
   Download,
   Share2,
-} from "lucide-react"
-import Link from "next/link"
-import { DashboardLayout } from "@/components/dashboard-layout"
+} from 'lucide-react';
+import Link from 'next/link';
+import { DashboardLayout } from '@/components/dashboard-layout';
 
-// Mock data - in real app this would come from API/database
 const testResults = {
   overall: {
     clb: 8.5,
     score: 85,
-    testDate: "2024-01-15",
-    duration: "2h 39m",
-    improvement: "+1.2",
+    testDate: '2024-01-15',
+    duration: '2h 39m',
+    improvement: '+1.2',
   },
   sections: [
     {
-      name: "Listening",
+      name: 'Listening',
       icon: Headphones,
       clb: 9.0,
       score: 90,
       maxScore: 100,
-      color: "from-blue-400 to-cyan-500",
+      color: 'from-blue-400 to-cyan-500',
       questions: 38,
       correct: 34,
-      improvement: "+0.5",
+      improvement: '+0.5',
     },
     {
-      name: "Reading",
+      name: 'Reading',
       icon: BookOpen,
       clb: 8.5,
       score: 85,
       maxScore: 100,
-      color: "from-blue-400 to-cyan-500",
+      color: 'from-blue-400 to-cyan-500',
       questions: 38,
       correct: 32,
-      improvement: "+0.3",
+      improvement: '+0.3',
     },
     {
-      name: "Writing",
+      name: 'Writing',
       icon: PenTool,
       clb: 8.0,
       score: 80,
       maxScore: 100,
-      color: "from-blue-400 to-cyan-500",
+      color: 'from-blue-400 to-cyan-500',
       tasks: 2,
       completed: 2,
-      improvement: "+1.5",
+      improvement: '+1.5',
     },
     {
-      name: "Speaking",
+      name: 'Speaking',
       icon: Mic,
       clb: 8.5,
       score: 85,
       maxScore: 100,
-      color: "from-blue-400 to-cyan-500",
+      color: 'from-blue-400 to-cyan-500',
       tasks: 8,
       completed: 8,
-      improvement: "+2.1",
+      improvement: '+2.1',
     },
   ],
   feedback: {
     writing: {
       task1: {
-        title: "Email Writing",
+        title: 'Email Writing',
         score: 8.2,
         feedback: [
-          { type: "positive", text: "Excellent use of formal email structure and appropriate tone" },
-          { type: "positive", text: "Clear problem identification and solution proposal" },
-          { type: "improvement", text: "Consider using more varied sentence structures" },
-          { type: "grammar", text: "Minor issue: 'you was' should be 'you were' (line 3)" },
+          {
+            type: 'positive',
+            text: 'Excellent use of formal email structure and appropriate tone',
+          },
+          { type: 'positive', text: 'Clear problem identification and solution proposal' },
+          { type: 'improvement', text: 'Consider using more varied sentence structures' },
+          { type: 'grammar', text: "Minor issue: 'you was' should be 'you were' (line 3)" },
         ],
       },
       task2: {
-        title: "Survey Response",
+        title: 'Survey Response',
         score: 7.8,
         feedback: [
-          { type: "positive", text: "Strong opinion with well-supported arguments" },
-          { type: "positive", text: "Good use of examples and personal experience" },
-          { type: "improvement", text: "Work on paragraph transitions for better flow" },
-          { type: "vocabulary", text: "Try using more advanced vocabulary (e.g., 'furthermore' instead of 'also')" },
+          { type: 'positive', text: 'Strong opinion with well-supported arguments' },
+          { type: 'positive', text: 'Good use of examples and personal experience' },
+          { type: 'improvement', text: 'Work on paragraph transitions for better flow' },
+          {
+            type: 'vocabulary',
+            text: "Try using more advanced vocabulary (e.g., 'furthermore' instead of 'also')",
+          },
         ],
       },
     },
@@ -114,391 +119,465 @@ const testResults = {
         enthusiasm: 72,
       },
       tasks: [
-        { task: "Giving Advice", score: 8.5, feedback: "Clear delivery with good use of examples" },
-        { task: "Personal Experience", score: 8.0, feedback: "Engaging story but watch past tense consistency" },
-        { task: "Describing Scene", score: 8.2, feedback: "Detailed description with good vocabulary" },
-        { task: "Making Predictions", score: 7.5, feedback: "Good ideas but could be more confident in delivery" },
+        { task: 'Giving Advice', score: 8.5, feedback: 'Clear delivery with good use of examples' },
+        {
+          task: 'Personal Experience',
+          score: 8.0,
+          feedback: 'Engaging story but watch past tense consistency',
+        },
+        {
+          task: 'Describing Scene',
+          score: 8.2,
+          feedback: 'Detailed description with good vocabulary',
+        },
+        {
+          task: 'Making Predictions',
+          score: 7.5,
+          feedback: 'Good ideas but could be more confident in delivery',
+        },
       ],
     },
   },
   recommendations: [
-    "Practice more complex sentence structures in writing",
-    "Focus on pronunciation drills for /th/ sounds",
-    "Review past tense irregular verbs",
-    "Work on speaking fluency with timed exercises",
+    'Practice more complex sentence structures in writing',
+    'Focus on pronunciation drills for /th/ sounds',
+    'Review past tense irregular verbs',
+    'Work on speaking fluency with timed exercises',
   ],
   strengths: [
-    "Excellent listening comprehension",
-    "Strong vocabulary usage",
-    "Clear communication of ideas",
-    "Good understanding of formal writing structure",
+    'Excellent listening comprehension',
+    'Strong vocabulary usage',
+    'Clear communication of ideas',
+    'Good understanding of formal writing structure',
   ],
-}
+};
 
 export default function ResultsPage() {
-  const [activeTab, setActiveTab] = useState("overview")
+  const [activeTab, setActiveTab] = useState('overview');
 
   const getPerformanceBadge = (score: number) => {
     if (score >= 10) {
       return {
-        text: "Excellent",
-        className: "mt-2 bg-green-500/20 dark:text-green-300 text-green-600 border-green-500/30 text-base px-4 py-2",
-        icon: TrendingUp
-      }
+        text: 'Excellent',
+        className:
+          'mt-2 bg-green-500/20 dark:text-green-300 text-green-600 border-green-500/30 text-base px-4 py-2',
+        icon: TrendingUp,
+      };
     } else if (score >= 7) {
       return {
-        text: "Good",
-        className: "mt-2 bg-blue-500/20 dark:text-blue-300 text-blue-600 border-blue-500/30 text-base px-4 py-2",
-        icon: Target
-      }
+        text: 'Good',
+        className:
+          'mt-2 bg-blue-500/20 dark:text-blue-300 text-blue-600 border-blue-500/30 text-base px-4 py-2',
+        icon: Target,
+      };
     } else if (score >= 5) {
       return {
-        text: "Average",
-        className: "mt-2 bg-yellow-500/20 dark:text-yellow-300 text-yellow-600 border-yellow-500/30 text-base px-4 py-2",
-        icon: Target
-      }
+        text: 'Average',
+        className:
+          'mt-2 bg-yellow-500/20 dark:text-yellow-300 text-yellow-600 border-yellow-500/30 text-base px-4 py-2',
+        icon: Target,
+      };
     } else {
       return {
-        text: "Needs Work",
-        className: "mt-2 bg-red-500/20 dark:text-red-300 text-red-600 border-red-500/30 text-base px-4 py-2",
-        icon: AlertTriangle
-      }
+        text: 'Needs Work',
+        className:
+          'mt-2 bg-red-500/20 dark:text-red-300 text-red-600 border-red-500/30 text-base px-4 py-2',
+        icon: AlertTriangle,
+      };
     }
-  }
+  };
 
   return (
     <DashboardLayout>
       <div className="space-y-8 fade-in">
-        {/* Header */}
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl font-[400] gradient-title text-[1.5rem] font-mono">Test Results</h1>
-          <p className="text-xl text-slate-800/70 dark:text-gray-500">Comprehensive analysis of your CELPIP practice test performance</p>
+        <div className="space-y-4 text-center">
+          <h1 className="gradient-title font-mono text-4xl text-[1.5rem] font-[400] md:text-5xl">
+            Test Results
+          </h1>
+          <p className="text-xl text-slate-800/70 dark:text-gray-500">
+            Comprehensive analysis of your CELPIP practice test performance
+          </p>
         </div>
 
-        {/* Overall Score Card */}
         <BorderSpotlight
+          color="#5ea0ff"
+          brightness={1}
+          feather={80}
+          borderWidth={7}
+          borderRadius="2rem"
+        >
+          <div className="glassmorphic-dashboard overflow-hidden rounded-[2rem]">
+            <CardHeader className="bg-gradient-to-r from-blue-600/20 to-purple-600/20">
+              <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center max-435:items-center">
+                <div>
+                  <CardTitle className="flex items-center gap-3 font-mono text-white">
+                    <Award className="h-6 w-6 text-yellow-500 dark:text-yellow-400" />
+                    Overall Performance
+                  </CardTitle>
+                  <CardDescription className="pl-[37px] pt-[9px] text-slate-800/70 dark:text-gray-100 max-435:pl-[0px] max-435:text-center">
+                    Test completed on {testResults.overall.testDate}
+                  </CardDescription>
+                </div>
+                <div className="flex gap-3 max-435:flex-col max-435:items-center max-435:justify-center">
+                  <Button
+                    variant="outline"
+                    className="border-blue-500 bg-transparent font-mono text-blue-600 hover:bg-blue-500/10 dark:border-blue-500/30 dark:text-blue-300"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    Download Report
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="border-blue-500 bg-transparent font-mono text-blue-600 hover:bg-blue-500/10 dark:border-blue-500/30 dark:text-blue-300"
+                  >
+                    <Share2 className="mr-2 h-4 w-4" />
+                    Share Results
+                  </Button>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="grid gap-6 md:grid-cols-4">
+                <div className="text-center">
+                  <div className="mb-2 font-mono text-4xl font-bold text-white">
+                    CLB {testResults.overall.clb}
+                  </div>
+                  <div className="text-sm text-blue-500 dark:text-blue-300">
+                    Canadian Language Benchmark
+                  </div>
+                  <Badge className="mt-2 border-green-500/30 bg-green-500/20 text-green-600 dark:text-green-300">
+                    <TrendingUp className="mr-1 h-3 w-3" />
+                    {testResults.overall.improvement}
+                  </Badge>
+                </div>
+                <div className="text-center">
+                  <div className="mb-2 font-mono text-4xl font-bold text-white">
+                    {testResults.overall.score}%
+                  </div>
+                  <div className="text-sm text-blue-500 dark:text-blue-300">Overall Score</div>
+                  <div className="mt-2 text-sm text-green-600 dark:text-green-400">
+                    Excellent Performance
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="mb-2 font-mono text-4xl font-bold text-white">
+                    {testResults.overall.duration}
+                  </div>
+                  <div className="text-sm text-blue-500 dark:text-blue-300">Test Duration</div>
+                  <div className="mt-2 text-sm text-blue-400">Within Time Limit</div>
+                </div>
+                <div className="text-center">
+                  <div className="mb-2 font-mono text-4xl font-bold text-white">A+</div>
+                  <div className="text-sm text-blue-500 dark:text-blue-300">Grade</div>
+                  <div className="mt-2 text-sm text-yellow-200 dark:text-yellow-400">
+                    Ready for Immigration
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </div>
+        </BorderSpotlight>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 max-1024:grid-cols-2 max-640:grid-cols-1">
+          {[
+            { name: 'Listening', score: 11.5 },
+            { name: 'Reading', score: 8.5 },
+            { name: 'Writing', score: 6.5 },
+            { name: 'Speaking', score: 3.5 },
+          ].map((section) => {
+            const badge = getPerformanceBadge(section.score);
+            const IconComponent = badge.icon;
+            return (
+              <BorderSpotlight
+                key={section.name}
                 color="#5ea0ff"
                 brightness={1}
                 feather={80}
                 borderWidth={7}
-                borderRadius="2rem"
+                borderRadius="1.5rem"
               >
-          <div className="glassmorphic-dashboard rounded-[2rem] overflow-hidden">
-          <CardHeader className="bg-gradient-to-r from-blue-600/20 to-purple-600/20">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center max-435:items-center gap-4">
-              <div>
-                <CardTitle className="text-white font-mono flex items-center gap-3">
-                  <Award className="w-6 h-6 dark:text-yellow-400 text-yellow-500 " />
-                  Overall Performance
-                </CardTitle>
-                <CardDescription className="text-slate-800/70 dark:text-gray-100 pl-[37px] pt-[9px] max-435:text-center max-435:pl-[0px]">
-                  Test completed on {testResults.overall.testDate}
-                </CardDescription>
-              </div>
-              <div className="flex max-435:flex-col max-435:items-center max-435:justify-center gap-3">
-                <Button
-                  variant="outline"
-                  className="dark:border-blue-500/30 border-blue-500 dark:text-blue-300 text-blue-600 hover:bg-blue-500/10 font-mono bg-transparent"
-                >
-                  <Download className="w-4 h-4 mr-2" />
-                  Download Report
-                </Button>
-                <Button
-                  variant="outline"
-                  className="dark:border-blue-500/30 border-blue-500 dark:text-blue-300 text-blue-600 hover:bg-blue-500/10 font-mono bg-transparent"
-                >
-                  <Share2 className="w-4 h-4 mr-2" />
-                  Share Results
-                </Button>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent className="p-6">
-            <div className="grid md:grid-cols-4 gap-6">
-              <div className="text-center">
-                <div className="text-4xl font-bold text-white font-mono mb-2">CLB {testResults.overall.clb}</div>
-                <div className="dark:text-blue-300 text-blue-500 text-sm">Canadian Language Benchmark</div>
-                <Badge className="mt-2 bg-green-500/20 dark:text-green-300 text-green-600 border-green-500/30">
-                  <TrendingUp className="w-3 h-3 mr-1" />
-                  {testResults.overall.improvement}
-                </Badge>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-white font-mono mb-2">{testResults.overall.score}%</div>
-                <div className="dark:text-blue-300 text-blue-500 text-sm">Overall Score</div>
-                <div className="dark:text-green-400 text-green-600 text-sm mt-2">Excellent Performance</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-white font-mono mb-2">{testResults.overall.duration}</div>
-                <div className="dark:text-blue-300 text-blue-500 text-sm">Test Duration</div>
-                <div className="text-blue-400 text-sm mt-2">Within Time Limit</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-white font-mono mb-2">A+</div>
-                <div className="dark:text-blue-300 text-blue-500 text-sm">Grade</div>
-                <div className="dark:text-yellow-400 text-yellow-200 text-sm mt-2">Ready for Immigration</div>
-              </div>
-            </div>
-          </CardContent>
-        </div>
-        </BorderSpotlight>
-
-        {/* Section Breakdown */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-1024:grid-cols-2 max-640:grid-cols-1">
-          {[
-            { name: "Listening", score: 11.5 },
-            { name: "Reading", score: 8.5 },
-            { name: "Writing", score: 6.5 },
-            { name: "Speaking", score: 3.5 }
-          ].map((section) => {
-            const badge = getPerformanceBadge(section.score)
-            const IconComponent = badge.icon
-            return (
-              <BorderSpotlight
-              key={section.name}
-              color="#5ea0ff"
-              brightness={1}
-              feather={80}
-              borderWidth={7}
-              borderRadius="1.5rem"
-            >
-              <div className="glassmorphic-dashboard rounded-[1.5rem]">
-                <div className="flex flex-col items-center justify-center scale-[0.7]">
-                  <h2 className="text-[1.3rem] font-bold text-white">{section.name}</h2>
-                  <SemiCircularProgress value={section.score} size={70} className="mx-auto mt-[-0.5rem]" />
-                  <Badge className={badge.className}>
-                    <IconComponent className="w-3 h-3 mr-1" />
-                    {badge.text}
-                  </Badge>
+                <div className="glassmorphic-dashboard rounded-[1.5rem]">
+                  <div className="flex scale-[0.7] flex-col items-center justify-center">
+                    <h2 className="text-[1.3rem] font-bold text-white">{section.name}</h2>
+                    <SemiCircularProgress
+                      value={section.score}
+                      size={70}
+                      className="mx-auto mt-[-0.5rem]"
+                    />
+                    <Badge className={badge.className}>
+                      <IconComponent className="mr-1 h-3 w-3" />
+                      {badge.text}
+                    </Badge>
+                  </div>
                 </div>
-              </div>
-            </BorderSpotlight>
-            )
+              </BorderSpotlight>
+            );
           })}
         </div>
 
-        {/* Detailed Analysis Tabs */}
-    <BorderSpotlight
-      color="#5ea0ff"
-      brightness={1}
-      feather={80}
-      borderWidth={7}
-      borderRadius="1.5rem"
-      >
-        <Card className="glassmorphic-dashboard">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <CardHeader>
-              <TabsList className="grid w-full grid-cols-4 dark:bg-black/30 bg-white/50">
-                <TabsTrigger value="overview" className="font-mono data-[state=active]:bg-blue-600/30">
-                  Overview
-                </TabsTrigger>
-                <TabsTrigger value="writing" className="font-mono data-[state=active]:bg-blue-600/30">
-                  Writing
-                </TabsTrigger>
-                <TabsTrigger value="speaking" className="font-mono data-[state=active]:bg-blue-600/30">
-                  Speaking
-                </TabsTrigger>
-                <TabsTrigger value="recommendations" className="font-mono data-[state=active]:bg-blue-600/30">
-                  Insights
-                </TabsTrigger>
-              </TabsList>
-            </CardHeader>
+        <BorderSpotlight
+          color="#5ea0ff"
+          brightness={1}
+          feather={80}
+          borderWidth={7}
+          borderRadius="1.5rem"
+        >
+          <Card className="glassmorphic-dashboard">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+              <CardHeader>
+                <TabsList className="grid w-full grid-cols-4 bg-white/50 dark:bg-black/30">
+                  <TabsTrigger
+                    value="overview"
+                    className="font-mono data-[state=active]:bg-blue-600/30"
+                  >
+                    Overview
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="writing"
+                    className="font-mono data-[state=active]:bg-blue-600/30"
+                  >
+                    Writing
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="speaking"
+                    className="font-mono data-[state=active]:bg-blue-600/30"
+                  >
+                    Speaking
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="recommendations"
+                    className="font-mono data-[state=active]:bg-blue-600/30"
+                  >
+                    Insights
+                  </TabsTrigger>
+                </TabsList>
+              </CardHeader>
 
-            <CardContent className="p-6">
-              <TabsContent value="overview" className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-semibold dark:text-slate-50 text-green-500 font-mono">Strengths</h3>
-                    <div className="space-y-3">
-                      {testResults.strengths.map((strength, index) => (
-                        <div
-                          key={index}
-                          className="flex items-start gap-2 p-3 rounded-lg bg-green-500/10 border border-green-500/20"
-                        >
-                          <CheckCircle className="w-4 h-4 text-green-400 mt-0.5" />
-                          <span className="text-sm dark:text-blue-100 text-gray-500">{strength}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-semibold dark:text-slate-50 text-orange-400 font-mono">Areas for Improvement</h3>
-                    <div className="space-y-3">
-                      {testResults.recommendations.map((rec, index) => (
-                        <div
-                          key={index}
-                          className="flex items-start gap-2 p-3 rounded-lg bg-orange-500/10 border border-orange-500/20"
-                        >
-                          <AlertTriangle className="w-4 h-4 text-orange-400 mt-0.5" />
-                          <span className="text-sm dark:text-blue-100 text-gray-500">{rec}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="writing" className="space-y-6">
-                <div className="space-y-6">
-                  {Object.entries(testResults.feedback.writing).map(([taskKey, task]) => (
-                    <Card key={taskKey} className="bg-black/10 border border-white/5">
-                      <CardHeader>
-                        <CardTitle className="text-blue-300 font-mono flex items-center justify-between">
-                          {task.title}
-                          <Badge className="max-435:w-[35%] max-435:text-center max-435:ml-10  bg-blue-500/20 dark:text-blue-300 text-blue-700 border-blue-500/30">
-                            Score: {task.score}/10
-                          </Badge>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-3">
-                        {task.feedback.map((item, index) => (
+              <CardContent className="p-6">
+                <TabsContent value="overview" className="space-y-6">
+                  <div className="grid gap-6 md:grid-cols-2">
+                    <div className="space-y-4">
+                      <h3 className="font-mono text-xl font-semibold text-green-500 dark:text-slate-50">
+                        Strengths
+                      </h3>
+                      <div className="space-y-3">
+                        {testResults.strengths.map((strength, index) => (
                           <div
                             key={index}
-                            className={`flex items-start gap-2 p-3 rounded-lg ${
-                              item.type === "positive"
-                                ? "bg-green-500/10 border border-green-500/20"
-                                : item.type === "improvement"
-                                  ? "bg-orange-500/10 border border-orange-500/20"
-                                  : "bg-red-500/10 border border-red-500/20"
-                            }`}
+                            className="flex items-start gap-2 rounded-lg border border-green-500/20 bg-green-500/10 p-3"
                           >
-                            {item.type === "positive" ? (
-                              <CheckCircle className="w-4 h-4 text-green-400 mt-0.5" />
-                            ) : (
-                              <AlertTriangle className="w-4 h-4 text-orange-400 mt-0.5" />
-                            )}
-                            <span className="text-sm dark:text-blue-100 text-gray-500">{item.text}</span>
+                            <CheckCircle className="mt-0.5 h-4 w-4 text-green-400" />
+                            <span className="text-sm text-gray-500 dark:text-blue-100">
+                              {strength}
+                            </span>
                           </div>
                         ))}
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="speaking" className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <Card className="bg-black/10 border border-white/5">
-                    <CardHeader>
-                      <CardTitle className="dark:text-white text-blue-300 font-mono">Speaking Analysis</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {Object.entries(testResults.feedback.speaking.overall).map(([key, value]) => {
-                        if (key === "confidence" || key === "enthusiasm") return null
-                        return (
-                          <div key={key} className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                              <span className="dark:text-blue-300 text-blue-500 capitalize">{key}</span>
-                              <span className="text-white">{value}/10</span>
-                            </div>
-                            <Progress value={value * 10} className="h-2" />
+                      </div>
+                    </div>
+                    <div className="space-y-4">
+                      <h3 className="font-mono text-xl font-semibold text-orange-400 dark:text-slate-50">
+                        Areas for Improvement
+                      </h3>
+                      <div className="space-y-3">
+                        {testResults.recommendations.map((rec, index) => (
+                          <div
+                            key={index}
+                            className="flex items-start gap-2 rounded-lg border border-orange-500/20 bg-orange-500/10 p-3"
+                          >
+                            <AlertTriangle className="mt-0.5 h-4 w-4 text-orange-400" />
+                            <span className="text-sm text-gray-500 dark:text-blue-100">{rec}</span>
                           </div>
-                        )
-                      })}
-                    </CardContent>
-                  </Card>
-
-                  <Card className="bg-black/10 border border-white/5">
-                    <CardHeader>
-                      <CardTitle className="dark:text-white text-blue-300 font-mono">Emotional Analysis</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-sm">
-                          <span className="dark:text-blue-300 text-blue-500">Confidence</span>
-                          <span className="text-white">{testResults.feedback.speaking.overall.confidence}%</span>
-                        </div>
-                        <Progress value={testResults.feedback.speaking.overall.confidence} className="h-2" />
+                        ))}
                       </div>
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-sm">
-                          <span className="dark:text-blue-300 text-blue-500">Enthusiasm</span>
-                          <span className="text-white">{testResults.feedback.speaking.overall.enthusiasm}%</span>
-                        </div>
-                        <Progress value={testResults.feedback.speaking.overall.enthusiasm} className="h-2" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
+                    </div>
+                  </div>
+                </TabsContent>
 
-                <div className="space-y-4">
-                  <h3 className="text-xl font-semibold dark:text-white text-blue-300 font-mono">Task-by-Task Feedback</h3>
-                  <div className="grid gap-4">
-                    {testResults.feedback.speaking.tasks.map((task, index) => (
-                      <Card key={index} className="bg-black/10 border border-white/5">
-                        <CardContent className="p-4">
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="font-semibold dark:text-white text-gray-400">{task.task}</span>
-                            <Badge className="bg-blue-500/20 dark:text-blue-300 border-purple-500/30">
-                              {task.score}/10
+                <TabsContent value="writing" className="space-y-6">
+                  <div className="space-y-6">
+                    {Object.entries(testResults.feedback.writing).map(([taskKey, task]) => (
+                      <Card key={taskKey} className="border border-white/5 bg-black/10">
+                        <CardHeader>
+                          <CardTitle className="flex items-center justify-between font-mono text-blue-300">
+                            {task.title}
+                            <Badge className="border-blue-500/30 bg-blue-500/20 text-blue-700 dark:text-blue-300 max-435:ml-10 max-435:w-[35%] max-435:text-center">
+                              Score: {task.score}/10
                             </Badge>
-                          </div>
-                          <p className="text-sm text-blue-400">{task.feedback}</p>
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-3">
+                          {task.feedback.map((item, index) => (
+                            <div
+                              key={index}
+                              className={`flex items-start gap-2 rounded-lg p-3 ${
+                                item.type === 'positive'
+                                  ? 'border border-green-500/20 bg-green-500/10'
+                                  : item.type === 'improvement'
+                                    ? 'border border-orange-500/20 bg-orange-500/10'
+                                    : 'border border-red-500/20 bg-red-500/10'
+                              }`}
+                            >
+                              {item.type === 'positive' ? (
+                                <CheckCircle className="mt-0.5 h-4 w-4 text-green-400" />
+                              ) : (
+                                <AlertTriangle className="mt-0.5 h-4 w-4 text-orange-400" />
+                              )}
+                              <span className="text-sm text-gray-500 dark:text-blue-100">
+                                {item.text}
+                              </span>
+                            </div>
+                          ))}
                         </CardContent>
                       </Card>
                     ))}
                   </div>
-                </div>
-              </TabsContent>
+                </TabsContent>
 
-              <TabsContent value="recommendations" className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <Card className="bg-black/10 border border-white/5">
-                    <CardHeader>
-                      <CardTitle className="dark:text-white text-blue-300 font-mono flex items-center gap-2">
-                        <Target className="w-5 h-5 text-blue-300" />
-                        Next Steps
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      {testResults.recommendations.map((rec, index) => (
-                        <div key={index} className="flex items-start gap-2">
-                          <div className="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center text-xs dark:text-blue-300 text-blue-600 font-mono mt-0.5">
-                            {index + 1}
+                <TabsContent value="speaking" className="space-y-6">
+                  <div className="mb-6 grid gap-6 md:grid-cols-2">
+                    <Card className="border border-white/5 bg-black/10">
+                      <CardHeader>
+                        <CardTitle className="font-mono text-blue-300 dark:text-white">
+                          Speaking Analysis
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        {Object.entries(testResults.feedback.speaking.overall).map(
+                          ([key, value]) => {
+                            if (key === 'confidence' || key === 'enthusiasm') return null;
+                            return (
+                              <div key={key} className="space-y-2">
+                                <div className="flex justify-between text-sm">
+                                  <span className="capitalize text-blue-500 dark:text-blue-300">
+                                    {key}
+                                  </span>
+                                  <span className="text-white">{value}/10</span>
+                                </div>
+                                <Progress value={value * 10} className="h-2" />
+                              </div>
+                            );
+                          }
+                        )}
+                      </CardContent>
+                    </Card>
+
+                    <Card className="border border-white/5 bg-black/10">
+                      <CardHeader>
+                        <CardTitle className="font-mono text-blue-300 dark:text-white">
+                          Emotional Analysis
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="space-y-2">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-blue-500 dark:text-blue-300">Confidence</span>
+                            <span className="text-white">
+                              {testResults.feedback.speaking.overall.confidence}%
+                            </span>
                           </div>
-                          <span className="text-sm dark:text-blue-100 text-gray-400">{rec}</span>
+                          <Progress
+                            value={testResults.feedback.speaking.overall.confidence}
+                            className="h-2"
+                          />
                         </div>
-                      ))}
-                    </CardContent>
-                  </Card>
+                        <div className="space-y-2">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-blue-500 dark:text-blue-300">Enthusiasm</span>
+                            <span className="text-white">
+                              {testResults.feedback.speaking.overall.enthusiasm}%
+                            </span>
+                          </div>
+                          <Progress
+                            value={testResults.feedback.speaking.overall.enthusiasm}
+                            className="h-2"
+                          />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
 
-                  <Card className="bg-black/10 border border-white/5">
-                    <CardHeader>
-                      <CardTitle className="dark:text-white text-blue-300 font-mono flex items-center gap-2">
-                        <BarChart3 className="w-5 h-5 text-blue-300" />
-                        Study Plan
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      <div className="space-y-2">
-                        <Button
-                          className="w-full justify-start bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 border-blue-500/30 font-mono"
-                          asChild
-                        >
-                          <Link href="/practice">Take Another Practice Test</Link>
-                        </Button>
-                        <Button
-                          className="w-full justify-start bg-green-500/10 hover:bg-green-500/20 text-blue-300 border-green-500/30 font-mono"
-                          asChild
-                        >
-                          <Link href="/test/writing">Focus on Writing</Link>
-                        </Button>
-                        <Button
-                          className="w-full justify-start bg-purple-500/10 hover:bg-purple-500/20 text-blue-300 border-purple-500/30 font-mono"
-                          asChild
-                        >
-                          <Link href="/test/speaking">Practice Speaking</Link>
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              </TabsContent>
-            </CardContent>
-          </Tabs>
-        </Card>
-      </BorderSpotlight>
+                  <div className="space-y-4">
+                    <h3 className="font-mono text-xl font-semibold text-blue-300 dark:text-white">
+                      Task-by-Task Feedback
+                    </h3>
+                    <div className="grid gap-4">
+                      {testResults.feedback.speaking.tasks.map((task, index) => (
+                        <Card key={index} className="border border-white/5 bg-black/10">
+                          <CardContent className="p-4">
+                            <div className="mb-2 flex items-center justify-between">
+                              <span className="font-semibold text-gray-400 dark:text-white">
+                                {task.task}
+                              </span>
+                              <Badge className="border-purple-500/30 bg-blue-500/20 dark:text-blue-300">
+                                {task.score}/10
+                              </Badge>
+                            </div>
+                            <p className="text-sm text-blue-400">{task.feedback}</p>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="recommendations" className="space-y-6">
+                  <div className="grid gap-6 md:grid-cols-2">
+                    <Card className="border border-white/5 bg-black/10">
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2 font-mono text-blue-300 dark:text-white">
+                          <Target className="h-5 w-5 text-blue-300" />
+                          Next Steps
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        {testResults.recommendations.map((rec, index) => (
+                          <div key={index} className="flex items-start gap-2">
+                            <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500/20 font-mono text-xs text-blue-600 dark:text-blue-300">
+                              {index + 1}
+                            </div>
+                            <span className="text-sm text-gray-400 dark:text-blue-100">{rec}</span>
+                          </div>
+                        ))}
+                      </CardContent>
+                    </Card>
+
+                    <Card className="border border-white/5 bg-black/10">
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2 font-mono text-blue-300 dark:text-white">
+                          <BarChart3 className="h-5 w-5 text-blue-300" />
+                          Study Plan
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div className="space-y-2">
+                          <Button
+                            className="w-full justify-start border-blue-500/30 bg-blue-500/10 font-mono text-blue-300 hover:bg-blue-500/20"
+                            asChild
+                          >
+                            <Link href="/practice">Take Another Practice Test</Link>
+                          </Button>
+                          <Button
+                            className="w-full justify-start border-green-500/30 bg-green-500/10 font-mono text-blue-300 hover:bg-green-500/20"
+                            asChild
+                          >
+                            <Link href="/test/writing">Focus on Writing</Link>
+                          </Button>
+                          <Button
+                            className="w-full justify-start border-purple-500/30 bg-purple-500/10 font-mono text-blue-300 hover:bg-purple-500/20"
+                            asChild
+                          >
+                            <Link href="/test/speaking">Practice Speaking</Link>
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </TabsContent>
+              </CardContent>
+            </Tabs>
+          </Card>
+        </BorderSpotlight>
       </div>
     </DashboardLayout>
-  )
+  );
 }

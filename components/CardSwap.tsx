@@ -8,7 +8,7 @@ import React, {
   RefObject,
   useEffect,
   useMemo,
-  useRef
+  useRef,
 } from 'react';
 import gsap from 'gsap';
 
@@ -33,7 +33,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(({ customClass, ...res
   <div
     ref={ref}
     {...rest}
-    className={`absolute top-1/2 left-1/2 rounded-[1.3rem] border-[1px] border-blue-900 bg-blue-950/0 [transform-style:preserve-3d] [will-change:transform] [backface-visibility:hidden] ${customClass ?? ''} ${rest.className ?? ''}`.trim()}
+    className={`absolute left-1/2 top-1/2 rounded-[1.3rem] border-[1px] border-blue-900 bg-blue-950/0 [backface-visibility:hidden] [transform-style:preserve-3d] [will-change:transform] ${customClass ?? ''} ${rest.className ?? ''}`.trim()}
   />
 ));
 Card.displayName = 'Card';
@@ -50,7 +50,7 @@ const makeSlot = (i: number, distX: number, distY: number, total: number): Slot 
   x: i * distX,
   y: -i * distY,
   z: -i * distX * 1.5,
-  zIndex: total - i
+  zIndex: total - i,
 });
 
 const placeNow = (el: HTMLElement, slot: Slot, skew: number) =>
@@ -63,7 +63,7 @@ const placeNow = (el: HTMLElement, slot: Slot, skew: number) =>
     skewY: skew,
     transformOrigin: 'center center',
     zIndex: slot.zIndex,
-    force3D: true
+    force3D: true,
   });
 
 const CardSwap: React.FC<CardSwapProps> = ({
@@ -76,7 +76,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   onCardClick,
   skewAmount = 0,
   easing = 'elastic',
-  children
+  children,
 }) => {
   const config =
     easing === 'elastic'
@@ -86,7 +86,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
           durMove: 2,
           durReturn: 2,
           promoteOverlap: 0.9,
-          returnDelay: 0.05
+          returnDelay: 0.05,
         }
       : {
           ease: 'power1.inOut',
@@ -94,11 +94,17 @@ const CardSwap: React.FC<CardSwapProps> = ({
           durMove: 0.8,
           durReturn: 0.8,
           promoteOverlap: 0.45,
-          returnDelay: 0.2
+          returnDelay: 0.2,
         };
 
-  const childArr = useMemo(() => Children.toArray(children) as ReactElement<CardProps>[], [children]);
-  const refs = useMemo<CardRef[]>(() => childArr.map(() => React.createRef<HTMLDivElement>()), [childArr.length]);
+  const childArr = useMemo(
+    () => Children.toArray(children) as ReactElement<CardProps>[],
+    [children]
+  );
+  const refs = useMemo<CardRef[]>(
+    () => childArr.map(() => React.createRef<HTMLDivElement>()),
+    [childArr.length]
+  );
 
   const order = useRef<number[]>(Array.from({ length: childArr.length }, (_, i) => i));
 
@@ -108,7 +114,9 @@ const CardSwap: React.FC<CardSwapProps> = ({
 
   useEffect(() => {
     const total = refs.length;
-    refs.forEach((r, i) => placeNow(r.current!, makeSlot(i, cardDistance, verticalDistance, total), skewAmount));
+    refs.forEach((r, i) =>
+      placeNow(r.current!, makeSlot(i, cardDistance, verticalDistance, total), skewAmount)
+    );
 
     const swap = () => {
       if (order.current.length < 2) return;
@@ -121,7 +129,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
       tl.to(elFront, {
         y: '+=500',
         duration: config.durDrop,
-        ease: config.ease
+        ease: config.ease,
       });
 
       tl.addLabel('promote', `-=${config.durDrop * config.promoteOverlap}`);
@@ -136,7 +144,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
             y: slot.y,
             z: slot.z,
             duration: config.durMove,
-            ease: config.ease
+            ease: config.ease,
           },
           `promote+=${i * 0.15}`
         );
@@ -158,7 +166,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
           y: backSlot.y,
           z: backSlot.z,
           duration: config.durReturn,
-          ease: config.ease
+          ease: config.ease,
         },
         'return'
       );
@@ -198,20 +206,16 @@ const CardSwap: React.FC<CardSwapProps> = ({
           key: i,
           ref: refs[i],
           style: { width, height, ...(child.props.style ?? {}) },
-          onClick: e => {
+          onClick: (e) => {
             child.props.onClick?.(e as React.MouseEvent<HTMLDivElement>);
             onCardClick?.(i);
-          }
+          },
         } as CardProps & React.RefAttributes<HTMLDivElement>)
       : child
   );
 
   return (
-    <div
-      ref={container}
-      className="relative overflow-visible mx-auto"
-      style={{ width, height }}
-    >
+    <div ref={container} className="relative mx-auto overflow-visible" style={{ width, height }}>
       {rendered}
     </div>
   );

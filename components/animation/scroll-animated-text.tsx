@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import React, { useRef } from "react";
-import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useRef } from 'react';
+import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ScrollAnimatedTextProps {
   text: string;
@@ -15,14 +15,14 @@ interface ScrollAnimatedTextProps {
   mobileOffset?: any;
 }
 
-const ScrollAnimatedText: React.FC<ScrollAnimatedTextProps> = ({ 
-  text, 
-  className, 
+const ScrollAnimatedText: React.FC<ScrollAnimatedTextProps> = ({
+  text,
+  className,
   textClassName,
-  initialColorClassName = "text-slate-400",
-  finalColorClassName = "text-black dark:text-white",
-  desktopOffset = ["start end", "end start"],
-  mobileOffset = ["start end", "end center"]
+  initialColorClassName = 'text-slate-400',
+  finalColorClassName = 'text-black dark:text-white',
+  desktopOffset = ['start end', 'end start'],
+  mobileOffset = ['start end', 'end center'],
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
@@ -32,22 +32,24 @@ const ScrollAnimatedText: React.FC<ScrollAnimatedTextProps> = ({
     offset: isMobile ? mobileOffset : desktopOffset,
   });
 
-  const words = text.split(" ");
+  const words = text.split(' ');
 
   return (
-    <div ref={containerRef} className={cn("w-full", className)}>
-      <p className={cn("flex flex-wrap justify-center", textClassName)}>
+    <div ref={containerRef} className={cn('w-full', className)}>
+      <p className={cn('flex flex-wrap justify-center', textClassName)}>
         {words.map((word, i) => {
           const start = i / words.length;
           const end = start + 1 / words.length;
-          return <Word 
-                    key={i} 
-                    progress={scrollYProgress} 
-                    range={[start, end]} 
-                    word={word} 
-                    initialColorClassName={initialColorClassName}
-                    finalColorClassName={finalColorClassName}
-                  />;
+          return (
+            <Word
+              key={i}
+              progress={scrollYProgress}
+              range={[start, end]}
+              word={word}
+              initialColorClassName={initialColorClassName}
+              finalColorClassName={finalColorClassName}
+            />
+          );
         })}
       </p>
     </div>
@@ -62,12 +64,23 @@ interface WordProps {
   finalColorClassName: string;
 }
 
-const Word: React.FC<WordProps> = ({ word, progress, range, initialColorClassName, finalColorClassName }) => {
+const Word: React.FC<WordProps> = ({
+  word,
+  progress,
+  range,
+  initialColorClassName,
+  finalColorClassName,
+}) => {
   const opacity = useTransform(progress, range, [0, 1]);
   return (
     <span className="relative mr-3 mt-3">
-      <span className={cn("transition-colors duration-500", initialColorClassName)}>{word}</span>
-      <motion.span className={cn("absolute top-0 left-0 transition-colors duration-500", finalColorClassName)} style={{ opacity }}>{word}</motion.span>
+      <span className={cn('transition-colors duration-500', initialColorClassName)}>{word}</span>
+      <motion.span
+        className={cn('absolute left-0 top-0 transition-colors duration-500', finalColorClassName)}
+        style={{ opacity }}
+      >
+        {word}
+      </motion.span>
     </span>
   );
 };

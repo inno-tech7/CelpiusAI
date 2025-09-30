@@ -1,43 +1,35 @@
-"use client"
+'use client';
 
-import { useRouter } from "next/navigation"
-import { motion } from "framer-motion"
-import { useAuth } from "@/hooks/use-auth"
-import { fadeIn } from "@/app/variants/variants"
-import { Navigation } from "@/components/navigation"
-import { HeroSection } from "@/components/hero-section"
-import { AboutSection } from "@/components/about-section"
-import { FeaturesSection } from "@/components/features-section"
-import { TestimonialsSection } from "@/components/testimonials-section"
-import { PricingSection } from "@/components/pricing-section"
-import { Footer } from "@/components/footer"
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { useAuth } from '@/hooks/use-auth';
+import { fadeIn } from '@/app/variants/variants';
+import { Navigation } from '@/components/navigation';
+import { HeroSection } from '@/components/hero-section';
+import { AboutSection } from '@/components/about-section';
+import { FeaturesSection } from '@/components/features-section';
+import { TestimonialsSection } from '@/components/testimonials-section';
+import { PricingSection } from '@/components/pricing-section';
+import { Footer } from '@/components/footer';
 import Waves from '../components/Waves';
 
-import Link from "next/link"
+import Link from 'next/link';
 
 export default function HomePage() {
-  const { user, signOut } = useAuth()
-  const router = useRouter()
-
+  const { user, signOut } = useAuth();
+  const router = useRouter();
 
   return (
-    <div className="min-h-screen body-gradient-bg overflow-hidden">
-            <Navigation onSignOut={() => signOut(router)} isLandingPage={true} />
-      
+    <div className="body-gradient-bg min-h-screen overflow-hidden">
+      <Navigation onSignOut={() => signOut(router)} isLandingPage={true} />
 
-
-      
-      {/* Waves */}
-        <Waves
-          lineColor="#3674cf"   // purple start
-          fadeTo="transparent"  // fade to transparent
-          fadeAngle={90}        // top → bottom
-          fadeStart={0.0}       // start at top
-          fadeEnd={0.9}         // fade out halfway
-        />
-      
-
-
+      <Waves
+        lineColor="#3674cf" // purple start
+        fadeTo="transparent" // fade to transparent
+        fadeAngle={90} // top → bottom
+        fadeStart={0.0} // start at top
+        fadeEnd={0.9} // fade out halfway
+      />
 
       <motion.div
         variants={fadeIn('up', 0.1)}
@@ -54,7 +46,7 @@ export default function HomePage() {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.1 }}
-        className="lg:pt-[0rem] pb-[4rem] relative z-0"
+        className="relative z-0 pb-[4rem] lg:pt-[0rem]"
       >
         <AboutSection />
       </motion.section>
@@ -100,21 +92,26 @@ export default function HomePage() {
         viewport={{ once: true, amount: 0.1 }}
         className="lg:py-[4rem]"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold sm:text-4xl lg:text-5xl">
               Get in <span className="gradient-text">Touch</span>
             </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-8 leading-relaxed">
-              Have questions about Celpius AI? We're here to help you succeed in your CELPIP journey and achieve your
-              Canadian immigration goals.
+            <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-400">
+              Have questions about Celpius AI? We're here to help you succeed in your CELPIP journey
+              and achieve your Canadian immigration goals.
             </p>
-            <div className="glass-card rounded-2xl p-8 max-w-md mx-auto">
-              <p className="text-slate-600 dark:text-slate-400 mb-4">Contact us at:</p>
-              <Link href="mailto:support@celpius.ai" className="font-mono text-blue-500 hover:text-blue-600 dark:hover:text-blue-400 text-lg mb-4 block transition-colors">
+            <div className="glass-card mx-auto max-w-md rounded-2xl p-8">
+              <p className="mb-4 text-slate-600 dark:text-slate-400">Contact us at:</p>
+              <Link
+                href="mailto:support@celpius.ai"
+                className="mb-4 block font-mono text-lg text-blue-500 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+              >
                 support@celpius.ai
               </Link>
-              <p className="text-sm text-slate-500 dark:text-slate-400">We typically respond within 24 hours</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">
+                We typically respond within 24 hours
+              </p>
             </div>
           </div>
         </div>
@@ -122,5 +119,5 @@ export default function HomePage() {
 
       <Footer />
     </div>
-  )
+  );
 }

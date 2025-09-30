@@ -11,9 +11,7 @@ const nextConfig = {
   },
   devIndicators: false,
   webpack(config) {
-    const fileLoaderRule = config.module.rules.find((rule) =>
-      rule.test?.test?.('.svg'),
-    )
+    const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.('.svg'));
 
     config.module.rules.push(
       {
@@ -25,30 +23,32 @@ const nextConfig = {
         test: /\.svg$/i,
         issuer: fileLoaderRule.issuer,
         resourceQuery: { not: /url$/ }, // exclude if *.svg?url
-        use: [{
-          loader: '@svgr/webpack',
-          options: {
-            svgoConfig: {
-              plugins: [
-                {
-                  name: 'preset-default',
-                  params: {
-                    overrides: {
-                      removeViewBox: false,
-                      convertColors: { currentColor: true },
+        use: [
+          {
+            loader: '@svgr/webpack',
+            options: {
+              svgoConfig: {
+                plugins: [
+                  {
+                    name: 'preset-default',
+                    params: {
+                      overrides: {
+                        removeViewBox: false,
+                        convertColors: { currentColor: true },
+                      },
                     },
                   },
-                },
-              ],
+                ],
+              },
             },
           },
-        }],
-      },
-    )
-    fileLoaderRule.exclude = /\.svg$/i
+        ],
+      }
+    );
+    fileLoaderRule.exclude = /\.svg$/i;
 
-    return config
+    return config;
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;

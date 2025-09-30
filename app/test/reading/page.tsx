@@ -1,45 +1,53 @@
-"use client"
+'use client';
 
-import { useState, useEffect, useRef } from "react"
-import { motion } from "framer-motion"
-import { DashboardLayout } from "@/components/dashboard-layout"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Label } from "@/components/ui/label"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { BookOpen, Clock, CheckCircle, AlertCircle, ArrowRight, ArrowLeft, FileText } from "lucide-react"
+import { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { DashboardLayout } from '@/components/dashboard-layout';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import {
+  BookOpen,
+  Clock,
+  CheckCircle,
+  AlertCircle,
+  ArrowRight,
+  ArrowLeft,
+  FileText,
+} from 'lucide-react';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from '@/components/ui/select';
 
 interface Question {
-  id: number
-  question: string
-  options: string[]
-  correctAnswer: number
+  id: number;
+  question: string;
+  options: string[];
+  correctAnswer: number;
 }
 
 interface ReadingPart {
-  id: number
-  title: string
-  description: string
-  passage: string
-  questions: Question[]
-  timeLimit: number
+  id: number;
+  title: string;
+  description: string;
+  passage: string;
+  questions: Question[];
+  timeLimit: number;
 }
 
 const readingParts: ReadingPart[] = [
   {
     id: 1,
-    title: "Part 1: Reading Correspondence",
-    description: "Read the email and answer the questions.",
+    title: 'Part 1: Reading Correspondence',
+    description: 'Read the email and answer the questions.',
     timeLimit: 11,
     passage: `From: sarah.johnson@techcorp.com
 To: team-leads@techcorp.com
@@ -71,44 +79,44 @@ TechCorp Solutions`,
     questions: [
       {
         id: 1,
-        question: "What is the main purpose of this email?",
+        question: 'What is the main purpose of this email?',
         options: [
-          "To announce a new quarterly meeting",
-          "To inform about a meeting schedule change",
-          "To request quarterly reports from team leaders",
-          "To discuss budget allocation for Q2",
+          'To announce a new quarterly meeting',
+          'To inform about a meeting schedule change',
+          'To request quarterly reports from team leaders',
+          'To discuss budget allocation for Q2',
         ],
         correctAnswer: 1,
       },
       {
         id: 2,
-        question: "When was the meeting originally scheduled?",
-        options: ["March 15th", "March 22nd", "March 27th", "March 29th"],
+        question: 'When was the meeting originally scheduled?',
+        options: ['March 15th', 'March 22nd', 'March 27th', 'March 29th'],
         correctAnswer: 1,
       },
       {
         id: 3,
-        question: "Where will the rescheduled meeting take place?",
+        question: 'Where will the rescheduled meeting take place?',
         options: [
-          "Conference Room A on the 5th floor",
-          "Conference Room B on the 4th floor",
-          "The executive boardroom",
-          "The location is not specified",
+          'Conference Room A on the 5th floor',
+          'Conference Room B on the 4th floor',
+          'The executive boardroom',
+          'The location is not specified',
         ],
         correctAnswer: 0,
       },
       {
         id: 4,
-        question: "When should team leaders submit their quarterly reports?",
-        options: ["March 22nd", "March 25th", "March 27th", "March 29th"],
+        question: 'When should team leaders submit their quarterly reports?',
+        options: ['March 22nd', 'March 25th', 'March 27th', 'March 29th'],
         correctAnswer: 2,
       },
     ],
   },
   {
     id: 2,
-    title: "Part 2: Reading to Apply a Diagram",
-    description: "Read the instructions and refer to the floor plan to answer the questions.",
+    title: 'Part 2: Reading to Apply a Diagram',
+    description: 'Read the instructions and refer to the floor plan to answer the questions.',
     timeLimit: 10,
     passage: `WESTFIELD COMMUNITY CENTER - FLOOR PLAN GUIDE
 
@@ -143,40 +151,40 @@ For emergencies, fire exits are located at the rear of the gymnasium and at the 
     questions: [
       {
         id: 5,
-        question: "If you enter through the main entrance, where is the reception desk located?",
-        options: ["Straight ahead", "To your left", "To your right", "At the back of the building"],
+        question: 'If you enter through the main entrance, where is the reception desk located?',
+        options: ['Straight ahead', 'To your left', 'To your right', 'At the back of the building'],
         correctAnswer: 2,
       },
       {
         id: 6,
-        question: "How can you access the kitchen?",
+        question: 'How can you access the kitchen?',
         options: [
-          "Only through Multipurpose Room 2",
-          "Only through the side corridor",
-          "Through Multipurpose Room 2 or the side corridor",
-          "Directly from the main hallway",
+          'Only through Multipurpose Room 2',
+          'Only through the side corridor',
+          'Through Multipurpose Room 2 or the side corridor',
+          'Directly from the main hallway',
         ],
         correctAnswer: 2,
       },
       {
         id: 7,
-        question: "Which rooms are located on the second floor?",
+        question: 'Which rooms are located on the second floor?',
         options: [
-          "Library, Computer Lab, and two meeting rooms",
-          "Art Studio, Music Room, and storage areas",
-          "Gymnasium and multipurpose rooms",
-          "Reception desk and restrooms",
+          'Library, Computer Lab, and two meeting rooms',
+          'Art Studio, Music Room, and storage areas',
+          'Gymnasium and multipurpose rooms',
+          'Reception desk and restrooms',
         ],
         correctAnswer: 0,
       },
       {
         id: 8,
-        question: "Where are the handicapped parking spaces located?",
+        question: 'Where are the handicapped parking spaces located?',
         options: [
-          "At the back of the building",
-          "On the east side of the building",
-          "Closest to the main entrance",
-          "In the basement level",
+          'At the back of the building',
+          'On the east side of the building',
+          'Closest to the main entrance',
+          'In the basement level',
         ],
         correctAnswer: 2,
       },
@@ -184,8 +192,8 @@ For emergencies, fire exits are located at the rear of the gymnasium and at the 
   },
   {
     id: 3,
-    title: "Part 3: Reading for Information",
-    description: "Read the article about renewable energy and answer the questions.",
+    title: 'Part 3: Reading for Information',
+    description: 'Read the article about renewable energy and answer the questions.',
     timeLimit: 20,
     passage: `The Future of Renewable Energy: Challenges and Opportunities
 
@@ -207,56 +215,57 @@ Looking ahead, experts predict that renewable energy could account for 80% of gl
     questions: [
       {
         id: 9,
-        question: "What percentage of global electricity generation do renewable sources currently account for?",
-        options: ["10%", "20%", "30%", "50%"],
+        question:
+          'What percentage of global electricity generation do renewable sources currently account for?',
+        options: ['10%', '20%', '30%', '50%'],
         correctAnswer: 2,
       },
       {
         id: 10,
-        question: "By how much have solar energy costs fallen since 2010?",
-        options: ["Over 50%", "Over 60%", "Over 70%", "Over 80%"],
+        question: 'By how much have solar energy costs fallen since 2010?',
+        options: ['Over 50%', 'Over 60%', 'Over 70%', 'Over 80%'],
         correctAnswer: 3,
       },
       {
         id: 11,
-        question: "What is mentioned as a main advantage of offshore wind farms?",
+        question: 'What is mentioned as a main advantage of offshore wind farms?',
         options: [
-          "They are cheaper to build",
-          "They have stronger and more consistent winds",
-          "They require less maintenance",
-          "They are closer to urban areas",
+          'They are cheaper to build',
+          'They have stronger and more consistent winds',
+          'They require less maintenance',
+          'They are closer to urban areas',
         ],
         correctAnswer: 1,
       },
       {
         id: 12,
-        question: "According to the article, what is a significant challenge for renewable energy?",
+        question: 'According to the article, what is a significant challenge for renewable energy?',
         options: [
-          "Lack of government support",
-          "High maintenance costs",
-          "Grid integration difficulties",
-          "Limited geographical availability",
+          'Lack of government support',
+          'High maintenance costs',
+          'Grid integration difficulties',
+          'Limited geographical availability',
         ],
         correctAnswer: 2,
       },
       {
         id: 13,
-        question: "How many people does the renewable energy sector employ worldwide?",
-        options: ["Over 8 million", "Over 10 million", "Over 12 million", "Over 15 million"],
+        question: 'How many people does the renewable energy sector employ worldwide?',
+        options: ['Over 8 million', 'Over 10 million', 'Over 12 million', 'Over 15 million'],
         correctAnswer: 2,
       },
       {
         id: 14,
-        question: "What percentage of electricity generation could renewables reach by 2050?",
-        options: ["60%", "70%", "80%", "90%"],
+        question: 'What percentage of electricity generation could renewables reach by 2050?',
+        options: ['60%', '70%', '80%', '90%'],
         correctAnswer: 2,
       },
     ],
   },
   {
     id: 4,
-    title: "Part 4: Reading for Viewpoints",
-    description: "Read the two viewpoints about remote work and answer the questions.",
+    title: 'Part 4: Reading for Viewpoints',
+    description: 'Read the two viewpoints about remote work and answer the questions.',
     timeLimit: 14,
     passage: `VIEWPOINT A: The Case for Remote Work
 
@@ -286,184 +295,189 @@ From a practical standpoint, certain tasks and projects require immediate collab
     questions: [
       {
         id: 15,
-        question: "According to Viewpoint A, what is a primary benefit of remote work for employees?",
-        options: ["Higher salaries", "Better career advancement", "Improved work-life balance", "More job security"],
+        question:
+          'According to Viewpoint A, what is a primary benefit of remote work for employees?',
+        options: [
+          'Higher salaries',
+          'Better career advancement',
+          'Improved work-life balance',
+          'More job security',
+        ],
         correctAnswer: 2,
       },
       {
         id: 16,
-        question: "What cost savings percentage does Viewpoint A mention for companies?",
-        options: ["10-20%", "20-30%", "30-40%", "40-50%"],
+        question: 'What cost savings percentage does Viewpoint A mention for companies?',
+        options: ['10-20%', '20-30%', '30-40%', '40-50%'],
         correctAnswer: 1,
       },
       {
         id: 17,
-        question: "According to Viewpoint B, what suffers most in remote environments?",
+        question: 'According to Viewpoint B, what suffers most in remote environments?',
         options: [
-          "Employee productivity",
-          "Company profits",
-          "Mentorship and professional development",
-          "Technology infrastructure",
+          'Employee productivity',
+          'Company profits',
+          'Mentorship and professional development',
+          'Technology infrastructure',
         ],
         correctAnswer: 2,
       },
       {
         id: 18,
-        question: "What does Viewpoint B suggest about company culture in remote settings?",
+        question: 'What does Viewpoint B suggest about company culture in remote settings?',
         options: [
-          "It becomes stronger",
-          "It remains unchanged",
-          "It becomes more difficult to build",
-          "It improves through technology",
+          'It becomes stronger',
+          'It remains unchanged',
+          'It becomes more difficult to build',
+          'It improves through technology',
         ],
         correctAnswer: 2,
       },
       {
         id: 19,
-        question: "Which viewpoint mentions environmental benefits?",
-        options: ["Viewpoint A only", "Viewpoint B only", "Both viewpoints", "Neither viewpoint"],
+        question: 'Which viewpoint mentions environmental benefits?',
+        options: ['Viewpoint A only', 'Viewpoint B only', 'Both viewpoints', 'Neither viewpoint'],
         correctAnswer: 0,
       },
       {
         id: 20,
-        question: "What do both viewpoints agree on?",
+        question: 'What do both viewpoints agree on?',
         options: [
-          "Remote work is always better",
-          "In-person work is always better",
-          "Different approaches work for different situations",
-          "The viewpoints do not agree on anything",
+          'Remote work is always better',
+          'In-person work is always better',
+          'Different approaches work for different situations',
+          'The viewpoints do not agree on anything',
         ],
         correctAnswer: 3,
       },
     ],
   },
-]
+];
 
 export default function ReadingTestPage() {
-  const [currentPart, setCurrentPart] = useState(0)
-  const [answers, setAnswers] = useState<{ [key: number]: number }>({})
-  const [timeRemaining, setTimeRemaining] = useState(55 * 60) // 55 minutes in seconds
-  const [partTimeRemaining, setPartTimeRemaining] = useState(readingParts[0].timeLimit * 60)
-  const [testCompleted, setTestCompleted] = useState(false)
-  const [showResults, setShowResults] = useState(false)
+  const [currentPart, setCurrentPart] = useState(0);
+  const [answers, setAnswers] = useState<{ [key: number]: number }>({});
+  const [timeRemaining, setTimeRemaining] = useState(55 * 60); // 55 minutes in seconds
+  const [partTimeRemaining, setPartTimeRemaining] = useState(readingParts[0].timeLimit * 60);
+  const [testCompleted, setTestCompleted] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
-  const timerRef = useRef<NodeJS.Timeout>()
-  const partTimerRef = useRef<NodeJS.Timeout>()
+  const timerRef = useRef<NodeJS.Timeout>();
+  const partTimerRef = useRef<NodeJS.Timeout>();
 
-  // Timer effects
   useEffect(() => {
     if (!testCompleted) {
       timerRef.current = setTimeout(() => {
         if (timeRemaining > 0) {
-          setTimeRemaining(timeRemaining - 1)
+          setTimeRemaining(timeRemaining - 1);
         }
         if (partTimeRemaining > 0) {
-          setPartTimeRemaining(partTimeRemaining - 1)
+          setPartTimeRemaining(partTimeRemaining - 1);
         }
-      }, 1000)
+      }, 1000);
     }
 
     if (timeRemaining === 0) {
-      handleTestComplete()
+      handleTestComplete();
     } else if (partTimeRemaining === 0) {
-      handleNextPart()
+      handleNextPart();
     }
 
     return () => {
       if (timerRef.current) {
-        clearTimeout(timerRef.current)
+        clearTimeout(timerRef.current);
       }
-    }
-  }, [timeRemaining, partTimeRemaining, testCompleted])
+    };
+  }, [timeRemaining, partTimeRemaining, testCompleted]);
 
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${mins}:${secs.toString().padStart(2, "0")}`
-  }
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const handleAnswerChange = (questionId: number, answerIndex: number) => {
     setAnswers((prev) => ({
       ...prev,
       [questionId]: answerIndex,
-    }))
-  }
-
+    }));
+  };
 
   const handlePreviousPart = () => {
     if (currentPart > 0) {
-      setCurrentPart(currentPart - 1)
-      const prevPartData = readingParts[currentPart - 1]
-      setPartTimeRemaining(prevPartData.timeLimit * 60)
+      setCurrentPart(currentPart - 1);
+      const prevPartData = readingParts[currentPart - 1];
+      setPartTimeRemaining(prevPartData.timeLimit * 60);
     }
-  }
+  };
 
   const handleNextPart = () => {
     if (currentPart < readingParts.length - 1) {
-      setCurrentPart(currentPart + 1)
-      setPartTimeRemaining(readingParts[currentPart + 1].timeLimit * 60)
+      setCurrentPart(currentPart + 1);
+      setPartTimeRemaining(readingParts[currentPart + 1].timeLimit * 60);
     } else {
-      handleTestComplete()
+      handleTestComplete();
     }
-  }
+  };
 
   const handleTestComplete = () => {
-    setTestCompleted(true)
-    setShowResults(true)
-  }
+    setTestCompleted(true);
+    setShowResults(true);
+  };
 
   const calculateScore = () => {
-    let correct = 0
+    let correct = 0;
     readingParts.forEach((part) => {
       part.questions.forEach((question) => {
         if (answers[question.id] === question.correctAnswer) {
-          correct++
+          correct++;
         }
-      })
-    })
-    return correct
-  }
+      });
+    });
+    return correct;
+  };
 
-  const totalQuestions = readingParts.reduce((total, part) => total + part.questions.length, 0)
-  const currentPartData = readingParts[currentPart]
+  const totalQuestions = readingParts.reduce((total, part) => total + part.questions.length, 0);
+  const currentPartData = readingParts[currentPart];
 
-  const allQuestionsAnswered = currentPartData.questions.every(q => answers[q.id] !== undefined);
+  const allQuestionsAnswered = currentPartData.questions.every((q) => answers[q.id] !== undefined);
 
   if (showResults) {
-    const score = calculateScore()
-    const percentage = Math.round((score / totalQuestions) * 100)
-    const clbScore = percentage >= 90 ? 9 : percentage >= 80 ? 8 : percentage >= 70 ? 7 : percentage >= 60 ? 6 : 5
+    const score = calculateScore();
+    const percentage = Math.round((score / totalQuestions) * 100);
+    const clbScore =
+      percentage >= 90 ? 9 : percentage >= 80 ? 8 : percentage >= 70 ? 7 : percentage >= 60 ? 6 : 5;
 
     return (
       <DashboardLayout>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl mx-auto space-y-6"
+          className="mx-auto max-w-4xl space-y-6"
         >
-          <Card className="bg-slate-800/30 border-slate-700/50 backdrop-blur-sm">
+          <Card className="border-slate-700/50 bg-slate-800/30 backdrop-blur-sm">
             <CardHeader className="text-center">
-              <CardTitle className="text-white text-3xl">Reading Test Results</CardTitle>
+              <CardTitle className="text-3xl text-white">Reading Test Results</CardTitle>
               <CardDescription className="text-gray-400">Your performance summary</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="text-center space-y-4">
+              <div className="space-y-4 text-center">
                 <div className="text-6xl font-bold text-blue-400">CLB {clbScore}</div>
                 <div className="text-xl text-gray-300">
                   {score} out of {totalQuestions} correct ({percentage}%)
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-slate-700/30 p-4 rounded-lg text-center">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <div className="rounded-lg bg-slate-700/30 p-4 text-center">
                   <div className="text-2xl font-bold text-green-400">{score}</div>
                   <div className="text-sm text-gray-400">Correct Answers</div>
                 </div>
-                <div className="bg-slate-700/30 p-4 rounded-lg text-center">
+                <div className="rounded-lg bg-slate-700/30 p-4 text-center">
                   <div className="text-2xl font-bold text-red-400">{totalQuestions - score}</div>
                   <div className="text-sm text-gray-400">Incorrect Answers</div>
                 </div>
-                <div className="bg-slate-700/30 p-4 rounded-lg text-center">
+                <div className="rounded-lg bg-slate-700/30 p-4 text-center">
                   <div className="text-2xl font-bold text-blue-400">{percentage}%</div>
                   <div className="text-sm text-gray-400">Accuracy</div>
                 </div>
@@ -471,15 +485,15 @@ export default function ReadingTestPage() {
 
               <div className="flex justify-center space-x-4">
                 <Button
-                  onClick={() => (window.location.href = "/dashboard")}
-                  className="bg-blue-600 hover:bg-blue-700 font-mono"
+                  onClick={() => (window.location.href = '/dashboard')}
+                  className="bg-blue-600 font-mono hover:bg-blue-700"
                 >
                   Return to Dashboard
                 </Button>
                 <Button
                   variant="outline"
                   onClick={() => window.location.reload()}
-                  className="border-slate-600 text-white hover:bg-slate-700 font-mono"
+                  className="border-slate-600 font-mono text-white hover:bg-slate-700"
                 >
                   Retake Test
                 </Button>
@@ -488,17 +502,27 @@ export default function ReadingTestPage() {
           </Card>
         </motion.div>
       </DashboardLayout>
-    )
+    );
   }
 
   return (
     <DashboardLayout>
-      <div className="card-outline text-white font-sans">
-        <header className="flex justify-between items-center p-4 bg-blue-950/0 max-435:flex-col max-435:items-start rounded-t-[23px] border-[1px] border-b-[#3b4687] ">
-          <h1 className="text-lg font-semibold text-blue-400 font-mono max-w-[70%] max-435:pb-[2rem]">Practice Test A - Reading Part {currentPart + 1}: {readingParts[currentPart].title.replace(/Part \d+: /g, "")}</h1>
+      <div className="card-outline font-sans text-white">
+        <header className="flex items-center justify-between rounded-t-[23px] border-[1px] border-b-[#3b4687] bg-blue-950/0 p-4 max-435:flex-col max-435:items-start">
+          <h1 className="max-w-[70%] font-mono text-lg font-semibold text-blue-400 max-435:pb-[2rem]">
+            Practice Test A - Reading Part {currentPart + 1}:{' '}
+            {readingParts[currentPart].title.replace(/Part \d+: /g, '')}
+          </h1>
           <div className="flex items-center space-x-4 max-435:space-x-32">
-            <span className="text-sm text-slate-400">Time remaining: <span className="font-bold text-red-500">{formatTime(partTimeRemaining)}</span></span>
-            <Button onClick={handleNextPart} disabled={!allQuestionsAnswered} className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
+            <span className="text-sm text-slate-400">
+              Time remaining:{' '}
+              <span className="font-bold text-red-500">{formatTime(partTimeRemaining)}</span>
+            </span>
+            <Button
+              onClick={handleNextPart}
+              disabled={!allQuestionsAnswered}
+              className="rounded-md bg-blue-600 px-6 font-mono text-white hover:bg-blue-700"
+            >
               {currentPart === readingParts.length - 1 ? 'Complete' : 'Next'}
             </Button>
           </div>
@@ -506,14 +530,14 @@ export default function ReadingTestPage() {
 
         <main className="grid grid-cols-2 gap-6 max-1024:grid-cols-1">
           {/* Left Column */}
-          <div className="border-r border-slate-700 flex flex-col max-1024:border-r-0 p-4 sm:p-6 md:p-8">
+          <div className="flex flex-col border-r border-slate-700 p-4 sm:p-6 md:p-8 max-1024:border-r-0">
             <div className="flex-grow">
-              <div className="flex items-center bg-blue-900/0 p-3 rounded-md mb-4">
-                <AlertCircle className="text-blue-400 mr-3" />
-                <p className="text-blue-400 font-semibold font-mono">Read the following message.</p>
+              <div className="mb-4 flex items-center rounded-md bg-blue-900/0 p-3">
+                <AlertCircle className="mr-3 text-blue-400" />
+                <p className="font-mono font-semibold text-blue-400">Read the following message.</p>
               </div>
-              <ScrollArea className="h-[600px] w-full p-4 bg-slate-800/50 rounded-md border border-slate-700">
-                <div className="text-gray-300 leading-relaxed whitespace-pre-line text-sm">
+              <ScrollArea className="h-[600px] w-full rounded-md border border-slate-700 bg-slate-800/50 p-4">
+                <div className="whitespace-pre-line text-sm leading-relaxed text-gray-300">
                   {currentPartData?.passage}
                 </div>
               </ScrollArea>
@@ -521,19 +545,28 @@ export default function ReadingTestPage() {
           </div>
 
           {/* Right Column */}
-          <div className="bg-slate-800/0 p-4 sm:p-6 md:p-8 rounded-md flex flex-col">
+          <div className="flex flex-col rounded-md bg-slate-800/0 p-4 sm:p-6 md:p-8">
             <div className="flex-grow">
-              <div className="flex items-center mb-4 text-blue-300">
-                <AlertCircle className="text-blue-400 mr-3" />
-                <p className="font-semibold font-mono text-blue-400">Using the drop-down menu (▾), choose the best option according to the information given in the message.</p>
+              <div className="mb-4 flex items-center text-blue-300">
+                <AlertCircle className="mr-3 text-blue-400" />
+                <p className="font-mono font-semibold text-blue-400">
+                  Using the drop-down menu (▾), choose the best option according to the information
+                  given in the message.
+                </p>
               </div>
 
               <div className="space-y-4">
                 {currentPartData.questions.map((question, index) => (
-                  <div key={question.id} className="flex items-center justify-between p-2 rounded-md space-x-4">
-                    <div className="flex items-start flex-grow">
+                  <div
+                    key={question.id}
+                    className="flex items-center justify-between space-x-4 rounded-md p-2"
+                  >
+                    <div className="flex flex-grow items-start">
                       <span className="w-8 font-normal text-slate-300">{index + 1}.</span>
-                      <Label htmlFor={`question-${question.id}`} className="font-normal text-slate-300 flex-1">
+                      <Label
+                        htmlFor={`question-${question.id}`}
+                        className="flex-1 font-normal text-slate-300"
+                      >
                         {question.question}
                       </Label>
                     </div>
@@ -541,12 +574,16 @@ export default function ReadingTestPage() {
                       value={answers[question.id]?.toString()}
                       onValueChange={(value) => handleAnswerChange(question.id, parseInt(value))}
                     >
-                      <SelectTrigger className="w-[162px] bg-slate-700 border-slate-600 flex-shrink-0">
+                      <SelectTrigger className="w-[162px] flex-shrink-0 border-slate-600 bg-slate-700">
                         <SelectValue placeholder="" />
                       </SelectTrigger>
-                      <SelectContent className="bg-slate-800 text-white border-slate-700">
+                      <SelectContent className="border-slate-700 bg-slate-800 text-white">
                         {question.options.map((option, optionIndex) => (
-                          <SelectItem key={optionIndex} value={optionIndex.toString()} className="hover:bg-slate-700">
+                          <SelectItem
+                            key={optionIndex}
+                            value={optionIndex.toString()}
+                            className="hover:bg-slate-700"
+                          >
                             {option}
                           </SelectItem>
                         ))}
@@ -559,15 +596,19 @@ export default function ReadingTestPage() {
           </div>
         </main>
 
-        <footer className="flex justify-between items-center p-4 bg-blue-950/0 rounded-b-[23px] border-[1px] border-t-[#3b4687]">
-          <Button className="bg-blue-600 text-white hover:bg-blue-700 rounded-md px-6 font-mono">
+        <footer className="flex items-center justify-between rounded-b-[23px] border-[1px] border-t-[#3b4687] bg-blue-950/0 p-4">
+          <Button className="rounded-md bg-blue-600 px-6 font-mono text-white hover:bg-blue-700">
             Answer Key
           </Button>
-          <Button onClick={handlePreviousPart} disabled={currentPart === 0} className="bg-red-700 text-white hover:bg-red-800 font-mono">
+          <Button
+            onClick={handlePreviousPart}
+            disabled={currentPart === 0}
+            className="bg-red-700 font-mono text-white hover:bg-red-800"
+          >
             Back
           </Button>
         </footer>
       </div>
     </DashboardLayout>
-  )
+  );
 }
